@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Campaign = db.define('campaign', {
-  blockchainKey: {
+  blockChainKey: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -24,7 +24,6 @@ const Campaign = db.define('campaign', {
   isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
-
     allowNull: false
   }
 })
