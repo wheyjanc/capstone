@@ -3,9 +3,22 @@ const {Bundle, Campaign, Advertisement} = require ('../db/models')
 
 module.exports = router;
 
+//get all campaigns
+router.get('/', async (req, res, next) => {
+    try {
+        const campaigns = await Campaign.findAll()
+        console.log(campaigns)
+        res.json(campaigns)
+    }catch (err) {
+        next(err)
+    }
+})
 
+
+
+//get all ads in a campaign -- used for creating script tag
 router.get('/:bundleId', async (req, res, next) => {
-    bundleId = req.params.bundleId
+    const bundleId = req.params.bundleId
     try {
         let adsArr = []        
         const bundle = await Bundle.findById(bundleId, {
@@ -22,10 +35,13 @@ router.get('/:bundleId', async (req, res, next) => {
     }
 })
 
+//used to increment the number of clicks for a specific campaign - will ultimately
+//include a function at the end to check # of clicks and perhaps trigger contract to close
+//and payment to be sent to webdev
 router.post('/campaignId', async (req, res, next) => {
     const campaignId = req.params.campaignId
     try{
-        const campaign = await Campaign.findById(campaignId)
+        let campaign = await Campaign.findById(campaignId)
         let clicks = campaign.clicks +1
         campaign.clicks = clicks
         campaign = await campaign.save()
