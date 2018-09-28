@@ -3,7 +3,7 @@ module.exports = router
 
 router.use('/users', require('./users'))
 
-router.use('/webdev', require('./webdev'))
+router.use('/dev', require('./webdev'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
