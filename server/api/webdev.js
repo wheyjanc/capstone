@@ -14,7 +14,15 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-
+//create a new bundle w/ appropriate userId - send bundleId back so we can set state w it
+router.post('/bundle', async (req, res, next) => {
+    const userId = req.body.userId
+    try {
+        const newBundle = 
+    }catch (err){
+        next(err)
+    }
+})
 
 //get all ads in a campaign -- used for creating script tag
 router.get('/:bundleId', async (req, res, next) => {
