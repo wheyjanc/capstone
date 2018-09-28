@@ -15,6 +15,8 @@ class Ethereum extends Component {
     const blocks = await factory.methods.getDeployedBlocks().call()
     console.log('blocks', blocks)
     const accounts = await web3.eth.getAccounts(console.log)
+    const accounts2 = await web3.eth.accounts
+    console.log('accounts2', accounts2)
     const createBlock = await factory.methods.createBlock(1).send({
       gas: 1000000,
       from: accounts[0]
