@@ -16,26 +16,31 @@ class Ethereum extends Component {
   async componentDidMount() {
     const blocks = await factory.methods.getDeployedBlocks().call()
     console.log('blocks', blocks)
-    const accounts = await web3.eth.getAccounts(console.log)
-
+    let accounts = await web3.eth.getAccounts(console.log)
     const createBlock = await factory.methods.createBlock(1).send({
       gas: 1000000,
       from: accounts[0]
     })
+
     const firstBlock = blocks[0]
     const firstContract = fundsTransfer(firstBlock)
-    console.log('firstContract', firstContract)
-    console.log('accounts', accounts)
-    console.log('default account', web3.eth.defaultAccount)
-    // const depositFunds = await firstContract.methods.deposit().send({
-    //   gas: 1000000,
-    //   value: 1,
-    //   from: accounts[0]
-    // })
-    // const getBalance = await firstContract.methods.balance({
-    //   from: accounts[0]
-    // })
-    // console.log('balance', getBalance)
+    console.log('firstContract', firstContract) //has address
+    const depositFunds = await firstContract.methods.deposit().send({
+      gas: 1000000,
+      value: 1,
+      from: accounts[1]
+    })
+    const getBalance = await firstContract.methods.getBalance().call()
+    console.log('balance in contract after deposit', getBalance)
+    // const withdrawFunds = await firstContract.methods
+    //   .withdraw(accounts[2])
+    //   .send({
+    //     gas: 1000000,
+    //     value: 1,
+
+    //   })
+    // const getBalanceTwo = await firstContract.methods.getBalance().call()
+    // console.log('balance in contract after withdraw', getBalanceTwo)
   }
 
   render() {

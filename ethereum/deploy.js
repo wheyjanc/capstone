@@ -4,8 +4,9 @@ const compiledFactory = require('./build/BlockFactory.json')
 
 const provider = new HDWalletProvider(
   'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat',
-  'HTTP://127.0.0.1:9545'((address_index = 1)),
-  (num_addresses = 10)
+  'HTTP://127.0.0.1:9545',
+  1,
+  10
   // 'https://ropsten.infura.io/v3/02427097878a4f188252300ea34a1be9'
 )
 
