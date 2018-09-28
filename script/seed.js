@@ -4,10 +4,10 @@ const db = require('../server/db')
 const {
   User,
   Bundle,
-  Advertisement,
-  Campaign,
   Category,
-  Demographic
+  Demographic,
+  Campaign,
+  Advertisement
 } = require('../server/db/models')
 
 async function seed() {
@@ -64,18 +64,18 @@ async function seed() {
   })
 
   const campaign1 = await Campaign.create({
-    blockChainKey: '',
+    blockChainKey: 'abc',
     clicks: 8,
     name: 'Rolex',
     price: '9000.0',
     isActive: true
   })
-  campaign1.addBundle(bundle1)
-  campaign1.addBundle(bundle2)
-  campaign1.addCategory(category2)
-  campaign1.addCategory(category3)
-  campaign1.addDemographic(demographic3)
-  campaign1.addDemographic(demographic2)
+  await campaign1.addBundle(bundle1)
+  await campaign1.addBundle(bundle2)
+  await campaign1.addCategory(category2)
+  await campaign1.addCategory(category3)
+  await campaign1.addDemographic(demographic3)
+  await campaign1.addDemographic(demographic2)
 
   const campaign2 = await Campaign.create({
     blockChainKey: '',
@@ -84,12 +84,12 @@ async function seed() {
     price: '8000.0',
     isActive: true
   })
-  campaign2.addBundle(bundle3)
-  campaign2.addBundle(bundle1)
-  campaign2.addCategory(category1)
-  campaign2.addCategory(category2)
-  campaign2.addDemographic(demographic1)
-  campaign2.addDemographic(demographic3)
+  await campaign2.addBundle(bundle3)
+  await campaign2.addBundle(bundle1)
+  await campaign2.addCategory(category1)
+  await campaign2.addCategory(category2)
+  await campaign2.addDemographic(demographic1)
+  await campaign2.addDemographic(demographic3)
 
   const campaign3 = await Campaign.create({
     blockChainKey: '',
@@ -98,36 +98,12 @@ async function seed() {
     price: '1000.0',
     isActive: true
   })
-  campaign2.addBundle(bundle2)
-  campaign2.addBundle(bundle1)
-  campaign2.addCategory(category3)
-  campaign2.addCategory(category2)
-  campaign2.addDemographic(demographic1)
-  campaign2.addDemographic(demographic3)
-
-  const advertisements = await Promise.all([
-    Advertisement.create({
-      name: 'Rolex-Ad-1',
-      image:
-        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
-      url: 'http://google.com',
-      adSpecs: 'format1'
-    }),
-    Advertisement.create({
-      name: 'Rolex-Ad-2',
-      image:
-        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
-      url: 'http://google.com',
-      adSpecs: 'format2'
-    }),
-    Advertisement.create({
-      name: 'Rolex-Ad-3',
-      image:
-        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
-      url: 'http://google.com',
-      adSpecs: 'format3'
-    })
-  ])
+  await campaign3.addBundle(bundle2)
+  await campaign3.addBundle(bundle1)
+  await campaign3.addCategory(category3)
+  await campaign3.addCategory(category2)
+  await campaign3.addDemographic(demographic1)
+  await campaign3.addDemographic(demographic3)
 
   const ad1 = await Advertisement.create({
     name: 'Rolex-Ad-1',
@@ -136,28 +112,61 @@ async function seed() {
     url: 'http://google.com',
     adSpecs: 'format1'
   })
-  ad1.addCampaign(campaign1)
-  ad1.addCampaign(campaign2)
+  await ad1.addCampaign(campaign1)
 
   const ad2 = await Advertisement.create({
     name: 'Rolex-Ad-2',
     image:
-      'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
+      'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12235843/Borzoi-On-White-02.jpg',
     url: 'http://google.com',
     adSpecs: 'format2'
   })
-  ad2.addCampaign(campaign1)
-  ad2.addCampaign(campaign3)
+  await ad2.addCampaign(campaign1)
 
   const ad3 = await Advertisement.create({
     name: 'Rolex-Ad-3',
     image:
-      'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
+      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
     url: 'http://google.com',
     adSpecs: 'format3'
   })
-  ad3.addCampaign(campaign1)
-  ad3.addCampaign(campaign2)
+  await ad3.addCampaign(campaign1)
+
+  const ad4 = await Advertisement.create({
+    name: 'Gucci-Ad-1',
+    image:
+      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
+    url: 'http://google.com',
+    adSpecs: 'format3'
+  })
+  await ad4.addCampaign(campaign2)
+
+  const ad5 = await Advertisement.create({
+    name: 'Gucci-Ad-2',
+    image:
+      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
+    url: 'http://google.com',
+    adSpecs: 'format3'
+  })
+  await ad5.addCampaign(campaign2)
+
+  const ad6 = await Advertisement.create({
+    name: 'Mcdonalds-Ad-1',
+    image:
+      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
+    url: 'http://google.com',
+    adSpecs: 'format3'
+  })
+  await ad6.addCampaign(campaign3)
+
+  const ad7 = await Advertisement.create({
+    name: 'Mcdonalds-Ad-2',
+    image:
+      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
+    url: 'http://google.com',
+    adSpecs: 'format3'
+  })
+  await ad7.addCampaign(campaign3)
 
   console.log(`seeded successfully`)
 }
