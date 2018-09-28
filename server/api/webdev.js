@@ -25,7 +25,7 @@ router.post('/bundle', async (req, res, next) => {
 })
 
 //get all ads in a campaign -- used for creating script tag
-router.get('/:bundleId', async (req, res, next) => {
+router.get('/bundle/:bundleId', async (req, res, next) => {
     const bundleId = req.params.bundleId
     try {
         let adsArr = []        
