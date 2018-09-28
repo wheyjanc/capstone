@@ -8,10 +8,11 @@ const provider = new HDWalletProvider(
   'HTTP://127.0.0.1:9545'
   // 'https://ropsten.infura.io/v3/02427097878a4f188252300ea34a1be9'
 )
+
 const web3 = new Web3(provider)
 
 const deploy = async () => {
-  const accounts = await web3.eth.getAccounts()
+  const accounts = await web3.eth.getAccounts(console.log)
 
   console.log('Attempting to deploy from account', accounts[0])
 
