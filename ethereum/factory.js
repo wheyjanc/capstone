@@ -3,6 +3,6 @@ import BlockFactory from './build/BlockFactory.json'
 
 const instance = new web3.eth.Contract(
   JSON.parse(BlockFactory.interface),
-  '0x4a5cd58b24e3BF04360B06bFEaF45A39aA8035b6'
+  '0xbbE595Df857805ab3734f15BE990f9A30CBB89F3'
 )
 export default instance

@@ -3,6 +3,9 @@ import {connect} from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
+// let ganache = require('ganache-cli')
+// web3.setProvider(ganache.provider())
+
 class Ethereum extends Component {
   constructor() {
     super()
@@ -11,12 +14,10 @@ class Ethereum extends Component {
     }
   }
   async componentDidMount() {
-    console.log('web3', web3)
     const blocks = await factory.methods.getDeployedBlocks().call()
     console.log('blocks', blocks)
     const accounts = await web3.eth.getAccounts(console.log)
-    const accounts2 = await web3.eth.accounts
-    console.log('accounts2', accounts2)
+
     const createBlock = await factory.methods.createBlock(1).send({
       gas: 1000000,
       from: accounts[0]
