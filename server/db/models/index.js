@@ -40,6 +40,9 @@ Category.belongsToMany(Campaign, { through: 'campaignCategories' })
 Contract.belongsToMany(User, { through: 'partiesToContract' })
 User.belongsToMany(Contract, { through: 'partiesToContract' })
 
+Campaign.belongsToMany(Contract, { through: 'campaignContract' })
+Contract.belongsToMany(Campaign, { through: 'campaignContract' })
+
 module.exports = {
   User,
   Advertisement,

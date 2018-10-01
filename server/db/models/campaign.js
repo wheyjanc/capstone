@@ -6,10 +6,6 @@ const Campaign = db.define('campaign', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  clicks: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0
-  },
   name: {
     type: Sequelize.STRING,
     allowNull: false
