@@ -16,12 +16,14 @@ const User = db.define('user', {
       return () => this.getDataValue('password')
     }
   },
-
   isAdvertiser: {
     type: Sequelize.BOOLEAN,
-    allowNull: false
+    defaultValue: false
   },
-
+  budget: {
+    type: Sequelize.FLOAT,
+    defaultValue: 0.0
+  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
