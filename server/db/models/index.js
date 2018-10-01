@@ -17,10 +17,10 @@ const Contract = require('./contract')
  * we can just require it from 'db/models'
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
- */
+ //  */
 
-Advertisement.belongsTo(User)
-User.hasMany(Advertisement)
+// Advertisement.belongsTo(User)
+// User.hasMany(Advertisement)
 
 Advertisement.belongsToMany(Campaign, { through: 'adsInCampaign' })
 Campaign.belongsToMany(Advertisement, { through: 'adsInCampaign' })
