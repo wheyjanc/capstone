@@ -3,7 +3,8 @@ const db = require('../db')
 
 const Bundle = db.define('bundle', {
   projectName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   }
 })
 
