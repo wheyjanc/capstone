@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const { Ad, Bundle } = require('../db/models')
+const { Advertisement, Bundle } = require('../db/models')
 module.exports = router
 
 // get all ads
 router.get('/', async (req, res, next) => {
   try {
-    const ads = await Ad.findAll()
+    const ads = await Advertisement.findAll()
     res.json(ads)
   } catch (err) {
     next(err)
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 // get a specific ad
 router.get('/:adId', async (req, res, next) => {
   try {
-    const ad = await Ad.findById(req.params.adId)
+    const ad = await Advertisement.findById(req.params.adId)
     if (!ad) res.sendStatus(404)
     else res.send(ad)
   } catch (err) {

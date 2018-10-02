@@ -17,35 +17,45 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
-      email: 'cody@email.com',
+      email: 'rolex@email.com',
       password: '123',
+      budget: 44.0,
       isAdvertiser: true
     }),
     User.create({
-      email: 'murphy@email.com',
+      email: 'dev1@email.com',
       password: '123',
       isAdvertiser: false
     })
   ])
 
   const user1 = await User.create({
-    email: 'user1@email.com',
+    email: 'dev2@email.com',
     password: '1234',
     isAdvertiser: false,
     salt: 'salt'
   })
 
   const user2 = await User.create({
-    email: 'user2@email.com',
+    email: 'dev3@email.com',
     password: '1234',
     isAdvertiser: false,
     salt: 'salt'
   })
 
   const user3 = await User.create({
-    email: 'user3@email.com',
+    email: 'gucci@email.com',
     password: '1234',
     isAdvertiser: true,
+    budget: 50.0,
+    salt: 'salt'
+  })
+
+  const user4 = await User.create({
+    email: 'mcdonalds@email.com',
+    password: '1234',
+    isAdvertiser: true,
+    budget: 60.0,
     salt: 'salt'
   })
 
@@ -83,47 +93,47 @@ async function seed() {
 
   const bundle1 = await Bundle.create({
     projectName: 'Project1A',
-    userId: 1
+    developerId: 4
   })
 
   const bundle2 = await Bundle.create({
     projectName: 'Project2A',
-    userId: 2
+    developerId: 2
   })
 
   const bundle3 = await Bundle.create({
     projectName: 'Project3A',
-    userId: 3
+    developerId: 3
   })
 
   const bundles = await Promise.all([
     Bundle.create({
       projectName: 'Project1B',
-      userId: 1
+      developerId: 4
     }),
     Bundle.create({
       projectName: 'Project2B',
-      userId: 2
+      developerId: 2
     }),
     Bundle.create({
       projectName: 'Project3B',
-      userId: 3
+      developerId: 3
     }),
     Bundle.create({
       projectName: 'Project3C',
-      userId: 3
+      developerId: 3
     }),
     Bundle.create({
       projectName: 'Project2C',
-      userId: 2
+      developerId: 2
     }),
     Bundle.create({
       projectName: 'Project1C',
-      userId: 1
+      developerId: 4
     }),
     Bundle.create({
       projectName: 'Project2D',
-      userId: 2
+      developerId: 2
     })
   ])
 
@@ -156,7 +166,8 @@ async function seed() {
     clicks: 8,
     name: 'Rolex',
     price: '9000.0',
-    isActive: true
+    isActive: true,
+    advertiserId: 1
   })
   await campaign1.addBundle(bundle1)
   await campaign1.addBundle(bundle2)
@@ -171,7 +182,8 @@ async function seed() {
     clicks: 3,
     name: 'Gucci',
     price: '8000.0',
-    isActive: true
+    isActive: true,
+    advertiserId: 5
   })
   await campaign2.addBundle(bundle3)
   await campaign2.addBundle(bundle1)
@@ -186,7 +198,8 @@ async function seed() {
     clicks: 6,
     name: 'Mcdonalds',
     price: '1000.0',
-    isActive: true
+    isActive: true,
+    advertiserId: 6
   })
   await campaign3.addBundle(bundle2)
   await campaign3.addBundle(bundle1)
