@@ -26,19 +26,19 @@ router.get('/:contractId', async (req, res, next) => {
 })
 
 // create a new contract
-// router.post('/', async (req, res, next) => {
-//     try {
-//         const advertiser = await Contract.find({
-//             where: { contractHash: req.body.contractHash },
-//             include: [{ model: User, through: 'partiesToContract' }, { model: Campaign, through: ''}]
-//         })
-//         const contract = await Contract.create(req.body)
-//         if (contract.balance > advertiser.budget) {
-//             advertiser.update
-//         }
-//         else {
-//             const updatedBudget = advertiser.budget - contract.balance
-//             advertiser.update({ budget: updatedBudget })
-//         }
-//     }
-// })
+router.post('/', async (req, res, next) => {
+    try {
+        const advertiser = await Contract.find({
+            where: { contractHash: req.body.contractHash },
+            include: [{ model: User, through: 'partiesToContract' }, { model: Campaign, through: ''}]
+        })
+        const contract = await Contract.create(req.body)
+        if (contract.balance > advertiser.budget) {
+            advertiser.update({ isActive: false })
+        }
+        else {
+            const updatedBudget = advertiser.budget - contract.balance
+            advertiser.update({ budget: updatedBudget })
+        }
+    }
+})
