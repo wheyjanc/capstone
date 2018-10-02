@@ -32,6 +32,10 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
   googleId: {
     type: Sequelize.STRING
   }
