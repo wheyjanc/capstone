@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const { Contract, User } = require('../db/models')
+const { Contract, User, Campaign } = require('../db/models')
+const { getUser } = require('./helpers')
 module.exports = router
 
 // get all contracts
@@ -27,18 +28,29 @@ router.get('/:contractId', async (req, res, next) => {
 
 // create a new contract
 router.post('/', async (req, res, next) => {
-    try {
-        const advertiser = await Contract.find({
-            where: { contractHash: req.body.contractHash },
-            include: [{ model: User, through: 'partiesToContract' }, { model: Campaign, through: ''}]
-        })
-        const contract = await Contract.create(req.body)
-        if (contract.balance > advertiser.budget) {
-            advertiser.update({ isActive: false })
-        }
-        else {
-            const updatedBudget = advertiser.budget - contract.balance
-            advertiser.update({ budget: updatedBudget })
-        }
+  try {
+    const {
+      devId: devId,
+      advertiserId: advertiserId,
+      contractHash,
+      balance
+    } = req.body
+    const newContract = await Contract.create({
+      contractHash: contractHash,
+      balance: balance
+    })
+
+    newContract.addUsers([devId, advertiserId])
+
+    const advertiser = await getUser(advertiserId)
+    if (newContract.balance > advertiser.budget) {
+      advertiser.update({ isActive: false })
+    } else {
+      // update budget
+      const updatedBudget = advertiser.budget - newContract.balance
+      advertiser.update({ budget: updatedBudget })
     }
+  } catch (err) {
+    next(err)
+  }
 })
