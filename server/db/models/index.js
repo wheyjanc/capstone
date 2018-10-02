@@ -28,8 +28,14 @@ Campaign.belongsToMany(Advertisement, { through: 'adsInCampaign' })
 Campaign.belongsToMany(Bundle, { through: 'campaignsInBundle' })
 Bundle.belongsToMany(Campaign, { through: 'campaignsInBundle' })
 
-Bundle.belongsTo(User)
+// Campaign.belongsTo(Bundle, { as: 'campaigns' })
+// Bundle.hasMany(Campaign)
+
+Bundle.belongsTo(User, { as: 'developer' })
 User.hasMany(Bundle)
+
+Campaign.belongsTo(User, { as: 'advertiser' })
+User.hasMany(Campaign)
 
 Campaign.belongsToMany(Demographic, { through: 'campaignDemographic' })
 Demographic.belongsToMany(Campaign, { through: 'campaignDemographic' })
