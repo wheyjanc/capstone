@@ -3,8 +3,7 @@ import axios from 'axios'
 /**
  * ACTION TYPES
  */
-const GET_CAMPAIGNS = 'GET_CAMPAIGNS'
-
+const GOT_CAMPAIGNS = 'GOT_CAMPAIGNS'
 /**
  * INITIAL STATE
  */
@@ -15,21 +14,23 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getCampaigns = campaigns => ({ type: GET_CAMPAIGNS, campaigns })
+export const gotCampaigns = campaigns => ({ type: GOT_CAMPAIGNS, campaigns })
 
 /**
  * THUNK CREATORS
  */
-// export const getCampaigns = campaigns => {
-//waiting on route
-// return async dispatch=>{
-//const campaigns = await axios.get(campaigns where user id = curent id....)
-// }
-// }
+export function getCampaigns(id) {
+  return async dispatch => {
+    const bundle = await axios.get(`/api/bundles/${id}`)
+
+    dispatch(gotCampaigns(bundle.data.campaigns))
+  }
+}
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_CAMPAIGNS:
+    case GOT_CAMPAIGNS:
+      console.log('in campaigns reducer')
       return { ...state, campaigns: action.campaigns }
     default:
       return state

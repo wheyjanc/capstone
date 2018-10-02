@@ -1,7 +1,6 @@
 const router = require('express').Router()
-<<<<<<< HEAD
 var nodemailer = require('nodemailer')
-const { Bundle, User } = require('../db/models')
+const { Bundle, User, Campaign } = require('../db/models')
 
 // get all bundles belonging to a dev user
 router.post('/email', function create(req, res, next) {
@@ -30,11 +29,6 @@ router.post('/email', function create(req, res, next) {
 })
 
 router.get('/')
-
-module.exports = router
-=======
-const { Bundle, User, Campaign } = require('../db/models')
-module.exports = router
 
 // get all bundles belonging to a dev user
 router.get('/', async (req, res, next) => {
@@ -65,4 +59,31 @@ router.get('/:bundleId', async (req, res, next) => {
     next(err)
   }
 })
->>>>>>> 1cc3ccf7262a9e462027f422c4773e16e2b16220
+
+router.post('/send', (req, res, next) => {
+  var name = req.body.name
+  var email = req.body.email
+  var message = req.body.message
+  var content = `name: ${name} \n email: ${email} \n message: ${content} `
+
+  var mail = {
+    from: name,
+    to: 'RECEIVING_EMAIL_ADDRESS_GOES_HERE', //Change to email address that you want to receive messages on
+    subject: 'New Message from Contact Form',
+    text: content
+  }
+
+  transporter.sendMail(mail, (err, data) => {
+    if (err) {
+      res.json({
+        msg: 'fail'
+      })
+    } else {
+      res.json({
+        msg: 'success'
+      })
+    }
+  })
+})
+
+module.exports = router

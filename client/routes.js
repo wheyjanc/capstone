@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome } from './components'
+import { Login, Signup, UserHome, BundleCheckout } from './components'
 import Ethereum from './components/ethereum'
-import BundleCheckout from './components/bundleCheckout'
+
 import { me } from './store'
 
 /**

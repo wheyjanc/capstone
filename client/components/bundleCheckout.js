@@ -3,15 +3,18 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-import emailCreator from './email'
+import emailCreator from '../../server/email'
+import axios from 'axios'
+import { getCampaigns } from '../store/bundles'
 
-export default class BundleCheckout extends Component {
+class BundleCheckout extends Component {
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  async componentWillMount(){
-      
+  async componentDidMount() {
+    console.log('hello we are here')
+    await this.props.getCampaigns(1)
   }
   async handleSubmit() {
     let accounts = await web3.eth.getAccounts(console.log)
@@ -22,18 +25,35 @@ export default class BundleCheckout extends Component {
         from: accounts[0]
       })
       const newContract = fundsTransfer(newBlock)
+      console.log('newContract', newContract)
 
-      emailCreator(
-        campaign.email,
-        campaign.price,
-        newContract.setProvider._address
-      )
+      const sendEmail = (name, email, message) => {
+        axios({
+          method: 'POST',
+          url: 'http://localhost:8080/api/send',
+          data: {
+            name: name,
+            email: email,
+            message: message
+          }
+        }).then(response => {
+          if (response.data.msg === 'success') {
+            alert('Message Sent')
+          } else if (response.data.msg === 'fail') {
+            alert('Message failed to send.')
+          }
+        })
+      }
+      sendEmail('Tricia', 'tricia.lobo@gmail.com', 'test')
     })
   }
 
   render() {
     //const campaigns = this.state.campaigns
     console.log('state', this.state)
+    const props = this.props
+    const campaigns = this.props.campaigns
+    console.log('props', props.getCampaigns)
     return (
       <div>
         <h1>Campaigns in Your Bundle</h1>
@@ -55,8 +75,9 @@ export default class BundleCheckout extends Component {
 }
 
 const mapState = state => {
+  console.log('state', state)
   return {
-    campaigns: this.state.campaigns.campaignsInBudle
+    campaigns: state.bundles.campaigns
   }
 }
 
@@ -65,3 +86,4 @@ const mapDispatch = dispatch => {
     getCampaigns: bundleId => dispatch(getCampaigns(bundleId))
   }
 }
+export default connect(mapState, mapDispatch)(BundleCheckout)
