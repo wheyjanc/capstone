@@ -1,4 +1,9 @@
 const router = require('express').Router()
+
+router.use('/bundles', require('./bundles'))
+router.use('/contracts', require('./contracts'))
+router.use('/campaigns', require('./campaigns'))
+
 module.exports = router
 var nodemailer = require('nodemailer')
 
@@ -34,7 +39,7 @@ router.post('/send', (req, res, next) => {
 
   var mail = {
     from: name,
-    to: 'tricia.lobo@gmail.com', //Change to email address that you want to receive messages on
+    to: 'e-mail@e-mail.com', //Change to email address that you want to receive messages on
     subject: 'New Message from Contact Form',
     text: content
   }
@@ -51,10 +56,6 @@ router.post('/send', (req, res, next) => {
     }
   })
 })
-
-router.use('/bundles', require('./bundles'))
-router.use('/contracts', require('./contracts'))
-router.use('/campaigns', require('./campaigns'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
