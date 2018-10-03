@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { logInUser } from '../store/user'
+import { signUpUser } from '../store/user'
 import { withStyles, FormLabel } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
@@ -43,10 +43,7 @@ const styles = theme => ({
   }
 })
 
-/**
- * COMPONENT
- */
-class AuthForm extends Component {
+class SignUpForm extends Component {
   state = {
     value: 'advertiser'
   }
@@ -72,12 +69,12 @@ class AuthForm extends Component {
                 onChange={this.handleChange}
               >
                 <FormControlLabel
-                  value="advertiser"
+                  value={true}
                   control={<Radio />}
                   label="advertiser"
                 />
                 <FormControlLabel
-                  value="developer"
+                  value={false}
                   control={<Radio />}
                   label="developer"
                 />
@@ -107,17 +104,10 @@ class AuthForm extends Component {
   }
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
-const mapLogin = state => {
+const mapSignup = state => {
   return {
-    name: 'login',
-    displayName: 'Login',
+    name: 'signup',
+    displayName: 'Sign Up',
     error: state.user.error
   }
 }
@@ -126,22 +116,22 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      const userType = evt.target.userType.value
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(logInUser(email, password, userType))
+      const userType = evt.target.userType.value
+      dispatch(signUpUser(email, password, userType))
     }
   }
 }
 
-export const Login = withStyles(styles)(
-  connect(mapLogin, mapDispatch)(AuthForm)
+export const SignUp = withStyles(styles)(
+  connect(mapSignup, mapDispatch)(SignUpForm)
 )
 
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
+SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }
