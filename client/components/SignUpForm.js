@@ -135,9 +135,9 @@ const mapDispatch = dispatch => {
   }
 }
 
-export const SignUp = withStyles(styles)(
-  connect(mapSignup, mapDispatch)(SignUpForm)
-)
+const SignUp = withStyles(styles)(connect(mapSignup, mapDispatch)(SignUpForm))
+
+export default SignUp
 
 /**
  * PROP TYPES

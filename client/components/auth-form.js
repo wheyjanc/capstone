@@ -76,7 +76,6 @@ const AuthForm = props => {
           error.response && (
             <FormHelperText className={classes.errorLabel}>
               {error.response.data}
-              {console.log('ERROR', error.response.data)}{' '}
             </FormHelperText>
           )}
       </form>
@@ -95,7 +94,7 @@ const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error
+    error: state.user.currentUser.error
   }
 }
 
@@ -110,9 +109,9 @@ const mapDispatch = dispatch => {
   }
 }
 
-export const Login = withStyles(styles)(
-  connect(mapLogin, mapDispatch)(AuthForm)
-)
+const Login = withStyles(styles)(connect(mapLogin, mapDispatch)(AuthForm))
+
+export default Login
 
 /**
  * PROP TYPES

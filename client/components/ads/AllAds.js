@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import ProductGridList from './ProductGridList'
 import Grid from '@material-ui/core/Grid'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
@@ -43,17 +43,20 @@ class AllAds extends Component {
   render() {
     const { classes } = this.props
     const ads = this.props.allAds
+    const loading = this.props.isLoading
+    console.log(ads)
 
     return (
       <div className="container">
-        {ads && (
-          <div>
-            <Grid container spacing={24}>
-              <Grid className={classes.heading} item xs={12}>
-                <Typography className={classes.titleText} variant="display2">
-                  Your Advertisements
-                </Typography>
-                {/* <div className={classes.caption}>
+        {ads &&
+          ads.length && (
+            <div>
+              <Grid container spacing={24}>
+                <Grid className={classes.heading} item xs={12}>
+                  <Typography className={classes.titleText} variant="display2">
+                    Your Advertisements
+                  </Typography>
+                  {/* <div className={classes.caption}>
                   <Typography variant="body2">
                     Get inspired and find products for your home. We have a huge
                     range of products in different styles, from vintage dressing
@@ -64,13 +67,13 @@ class AllAds extends Component {
                   </Typography>
                   <hr className={classes.divider} />
                 </div> */}
+                </Grid>
+                <Grid item xs={12}>
+                  <AdsGridList ads={ads} />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <AdsGridList products={ads} />
-              </Grid>
-            </Grid>
-          </div>
-        )}
+            </div>
+          )}
       </div>
     )
   }
@@ -78,8 +81,9 @@ class AllAds extends Component {
 
 const mapState = state => {
   return {
-    allAds: state.ads.allAds
+    allAds: state.ads.allAds,
+    isLoading: state.isLoading
   }
 }
 
-export default withStyles(styles)(AllAds)
+export default withStyles(styles)(connect(mapState)(AllAds))

@@ -5,6 +5,11 @@
  */
 export { default as Navbar } from './navbar'
 export { default as UserHome } from './user-home'
-export { Login } from './auth-form'
-export { SignUp } from './SignUpForm'
+export { default as Login } from './auth-form'
+export { default as SignUp } from './SignUpForm'
+export { default as Home } from './Home'
 export { default as Ethereum } from './ethereum'
+export {
+  default as AdvertiserDashboard
+} from './dashboards/AdvertiserDashboard'
+export { default as AllAds } from './ads/AllAds'

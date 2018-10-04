@@ -22,15 +22,12 @@ const AdsGridList = props => {
   const ads = props.ads
   return (
     <div>
-      <GridList cellHeight={500} spacing={4} cols={3}>
+      <GridList cellHeight={300} spacing={8} cols={4}>
         {ads.map(ad => (
           <GridListTile className={classes.adTile} key={ad.id}>
             <img src={ad.image} alt={ad.name} />
             <a href={`products/${ad.id}`}>
-              <GridListTileBar
-                title={ad.name}
-                subtitle={<span>${ad.price / 100}</span>}
-              />
+              <GridListTileBar title={ad.name} />
             </a>
           </GridListTile>
         ))}

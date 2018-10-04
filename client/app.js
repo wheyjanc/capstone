@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Navbar } from './components'
 import Routes from './routes'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { fetchAllAds } from './store/ads'
+import { withRouter } from 'react-router-dom'
 
 const theme = createMuiTheme({
   typography: {
@@ -33,10 +33,6 @@ const theme = createMuiTheme({
 })
 
 class App extends Component {
-  componentDidMount() {
-    this.props.loadAllAds()
-  }
-
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -49,10 +45,4 @@ class App extends Component {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadAllAds: () => dispatch(fetchAllAds())
-  }
-}
-
-export default connect(null, mapDispatch)(App)
+export default App
