@@ -14,9 +14,7 @@ router.get('/:bundleId.js', async (req, res, next) => {
         ads.push(ad)
       })
     })
-
     const currentAd = ads[Math.floor(Math.random() * (ads.length + 1))]
-    console.log('currentAd', currentAd)
     res.send(`
 let targetEl = document.querySelector('.ad-target');
 const adImg = document.createElement('img');
@@ -25,7 +23,7 @@ adImg.addEventListener('click', (evt) => {
     var request = new XMLHttpRequest();
     request.open('PUT, 'http://localhost:8080/api/contracts/:campaignId',true )
     request.send()
-
+window.location.href= ${currentAd.dataValues.url}
   // SHOW AD IN *NEW WINDOW* OR VIA REDIRECT (window.location.href = "AD TARGET URL")
   // XHR TO ENDPOINT (perhaps localhost:3000/api/contractsomething/:bundleId) - campaign id. clicks
 });

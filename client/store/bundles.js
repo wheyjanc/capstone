@@ -5,14 +5,14 @@ import axios from 'axios'
  */
 const GOT_CAMPAIGNS = 'GOT_CAMPAIGNS'
 const GOT_ADVERTISEMENTS = 'GOT_ADVERTISEMENTS'
-const AD_SCRIPT = 'AD_SCRIPT'
+const ADDED_TO_BUNDLE = 'ADD_TO_BUNDLE'
 /**
  * INITIAL STATE
  */
 const initialState = {
   campaigns: [],
   advertisements: [],
-  adScript: {}
+  bundle: []
 }
 
 /**
@@ -23,14 +23,18 @@ export const gotAdvertisements = advertisements => ({
   type: GOT_ADVERTISEMENTS,
   advertisements
 })
-export const gotAdScript = adscript => ({
-  type: AD_SCRIPT,
-  adscript
-})
+export const addedToBundle = campaign => ({ type: ADDED_TO_BUNDLE, campaign })
 
 /**
  * THUNK CREATORS
  */
+export function addToBundle(campaign, bundleid) {
+  return async dispatch => {
+    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`)
+    const action = addedToBundle(bundleUpdated.data)
+    dispatch(action)
+  }
+}
 export function getCampaigns(id) {
   return async dispatch => {
     const bundle = await axios.get(`/api/bundles/${id}`)
@@ -46,15 +50,12 @@ export function getAdvertisements(id) {
   }
 }
 
-export function getAdScript(bundleid) {
-  return async dispatch => {
-    const adScript = await axios.get(`/api/dev/bundle/${bundleid}/adscript`)
-    dispatch(gotAdScript(adScript))
-  }
-}
-
 export default function(state = initialState, action) {
   switch (action.type) {
+    case ADDED_TO_BUNDLE: {
+      const stateCopy = { ...initialState }
+      return { ...stateCopy, bundle: [...stateCopy.bundle, action.campaign] }
+    }
     case GOT_CAMPAIGNS:
       return { ...state, campaigns: action.campaigns }
     case GOT_ADVERTISEMENTS:

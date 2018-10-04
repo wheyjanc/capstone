@@ -2,6 +2,22 @@ const router = require('express').Router()
 var nodemailer = require('nodemailer')
 const { Bundle, User, Campaign } = require('../db/models')
 
+router.put('/:bundleId', async (req, res, next) => {
+  try {
+    const bundleId = req.params.bundleId
+    const bundle = await Bundle.findById(bundleId)
+    const updateBundle = await bundle.addAdvertisement(req.body.campaignOrAd)
+    const updatedBundle = await Bundle.findAll({
+      where: {
+        id: bundleId
+      }
+    })
+    res.json(updatedBundle)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 // get all bundles belonging to a dev user
 router.post('/email', function create(req, res, next) {
   var transporter = nodemailer.createTransport({
