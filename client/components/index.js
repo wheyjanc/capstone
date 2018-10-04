@@ -5,7 +5,15 @@
  */
 export { default as Navbar } from './navbar'
 export { default as UserHome } from './user-home'
-export { Login, Signup } from './auth-form'
+export { default as Login } from './auth-form'
+export { default as SignUp } from './SignUpForm'
+export { default as Home } from './Home'
 export { default as Ethereum } from './ethereum'
+export {
+  default as AdvertiserDashboard
+} from './dashboards/AdvertiserDashboard'
+export { default as AllAds } from './ads/AllAds'
 export { default as BundleCheckout } from './bundleCheckout'
 export { default as ScriptTag } from './scriptTag'
+export {default as AllCampaigns} from './allCampaigns'
+export {default as AllBundles} from './allBundles'

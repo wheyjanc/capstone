@@ -13,6 +13,7 @@ const getUser = async id => {
     return error
   }
 }
+
 const createScript = bundleId => {
   return `<div>
       <h3>Paste the code below into your app:</h3>
@@ -23,3 +24,4 @@ const createScript = bundleId => {
 }
 
 module.exports = createScript
+

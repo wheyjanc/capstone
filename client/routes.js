@@ -4,21 +4,27 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Login,
-  Signup,
+  SignUp,
   UserHome,
+  Home,
+  AdvertiserDashboard,
+  AllAds,
   BundleCheckout,
+  AllCampaigns,
+  AllBundles,
   ScriptTag
 } from './components'
+import { fetchAllAds } from './store/ads'
 import Ethereum from './components/ethereum'
-
 import { me } from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
+    await this.props.loadAllAds()
   }
 
   render() {
@@ -31,11 +37,21 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/checkout" component={BundleCheckout} />
+
         <Route path="/scriptTag" component={ScriptTag} />
+
+        <Route path = "/allcampaigns" component = {AllCampaigns} />
+        <Route path = "/allbundles" component = {AllBundles}  />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route path="/home" component={Home} />
+            <Route
+              path="/advertiser-dashboard"
+              component={AdvertiserDashboard}
+            />
+            <Route exact path="/ads" component={AllAds} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -52,7 +68,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.currentUser.id
   }
 }
 
@@ -60,7 +76,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    loadAllAds: () => dispatch(fetchAllAds())
   }
 }
 

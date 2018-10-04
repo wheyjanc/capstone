@@ -6,6 +6,7 @@ import web3 from '../../ethereum/web3'
 import axios from 'axios'
 import { getCampaigns, getAdvertisements, getAdScript } from '../store/bundles'
 
+
 class BundleCheckout extends Component {
   constructor() {
     super()
@@ -13,8 +14,11 @@ class BundleCheckout extends Component {
   }
   async componentDidMount() {
     console.log('hello we are here')
+
     await this.props.getCampaigns(1)
     await this.props.getAdvertisements(1)
+    await this.props.getCampaignsInBundle(1)
+
   }
   async handleSubmit() {
     let accounts = await web3.eth.getAccounts(console.log)
@@ -84,15 +88,18 @@ class BundleCheckout extends Component {
 const mapState = state => {
   console.log('state', state)
   return {
-    campaigns: state.bundles.campaigns
+    campaigns: state.bundles.campaignsInBundle
   }
 }
 
 const mapDispatch = dispatch => {
   return {
+
     getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
     getAdvertisements: id => dispatch(getAdvertisements(id)),
     getAdScript: id => dispatch(getAdScript(id))
+    getCampaignsInBundle: bundleId => dispatch(getCampaignsInBundle(bundleId))
+
   }
 }
 export default connect(mapState, mapDispatch)(BundleCheckout)
