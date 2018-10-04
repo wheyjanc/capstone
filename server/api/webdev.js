@@ -20,19 +20,27 @@ module.exports = router
 router.get('/bundle/:bundleId/adscript', async (req, res, next) => {
   const bundleId = req.params.bundleId
   try {
-    let ads = []
-    const bundle = await Bundle.findById(bundleId, {
-      include: [{ model: Campaign, include: [{ model: Advertisement }] }]
-    })
-    await bundle.campaigns.map(campaign => {
-      campaign.advertisements.map(ad => {
-        console.log('ad', ad)
+    const DevTag = `
+      <div>
+        <h3>Paste the code below into your app:</h3>
+        <pre>
+          <script src="http://localhost:3000/api/scripts/${bundleId}.js" />
+        </pre>
+      </div>`
+    res.json(DevTag)
+    // let ads = []
+    // const bundle = await Bundle.findById(bundleId, {
+    //   include: [{ model: Campaign, include: [{ model: Advertisement }] }]
+    // })
+    // await bundle.campaigns.map(campaign => {
+    //   campaign.advertisements.map(ad => {
+    //     console.log('ad', ad)
 
-        ads.push(ad)
-        // res.json(createScript(ad))
-        res.json(createScript(ad, bundleId))
-      })
-    })
+    //     ads.push(ad)
+    //     // res.json(createScript(ad))
+    //     res.json(createScript(ad, bundleId))
+    //   })
+    // })
   } catch (err) {
     next(err)
   }
@@ -46,7 +54,6 @@ router.get('/bundle/:bundleId', async (req, res, next) => {
     const bundle = await Bundle.findById(bundleId, {
       include: [{ model: Campaign, include: [{ model: Advertisement }] }]
     })
-    console.log('bundle', bundle)
     await bundle.campaigns.map(campaign => {
       campaign.advertisements.map(ad => {
         adsArr.push(ad)

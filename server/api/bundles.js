@@ -28,8 +28,6 @@ router.post('/email', function create(req, res, next) {
   res.send(201, req.params)
 })
 
-router.get('/')
-
 // get all bundles belonging to a dev user
 router.get('/', async (req, res, next) => {
   try {

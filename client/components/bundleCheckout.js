@@ -38,7 +38,12 @@ class BundleCheckout extends Component {
           }
         }).then(response => {
           if (response.data.msg === 'success') {
-            this.props.getAdScript(1)
+            this.props.history.push({
+              pathname: '/scriptTag',
+              bundleId: 1
+            })
+
+            //this.props.getAdScript(1)
             alert('Message Sent')
           } else if (response.data.msg === 'fail') {
             alert('Message failed to send.')
@@ -53,6 +58,7 @@ class BundleCheckout extends Component {
     //const campaigns = this.state.campaigns
     console.log('state', this.state)
     const props = this.props
+    console.log('props', props)
     const campaigns = this.props.campaigns
     console.log('props', campaigns)
     return (
