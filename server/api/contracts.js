@@ -26,6 +26,22 @@ router.get('/:contractId', async (req, res, next) => {
   }
 })
 
+router.put('/:campaignId', async (req, res, next) => {
+  try {
+    const contract = await Contract.findAll({
+      include: [
+        {
+          model: Campaign,
+          where: { campaignId: req.params.campaignId }
+        }
+      ]
+    })
+    contract.clickCount++
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 // create a new contract
 router.post('/', async (req, res, next) => {
   try {
