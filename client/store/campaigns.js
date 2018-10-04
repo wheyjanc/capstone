@@ -22,7 +22,7 @@ export const gotAllCampaigns = campaigns => ({
   export function getAllCampaigns () {
     return async dispatch => {
       const campaigns = await axios.get('/api/campaigns')
-      dispatch(gotAllCampaigns(campaigns))
+      dispatch(gotAllCampaigns(campaigns.data))
     }
   }
 

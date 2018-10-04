@@ -2,19 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
+
 import {
   Login,
   SignUp,
   UserHome,
   Home,
   AdvertiserDashboard,
-  AllAds
+  AllAds,
+  BundleCheckout,
+  AllCampaigns,
+  AllBundles
 } from './components'
 import { fetchAllAds } from './store/ads'
 import Ethereum from './components/ethereum'
-import { Login, Signup, UserHome, BundleCheckout } from './components'
-import Ethereum from './components/ethereum'
-
 import { me } from './store'
 
 /**
@@ -36,6 +37,8 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/checkout" component={BundleCheckout} />
+        <Route path = "/allcampaigns" component = {AllCampaigns} />
+        <Route path = "/allbundles" component = {AllBundles}  />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
