@@ -4,7 +4,7 @@ import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
 import axios from 'axios'
-import { getCampaigns, getAdvertisements, getAdScript } from '../store/bundles'
+import { getCampaignsInBundle, getAdvertisements, getAdScript } from '../store/bundles'
 
 
 class BundleCheckout extends Component {
@@ -97,7 +97,7 @@ const mapDispatch = dispatch => {
 
     getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
     getAdvertisements: id => dispatch(getAdvertisements(id)),
-    getAdScript: id => dispatch(getAdScript(id))
+    getAdScript: id => dispatch(getAdScript(id)),
     getCampaignsInBundle: bundleId => dispatch(getCampaignsInBundle(bundleId))
 
   }
