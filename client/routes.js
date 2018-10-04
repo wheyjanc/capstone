@@ -12,6 +12,9 @@ import {
 } from './components'
 import { fetchAllAds } from './store/ads'
 import Ethereum from './components/ethereum'
+import { Login, Signup, UserHome, BundleCheckout } from './components'
+import Ethereum from './components/ethereum'
+
 import { me } from './store'
 
 /**
@@ -30,8 +33,9 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/ethereum" component={Ethereum} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/checkout" component={BundleCheckout} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

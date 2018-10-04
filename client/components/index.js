@@ -13,3 +13,4 @@ export {
   default as AdvertiserDashboard
 } from './dashboards/AdvertiserDashboard'
 export { default as AllAds } from './ads/AllAds'
+export { default as BundleCheckout } from './bundleCheckout'
