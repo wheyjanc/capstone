@@ -33,7 +33,6 @@ const styles = theme => ({
 class Navbar extends Component {
   render() {
     const { classes } = this.props
-
     return (
       <AppBar className={classes.root} position="static">
         <Toolbar>
@@ -50,10 +49,15 @@ class Navbar extends Component {
               alignItems="center"
             >
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={this.props.handleClick}>
-                Logout
-              </a>
+              <Button
+                className="hvr-underline-from-center"
+                color="inherit"
+                onClick={this.props.handleClick}
+              >
+                <Link className={classes.navLinks} to="/home">
+                  Logout
+                </Link>
+              </Button>
             </Grid>
           ) : (
             <Grid
@@ -86,7 +90,7 @@ class Navbar extends Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.currentUser.id
   }
 }
 

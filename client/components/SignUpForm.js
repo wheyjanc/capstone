@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { signUpUser } from '../store/user'
-import { withStyles, FormLabel } from '@material-ui/core'
+import { withStyles, FormLabel, Typography } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -35,12 +35,17 @@ const styles = theme => ({
     boxShadow: '0px'
   },
   formControl: {
-    margin: theme.spacing.unit * 3
+    margin: '0px'
   },
   group: {
-    margin: `${theme.spacing.unit}px 0`,
+    margin: '0px',
     flexDirection: 'row'
-  }
+  },
+  title: {
+    fontWeight: '600px',
+    paddingBottom: '10px'
+  },
+  formHeader: {}
 })
 
 class SignUpForm extends Component {
@@ -57,10 +62,19 @@ class SignUpForm extends Component {
 
     return (
       <Card className={classes.card} style={{ width: '40%' }}>
+        <div className={classes.formHeader}>
+          <Typography className={classes.title} variant="title" color="inherit">
+            Hello there!
+          </Typography>
+          <Typography variant="subheading" color="inherit">
+            Sign up with us to get access to high quality ads and advertisers
+            who are relevant to your users.
+          </Typography>
+        </div>
         <form onSubmit={handleSubmit}>
-          <FormGroup style={{ margin: '1em' }}>
+          <FormGroup style={{ marginTop: '20px' }}>
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">I am a(n):</FormLabel>
+              <Typography variant="subheading">I am a(n):</Typography>
               <RadioGroup
                 aria-label="I am a(n):"
                 name="userType"
@@ -69,12 +83,12 @@ class SignUpForm extends Component {
                 onChange={this.handleChange}
               >
                 <FormControlLabel
-                  value={true}
+                  value="advertiser"
                   control={<Radio />}
                   label="advertiser"
                 />
                 <FormControlLabel
-                  value={false}
+                  value="developer"
                   control={<Radio />}
                   label="developer"
                 />
@@ -90,11 +104,9 @@ class SignUpForm extends Component {
               <Input name="password" type="password" />
             </FormControl>
             <br />
-            <Button type="submit" onSubmit={handleSubmit}>
-              LOGIN
-            </Button>
+            <Button type="submit">SUBMIT</Button>
             <Button component="a" href="/auth/google">
-              Login with Google
+              Sign up with Google
             </Button>
             {error && error.response && <div> {error.response.data} </div>}
           </FormGroup>
@@ -115,7 +127,6 @@ const mapSignup = state => {
 const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
       const email = evt.target.email.value
       const password = evt.target.password.value
       const userType = evt.target.userType.value

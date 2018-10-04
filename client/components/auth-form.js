@@ -6,6 +6,7 @@ import { withStyles, FormLabel } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import FormGroup from '@material-ui/core/FormGroup'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -40,71 +41,47 @@ const styles = theme => ({
   group: {
     margin: `${theme.spacing.unit}px 0`,
     flexDirection: 'row'
+  },
+  errorLabel: {
+    color: 'red'
   }
 })
 
 /**
  * COMPONENT
  */
-class AuthForm extends Component {
-  state = {
-    value: 'advertiser'
-  }
+const AuthForm = props => {
+  const { handleSubmit, error, classes } = props
+  console.log('ERROR', error)
 
-  handleChange = event => {
-    this.setState({ value: event.target.value })
-  }
-
-  render() {
-    const { handleSubmit, error, classes } = this.props
-
-    return (
-      <Card className={classes.card} style={{ width: '40%' }}>
-        <form onSubmit={handleSubmit}>
-          <FormGroup style={{ margin: '1em' }}>
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">I am a(n):</FormLabel>
-              <RadioGroup
-                aria-label="I am a(n):"
-                name="userType"
-                className={classes.group}
-                value={this.state.value}
-                onChange={this.handleChange}
-              >
-                <FormControlLabel
-                  value="advertiser"
-                  control={<Radio />}
-                  label="advertiser"
-                />
-                <FormControlLabel
-                  value="developer"
-                  control={<Radio />}
-                  label="developer"
-                />
-              </RadioGroup>
-            </FormControl>
-
-            <FormControl>
-              <InputLabel>Email</InputLabel>
-              <Input name="email" type="text" />
-            </FormControl>
-            <FormControl>
-              <InputLabel>Password</InputLabel>
-              <Input name="password" type="password" />
-            </FormControl>
-            <br />
-            <Button type="submit" onSubmit={handleSubmit}>
-              LOGIN
-            </Button>
-            <Button component="a" href="/auth/google">
-              Login with Google
-            </Button>
-            {error && error.response && <div> {error.response.data} </div>}
-          </FormGroup>
-        </form>
-      </Card>
-    )
-  }
+  return (
+    <Card className={classes.card} style={{ width: '40%' }}>
+      <form onSubmit={handleSubmit}>
+        <FormGroup style={{ margin: '1em' }}>
+          <FormControl>
+            <InputLabel>Email</InputLabel>
+            <Input name="email" type="text" />
+          </FormControl>
+          <FormControl>
+            <InputLabel>Password</InputLabel>
+            <Input name="password" type="password" />
+          </FormControl>
+          <br />
+          <Button type="submit">LOGIN</Button>
+          <Button component="a" href="/auth/google">
+            Login with Google
+          </Button>
+        </FormGroup>
+        {error &&
+          error.response && (
+            <FormHelperText className={classes.errorLabel}>
+              {error.response.data}
+              {console.log('ERROR', error.response.data)}{' '}
+            </FormHelperText>
+          )}
+      </form>
+    </Card>
+  )
 }
 
 /**
@@ -126,10 +103,9 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      const userType = evt.target.userType.value
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(logInUser(email, password, userType))
+      dispatch(logInUser(email, password))
     }
   }
 }

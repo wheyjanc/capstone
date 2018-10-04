@@ -11,6 +11,10 @@ a:hover {
   color: #eb8666;
 }
 
+button:hover {
+  color: #eb8666;
+}
+
 ul {
   list-style: none;
 }

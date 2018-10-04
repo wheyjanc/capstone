@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Navbar } from './components'
 import Routes from './routes'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { fetchAllAds } from './store/ads'
 
 const theme = createMuiTheme({
   typography: {
@@ -30,15 +32,27 @@ const theme = createMuiTheme({
   shadows: Array(25).fill('none')
 })
 
-const App = () => {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <div>
-        <Navbar />
-        <Routes />
-      </div>
-    </MuiThemeProvider>
-  )
+class App extends Component {
+  componentDidMount() {
+    this.props.loadAllAds()
+  }
+
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div>
+          <Navbar />
+          <Routes />
+        </div>
+      </MuiThemeProvider>
+    )
+  }
 }
 
-export default App
+const mapDispatch = dispatch => {
+  return {
+    loadAllAds: () => dispatch(fetchAllAds())
+  }
+}
+
+export default connect(null, mapDispatch)(App)

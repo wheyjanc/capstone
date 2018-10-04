@@ -65,6 +65,7 @@ export const logInUser = (email, password) => async dispatch => {
   try {
     res = await axios.post('/auth/login', { email, password })
   } catch (authError) {
+    console.log('wrong password')
     return dispatch(getUser({ error: authError }))
   }
 
@@ -77,8 +78,9 @@ export const logInUser = (email, password) => async dispatch => {
   }
 }
 
-export const signUpUser = (email, password, isAdvertiser) => async dispatch => {
+export const signUpUser = (email, password, userType) => async dispatch => {
   let res
+  let isAdvertiser = userType === 'advertiser'
   try {
     res = await axios.post('/auth/signup', {
       email,
@@ -87,6 +89,13 @@ export const signUpUser = (email, password, isAdvertiser) => async dispatch => {
     })
   } catch (authError) {
     return dispatch(getUser({ error: authError }))
+  }
+
+  try {
+    dispatch(getUser(res.data))
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
   }
 }
 
