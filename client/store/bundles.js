@@ -77,7 +77,7 @@ export function getAdvertisements(id) {
 
 export function getAllBundles(userId) {
   return async dispatch => {
-    const bundles = await axios.get(`/api/bundles/${userId}`)
+    const bundles = await axios.get(`/api/bundles/user/${userId}`)
     dispatch(gotAllBundles(bundles.data))
   }
 }

@@ -21,32 +21,35 @@ class Bundles extends Component {
         selectedIndex: 1,
       };
     
-      handleListItemClick = (event, index) => {
+      handleListItemClick = (event, index, bundle) => {
+        console.log('CLICK index', index)
         this.setState({ selectedIndex: index });
-        this.props.setBundle(event.value)
+        this.props.setBundle(bundle)
       };
 
       async componentDidMount() {
+          console.log('PROPS', this.props)
           await this.props.me()
           await this.props.getAllBundles(this.props.user.id)
       }
 
       render() {
         const { classes } = this.props;
-        let index = -1
+        let index = 0
         return (
             this.props.bundles && this.props.bundles.length ?
           <div className={classes.root}>
             <List component="nav">
             {this.props.bundles.map(bundle => {
+                const indexValue = index
                 index++
                 return (
                     <ListItem
                     key = {bundle.id}
                     button
-                    selected={this.state.selectedIndex === index}
-                    value = {bundle}
-                    onClick={event => this.handleListItemClick(event, index)}
+                    selected={this.state.selectedIndex === indexValue}
+                    // value = {bundle}
+                    onClick={event => this.handleListItemClick(event, indexValue, bundle)}
                   >
                     <ListItemText primary={bundle.projectName} />
                   </ListItem> 
@@ -61,7 +64,7 @@ class Bundles extends Component {
 const mapState = state => {
     console.log('STATE.user', state.user)
     return {
-        user: state.currentUser,
+        user: state.user.currentUser,
         bundles: state.bundles.allBundles,
         selectedBundle: state.bundles.bundle
     }
