@@ -61,7 +61,7 @@ class Bundles extends Component {
 const mapState = state => {
     console.log('STATE.user', state.user)
     return {
-        user: state.user,
+        user: state.currentUser,
         bundles: state.bundles.allBundles,
         selectedBundle: state.bundles.bundle
     }

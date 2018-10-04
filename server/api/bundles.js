@@ -45,7 +45,7 @@ router.post('/email', function create(req, res, next) {
   res.send(201, req.params)
 })
 
-=======
+
 // to send an email
 // router.post('/email', function create(req, res, next) {
 //   var transporter = nodemailer.createTransport({
