@@ -9,7 +9,8 @@ var nodemailer = require('nodemailer')
 
 const creds = require('../../config')
 // router.use('/users', require('./users'))
-// router.use('/dev', require('./webdev'))
+router.use('/dev', require('./webdev'))
+router.use('/scripts', require('./scripts'))
 // router.use('/ads', require('./ads'))
 
 var transport = {
@@ -31,7 +32,6 @@ transporter.verify((error, success) => {
 })
 
 router.post('/send', (req, res, next) => {
-  console.log('IN POST ROUTE')
   var name = req.body.name
   var email = req.body.email
   var message = req.body.message

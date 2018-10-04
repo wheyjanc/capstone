@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-import emailCreator from '../../server/email'
 import axios from 'axios'
-import { getCampaignsInBundle } from '../store/bundles'
+import { getCampaigns, getAdvertisements, getAdScript } from '../store/bundles'
+
 
 class BundleCheckout extends Component {
   constructor() {
@@ -14,7 +14,11 @@ class BundleCheckout extends Component {
   }
   async componentDidMount() {
     console.log('hello we are here')
+
+    await this.props.getCampaigns(1)
+    await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
+
   }
   async handleSubmit() {
     let accounts = await web3.eth.getAccounts(console.log)
@@ -38,6 +42,12 @@ class BundleCheckout extends Component {
           }
         }).then(response => {
           if (response.data.msg === 'success') {
+            this.props.history.push({
+              pathname: '/scriptTag',
+              bundleId: 1
+            })
+
+            //this.props.getAdScript(1)
             alert('Message Sent')
           } else if (response.data.msg === 'fail') {
             alert('Message failed to send.')
@@ -52,8 +62,9 @@ class BundleCheckout extends Component {
     //const campaigns = this.state.campaigns
     console.log('state', this.state)
     const props = this.props
+    console.log('props', props)
     const campaigns = this.props.campaigns
-    console.log('props', props.getCampaigns)
+    console.log('props', campaigns)
     return (
       <div>
         <h1>Campaigns in Your Bundle</h1>
@@ -83,7 +94,12 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
+
+    getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
+    getAdvertisements: id => dispatch(getAdvertisements(id)),
+    getAdScript: id => dispatch(getAdScript(id))
     getCampaignsInBundle: bundleId => dispatch(getCampaignsInBundle(bundleId))
+
   }
 }
 export default connect(mapState, mapDispatch)(BundleCheckout)

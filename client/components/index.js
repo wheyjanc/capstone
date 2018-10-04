@@ -14,5 +14,6 @@ export {
 } from './dashboards/AdvertiserDashboard'
 export { default as AllAds } from './ads/AllAds'
 export { default as BundleCheckout } from './bundleCheckout'
+export { default as ScriptTag } from './scriptTag'
 export {default as AllCampaigns} from './allCampaigns'
 export {default as AllBundles} from './allBundles'

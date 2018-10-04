@@ -2,6 +2,50 @@ const router = require('express').Router()
 var nodemailer = require('nodemailer')
 const { Bundle, User, Campaign } = require('../db/models')
 
+
+router.put('/:bundleId', async (req, res, next) => {
+  try {
+    const bundleId = req.params.bundleId
+    const bundle = await Bundle.findById(bundleId)
+    const updateBundle = await bundle.addAdvertisement(req.body.campaignOrAd)
+    const updatedBundle = await Bundle.findAll({
+      where: {
+        id: bundleId
+      }
+    })
+    res.json(updatedBundle)
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+// get all bundles belonging to a dev user
+router.post('/email', function create(req, res, next) {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'jstadplacement@gmail.com',
+      pass: 'Hopperjst12345'
+    }
+  })
+  var mailOptions = {
+    from: 'jstadplacement@gmail.com',
+    //this is a variable
+    to: `${advertiserEmail}`,
+    subject: 'Payment required to place your campaign',
+    text: `Please send ${amountDue} to ${contractAddress}`
+  }
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
+  })
+  res.send(201, req.params)
+})
+
+=======
 // to send an email
 // router.post('/email', function create(req, res, next) {
 //   var transporter = nodemailer.createTransport({
@@ -29,8 +73,9 @@ const { Bundle, User, Campaign } = require('../db/models')
 // })
 
 
+
 // get all bundles belonging to a dev user
-router.get('/:userId', async (req, res, next) => {
+router.get('/user/:userId', async (req, res, next) => {
   const userId = req.params.userId
   try {
     const bundles = await Bundle.findAll({
