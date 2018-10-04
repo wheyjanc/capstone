@@ -15,7 +15,7 @@ class BundleCheckout extends Component {
   async componentDidMount() {
     console.log('hello we are here')
 
-    await this.props.getCampaigns(1)
+    // await this.props.getCampaigns(1)
     await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
 
@@ -72,7 +72,7 @@ class BundleCheckout extends Component {
           <div>
             <ul>
               {campaigns.map(campaign => {
-                return <li>{campaign.name}</li>
+                return <li key = {campaign.id}>{campaign.name}</li>
               })}
             </ul>
             <button onClick={() => this.handleSubmit()}>Deploy Bundle</button>
@@ -95,7 +95,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
 
-    getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
+    // getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
     getAdvertisements: id => dispatch(getAdvertisements(id)),
     getAdScript: id => dispatch(getAdScript(id)),
     getCampaignsInBundle: bundleId => dispatch(getCampaignsInBundle(bundleId))
