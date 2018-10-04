@@ -29,7 +29,7 @@ export const gotAllBundles = bundles => (
   }
 )
 
-export const setBundleId = bundle => ({
+export const setBundle = bundle => ({
   type: SET_BUNDLE,
   bundle
 })
@@ -50,7 +50,7 @@ export function getCampaignsInBundle(id) {
 export function getAllBundles(userId) {
   return async dispatch => {
     const bundles = await axios.get(`/api/bundles/${userId}`)
-    dispatch(gotAllBundles(bundles))
+    dispatch(gotAllBundles(bundles.data))
   }
 }
 
