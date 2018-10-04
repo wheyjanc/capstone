@@ -5,14 +5,16 @@ import axios from 'axios'
  */
 const GOT_CAMPAIGNS_IN_BUNDLE = 'GOT_CAMPAIGNS_IN_BUNDLE'
 const GOT_ALL_BUNDLES = 'GOT_ALL_BUNDLES'
-const GOT_ALL_CAMPAIGNS = 'GOT_ALL_CAMPAIGNS'
+const SET_BUNDLE = 'SET_BUNDLE'
+
 /**
  * INITIAL STATE
  */
 const initialState = {
   campaignsInBundle: [],
   allBundles: [],
-  allCampaigns: []
+  bundle: {}
+  
 }
 
 /**
@@ -27,10 +29,12 @@ export const gotAllBundles = bundles => (
   }
 )
 
-export const gotAllCampaigns = campaigns => ({
-  type: GOT_ALL_CAMPAIGNS,
-  campaigns
+export const setBundleId = bundle => ({
+  type: SET_BUNDLE,
+  bundle
 })
+
+
 
 /**
  * THUNK CREATORS
@@ -50,12 +54,7 @@ export function getAllBundles(userId) {
   }
 }
 
-export function getAllCampaigns () {
-  return async dispatch => {
-    const campaigns = await axios.get('/api/campaigns')
-    dispatch(gotAllCampaigns(campaigns))
-  }
-}
+
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -64,8 +63,8 @@ export default function(state = initialState, action) {
       return { ...state, campaignsInBundle: action.campaigns }
       case GOT_ALL_BUNDLES: 
       return {...state, allBundles: action.bundles}
-      case GOT_ALL_CAMPAIGNS:
-      return {...state, allCampaigns: action.campaigns}
+      case SET_BUNDLE:
+      return {...state, bundle: action.bundle}
     default:
       return state
   }
