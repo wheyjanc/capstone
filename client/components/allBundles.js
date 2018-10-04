@@ -18,7 +18,7 @@ const styles = theme => ({
 
 class Bundles extends Component {
     state = {
-        selectedIndex: 1,
+        selectedIndex: 0,
       };
     
       handleListItemClick = (event, index, bundle) => {
@@ -31,6 +31,7 @@ class Bundles extends Component {
           console.log('PROPS', this.props)
           await this.props.me()
           await this.props.getAllBundles(this.props.user.id)
+          await this.props.setBundle(this.props.bundles[0])
       }
 
       render() {

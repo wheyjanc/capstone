@@ -45,7 +45,7 @@ const styles = theme => ({
              <div>
             <GridList cellHeight = {100} className = {classes.gridList}>
                 <GridListTile key="Subheader" cols = {1} style = {{height: 'auto'}}>
-                    <ListSubheader component = 'div'>Browse Campaigns for Project {bundle.name}</ListSubheader>
+                    <ListSubheader component = 'div'>Browse Campaigns for Project {this.props.bundle.projectName}</ListSubheader>
                 </GridListTile>    
                 {campaigns.map(campaign => (
                     <GridListTile key = {campaign.id}>
@@ -70,12 +70,12 @@ DisplayManyCampaigns.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-//  const mapState = state =>  {
-//      return {
-//         //campaigns: state.campaigns.allCampaigns,
-//         bundle: state.bundle.bundle
-//      }
-//  }
+ const mapState = state =>  {
+     return {
+        //campaigns: state.campaigns.allCampaigns,
+        bundle: state.bundles.bundle
+     }
+ }
 
 //  const mapDispatch = dispatch => {
 //      return {
@@ -83,6 +83,6 @@ DisplayManyCampaigns.propTypes = {
 //      }
 //  }
 
- const component = withRouter(connect(null)(DisplayManyCampaigns))
+ const component = withRouter(connect(mapState)(DisplayManyCampaigns))
 
  export default withStyles(styles)(component)

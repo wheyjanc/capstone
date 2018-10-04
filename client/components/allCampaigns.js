@@ -3,6 +3,7 @@ import {getAllCampaigns} from '../store'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import DisplayManyCampaigns from './displayManyCampaigns'
+import AllBundles from './allBundles'
 
 class AllCampaigns extends Component {
     async componentDidMount () {
@@ -12,8 +13,9 @@ class AllCampaigns extends Component {
         const campaigns = this.props.campaigns
         return (
             <div>
+            <AllBundles />
             <h2>All Campaigns</h2>
-            <DisplayManyCampaigns campaigns = {campaigns}/>
+            <DisplayManyCampaigns campaigns = {campaigns} />
             </div>
         )
     }
@@ -22,7 +24,7 @@ class AllCampaigns extends Component {
 const mapState = state =>  {
     return {
        campaigns: state.campaigns.allCampaigns,
-       //bundle: state.bundle.bundle
+       //bundle: state.bundles.bundle
     }
 }
 
