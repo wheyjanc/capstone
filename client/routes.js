@@ -7,7 +7,8 @@ import {
   Signup,
   UserHome,
   BundleCheckout,
-  ScriptTag
+  ScriptTag,
+  Payment
 } from './components'
 import Ethereum from './components/ethereum'
 
@@ -32,6 +33,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/checkout" component={BundleCheckout} />
         <Route path="/scriptTag" component={ScriptTag} />
+        <Route path="/payment" component={Payment} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-import { create } from 'domain'
 // let ganache = require('ganache-cli')
 // web3.setProvider(ganache.provider())
 
@@ -59,7 +58,7 @@ class Ethereum extends Component {
       balanceInAccountThreeBefore
     )
     const withdrawFunds = await firstContract.methods
-      .withdraw(accounts[3])
+      .withdraw(accounts[3], accounts[1])
       .send({
         gas: 3000000,
         from: accounts[1]

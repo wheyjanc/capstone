@@ -34,8 +34,11 @@ Bundle.belongsToMany(Campaign, { through: 'campaignsInBundle' })
 Bundle.belongsTo(User, { as: 'developer' })
 User.hasMany(Bundle)
 
-Bundle.belongsTo(Contract, { as: 'contract' })
-Contract.hasOne(Bundle)
+Contract.belongsTo(Bundle)
+Bundle.hasOne(Contract)
+
+Campaign.hasMany(Contract)
+Contract.belongsTo(Campaign)
 Campaign.belongsTo(User, { as: 'advertiser' })
 User.hasMany(Campaign)
 

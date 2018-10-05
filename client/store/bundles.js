@@ -28,7 +28,7 @@ export const addedToBundle = campaign => ({ type: ADDED_TO_BUNDLE, campaign })
 /**
  * THUNK CREATORS
  */
-export function addToBundle(campaign, bundleid) {
+export function addToBundle(campaignOrAd, bundleid) {
   return async dispatch => {
     const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`)
     const action = addedToBundle(bundleUpdated.data)

@@ -25,8 +25,15 @@ class BundleCheckout extends Component {
         from: accounts[0]
       })
       const newContract = fundsTransfer(newBlock)
-      console.log('newContract', newContract)
-
+      console.log('newContract', newContract.options.blockHash)
+      //this is where database call for contract goes
+      await axios.post('http://localhost:8080/api/contracts', {
+        campaignId: campaign.id,
+        bundleId: 1,
+        contractHash: newContract.options.blockHash,
+        balance: 1000
+      })
+      const createContracts = (campaignId, bundleId, contracthash) => {}
       const sendEmail = (name, email, message) => {
         axios({
           method: 'POST',
