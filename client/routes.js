@@ -14,8 +14,13 @@ import {
   Payment
   AllCampaigns,
   AllBundles,
+  ScriptTag,
+  AccountMenu,
+  LoadingScreen
+
 } from './components'
 import { fetchAllAds } from './store/ads'
+import { getAllCampaigns } from './store/campaigns'
 import Ethereum from './components/ethereum'
 import { me } from './store'
 
@@ -26,6 +31,7 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
     await this.props.loadAllAds()
+    await this.props.loadAllCampaigns()
   }
 
   render() {
@@ -38,14 +44,11 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Route path="/checkout" component={BundleCheckout} />
-
         <Route path="/scriptTag" component={ScriptTag} />
-
+        <Route path="/allcampaigns" component={AllCampaigns} />
+        <Route path="/allbundles" component={AllBundles} />
         <Route path="/payment" component={Payment} />
 
-
-        <Route path = "/allcampaigns" component = {AllCampaigns} />
-        <Route path = "/allbundles" component = {AllBundles}  />
 
 
         {isLoggedIn && (
@@ -56,11 +59,12 @@ class Routes extends Component {
               path="/advertiser-dashboard"
               component={AdvertiserDashboard}
             />
+            <Route path="/account" component={AccountMenu} />
             <Route exact path="/ads" component={AllAds} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route component={LoadingScreen} />
       </Switch>
     )
   }
@@ -82,7 +86,8 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    loadAllAds: () => dispatch(fetchAllAds())
+    loadAllAds: () => dispatch(fetchAllAds()),
+    loadAllCampaigns: () => dispatch(getAllCampaigns())
   }
 }
 

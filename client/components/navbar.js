@@ -3,12 +3,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
-import AppBar from '@material-ui/core/AppBar'
-import { withStyles } from '@material-ui/core'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Grid,
+  Menu,
+  MenuItem
+} from '@material-ui/core'
+import AccountCircle from '@material-ui/icons/AccountCircleOutlined'
 
 const styles = theme => ({
   root: {
@@ -31,8 +36,22 @@ const styles = theme => ({
 })
 
 class Navbar extends Component {
+  state = {
+    anchorEl: null
+  }
+
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
+
   render() {
     const { classes } = this.props
+    const { anchorEl } = this.state
+
     return (
       <AppBar className={classes.root} position="static">
         <Toolbar>
@@ -50,14 +69,27 @@ class Navbar extends Component {
             >
               {/* The navbar will show these links after you log in */}
               <Button
-                className="hvr-underline-from-center"
-                color="inherit"
-                onClick={this.props.handleClick}
+                aria-owns={anchorEl ? 'simple-menu' : null}
+                aria-haspopup="true"
+                onClick={this.handleMenuClick}
               >
-                <Link className={classes.navLinks} to="/home">
-                  Logout
-                </Link>
+                <AccountCircle />
               </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>
+                  <Link to="/account">Account</Link>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <a href="#" onClick={this.props.handleClick}>
+                    Logout
+                  </a>
+                </MenuItem>
+              </Menu>
             </Grid>
           ) : (
             <Grid
