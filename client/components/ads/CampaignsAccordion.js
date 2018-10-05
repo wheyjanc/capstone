@@ -9,11 +9,13 @@ import {
   ExpansionPanelSummary,
   Grid,
   Typography,
-  Divider
+  Divider,
+  Button
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import LoadingScreen from '../LoadingScreen'
 import CampaignExpansionPanel from './CampaignExpansionPanel'
+import CreateCampaignDialog from './CreateCampaignDialog'
 
 const styles = theme => ({
   root: {
@@ -30,12 +32,28 @@ const styles = theme => ({
   }
 })
 
-class CampaignsAccordion extends Component {
+function rand() {
+  return Math.round(Math.random() * 20) - 10
+}
+
+function getModalStyle() {
+  const top = 50 + rand()
+  const left = 50 + rand()
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  }
+}
+
+class CampaignsAccordionModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      open: false,
       expanded: null,
-      isLoading: props.campaigns.isLoading
+      value: 'Dione'
     }
   }
 
@@ -45,11 +63,18 @@ class CampaignsAccordion extends Component {
     })
   }
 
+  handleOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleClose = value => {
+    this.setState({ value, open: false })
+  }
+
   render() {
     const { classes } = this.props
     const { expanded } = this.state
     const campaigns = this.props.campaigns
-    const isLoading = this.state.isLoading
     console.log('campaigns', campaigns)
     let panelIndex = 1
     return (
@@ -83,11 +108,25 @@ class CampaignsAccordion extends Component {
                   )
                 })}
             </Grid>
+            <Button onClick={this.handleOpen}>Create a campaign</Button>
+            <CreateCampaignDialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              value={this.state.value}
+              campaigns={campaigns}
+            />
           </Grid>
         </div>
       )
     )
   }
 }
+
+CampaignsAccordionModal.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+// We need an intermediary variable for handling the recursive nesting.
+const CampaignsAccordion = withStyles(styles)(CampaignsAccordionModal)
 
 export default withStyles(styles)(CampaignsAccordion)
