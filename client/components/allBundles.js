@@ -7,6 +7,7 @@ import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import Collapse from '@material-ui/core/Collapse'
 
 const styles = theme => ({
   root: {
