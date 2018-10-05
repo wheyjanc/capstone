@@ -53,8 +53,9 @@ export const setBundle = bundle => ({
 
 export function addToBundle(campaign, bundleid) {
   return async dispatch => {
-    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`)
-    const action = addedToBundle(bundleUpdated.data)
+    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`, {campaign: campaign.id})
+    console.log('bundleupdated', bundleUpdated)
+    const action = addedToBundle(campaign)
     dispatch(action)
   }
 }
@@ -77,7 +78,7 @@ export function getAdvertisements(id) {
 
 export function getAllBundles(userId) {
   return async dispatch => {
-    const bundles = await axios.get(`/api/bundles/${userId}`)
+    const bundles = await axios.get(`/api/bundles/user/${userId}`)
     dispatch(gotAllBundles(bundles.data))
   }
 }
@@ -88,14 +89,11 @@ export function getAllBundles(userId) {
 export default function(state = initialState, action) {
   switch (action.type) {
       case ADDED_TO_BUNDLE: {
-      const stateCopy = { ...initialState }
-      return { ...stateCopy, bundle: [...stateCopy.bundle, action.campaign] }
+      return { ...state, campaignsInBundle: [...state.campaignsInBundle, action.campaign] }
       }
       case GOT_ADVERTISEMENTS:
-      console.log('in advertisements reducer')
       return { ...state, advertisements: action.advertisements }
       case GOT_CAMPAIGNS_IN_BUNDLE:
-      console.log('in campaigns reducer')
       return { ...state, campaignsInBundle: action.campaigns }
       case GOT_ALL_BUNDLES: 
       return {...state, allBundles: action.bundles}

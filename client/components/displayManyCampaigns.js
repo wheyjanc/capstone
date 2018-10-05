@@ -8,7 +8,7 @@ import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
-import {getAllCampaigns} from '../store'
+import {addToBundle} from '../store'
 
 const bundle = {
     name: 'Bundle1'
@@ -34,7 +34,16 @@ const styles = theme => ({
  class DisplayManyCampaigns extends Component {
      constructor () {
          super()
-         //bind handleclick
+         this.handleClick = this.handleClick.bind(this)
+     }
+     async handleClick (evt, campaign) {
+        const ids = this.props.bundle.campaigns.map(camp => camp.id)
+         if (ids.includes(campaign.id)) {
+        alert(`${campaign.name} campaign is already in ${this.props.bundle.projectName}`)
+          } else {
+        await this.props.addToBundle(campaign, this.props.bundle.id)
+        alert(`${campaign.name} added to ${this.props.bundle.projectName}`)
+          }
      }
 
      render() {
@@ -45,7 +54,7 @@ const styles = theme => ({
              <div>
             <GridList cellHeight = {100} className = {classes.gridList}>
                 <GridListTile key="Subheader" cols = {1} style = {{height: 'auto'}}>
-                    <ListSubheader component = 'div'>Browse Campaigns for Project {bundle.name}</ListSubheader>
+                    <ListSubheader component = 'div'>Browse Campaigns for Project {this.props.bundle.projectName}</ListSubheader>
                 </GridListTile>    
                 {campaigns.map(campaign => (
                     <GridListTile key = {campaign.id}>
@@ -55,7 +64,7 @@ const styles = theme => ({
                     title = {campaign.name}
                     subtitle = {<span> price: {campaign.price}</span>}
                     actionIcon = {
-                        <IconButton className = {classes.icon}/>
+                        <button onClick = {(evt) => this.handleClick({evt}, campaign)}>add to {this.props.bundle.projectName}</button>
                     }
                     />
                     </GridListTile>
@@ -70,19 +79,19 @@ DisplayManyCampaigns.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-//  const mapState = state =>  {
-//      return {
-//         //campaigns: state.campaigns.allCampaigns,
-//         bundle: state.bundle.bundle
-//      }
-//  }
+ const mapState = state =>  {
+     return {
+        //campaigns: state.campaigns.allCampaigns,
+        bundle: state.bundles.bundle
+     }
+ }
 
-//  const mapDispatch = dispatch => {
-//      return {
-//          getAllCampaigns: () => dispatch(getAllCampaigns())
-//      }
-//  }
+ const mapDispatch = dispatch => {
+     return {
+         addToBundle: (campaign, bundleId) => dispatch(addToBundle(campaign, bundleId))
+     }
+ }
 
- const component = withRouter(connect(null)(DisplayManyCampaigns))
+ const component = withRouter(connect(mapState, mapDispatch)(DisplayManyCampaigns))
 
  export default withStyles(styles)(component)
