@@ -3,43 +3,69 @@ import axios from 'axios'
 /**
  * ACTION TYPES
  */
-const GOT_CAMPAIGNS = 'GOT_CAMPAIGNS'
+
 const GOT_ADVERTISEMENTS = 'GOT_ADVERTISEMENTS'
 const ADDED_TO_BUNDLE = 'ADD_TO_BUNDLE'
+const GOT_CAMPAIGNS_IN_BUNDLE = 'GOT_CAMPAIGNS_IN_BUNDLE'
+const GOT_ALL_BUNDLES = 'GOT_ALL_BUNDLES'
+const SET_BUNDLE = 'SET_BUNDLE'
+
+
 /**
  * INITIAL STATE
  */
 const initialState = {
-  campaigns: [],
   advertisements: [],
-  bundle: []
+  campaignsInBundle: [],
+  allBundles: [],
+  bundle: {}
+  
 }
 
 /**
  * ACTION CREATORS
  */
-export const gotCampaigns = campaigns => ({ type: GOT_CAMPAIGNS, campaigns })
+
 export const gotAdvertisements = advertisements => ({
   type: GOT_ADVERTISEMENTS,
   advertisements
 })
 export const addedToBundle = campaign => ({ type: ADDED_TO_BUNDLE, campaign })
+export const gotCampaignsInBundle = campaigns => ({ type: GOT_CAMPAIGNS_IN_BUNDLE, campaigns })
+
+export const gotAllBundles = bundles => (
+  {
+    type: GOT_ALL_BUNDLES,
+    bundles
+  }
+)
+
+export const setBundle = bundle => ({
+  type: SET_BUNDLE,
+  bundle
+})
+
+
 
 /**
  * THUNK CREATORS
  */
-export function addToBundle(campaignOrAd, bundleid) {
+
+
+export function addToBundle(campaign, bundleid) {
   return async dispatch => {
-    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`)
-    const action = addedToBundle(bundleUpdated.data)
+    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`, {campaign: campaign.id})
+    console.log('bundleupdated', bundleUpdated)
+    const action = addedToBundle(campaign)
     dispatch(action)
   }
 }
-export function getCampaigns(id) {
+
+
+export function getCampaignsInBundle(id) {
   return async dispatch => {
     const bundle = await axios.get(`/api/bundles/${id}`)
-
-    dispatch(gotCampaigns(bundle.data.campaigns))
+    dispatch(gotCampaignsInBundle(bundle.data.campaigns))
   }
 }
 
@@ -50,18 +76,31 @@ export function getAdvertisements(id) {
   }
 }
 
+
+export function getAllBundles(userId) {
+  return async dispatch => {
+    const bundles = await axios.get(`/api/bundles/user/${userId}`)
+    dispatch(gotAllBundles(bundles.data))
+  }
+}
+
+
+
+
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ADDED_TO_BUNDLE: {
-      const stateCopy = { ...initialState }
-      return { ...stateCopy, bundle: [...stateCopy.bundle, action.campaign] }
-    }
-    case GOT_CAMPAIGNS:
-      return { ...state, campaigns: action.campaigns }
-    case GOT_ADVERTISEMENTS:
-      console.log('in advertisements reducer')
+      case ADDED_TO_BUNDLE: {
+      return { ...state, campaignsInBundle: [...state.campaignsInBundle, action.campaign] }
+      }
+      case GOT_ADVERTISEMENTS:
       return { ...state, advertisements: action.advertisements }
-    default:
+      case GOT_CAMPAIGNS_IN_BUNDLE:
+      return { ...state, campaignsInBundle: action.campaigns }
+      case GOT_ALL_BUNDLES: 
+      return {...state, allBundles: action.bundles}
+      case SET_BUNDLE:
+      return {...state, bundle: action.bundle}
+      default:
       return state
   }
 }
