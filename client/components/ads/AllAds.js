@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
 import AdsGridList from './AdsGridList'
+import AdsAccordion from './AdsAccordion'
+import LoadingScreen from '../LoadingScreen'
 
 const styles = theme => ({
   container: {
@@ -43,6 +45,9 @@ class AllAds extends Component {
   render() {
     const { classes } = this.props
     const ads = this.props.allAds
+    const campaigns = this.props.allCampaigns
+    console.log(campaigns)
+
     const loading = this.props.isLoading
     console.log(ads)
 
@@ -54,7 +59,7 @@ class AllAds extends Component {
               <Grid container spacing={24}>
                 <Grid className={classes.heading} item xs={12}>
                   <Typography className={classes.titleText} variant="display2">
-                    Your Advertisements
+                    Advertisements
                   </Typography>
                   {/* <div className={classes.caption}>
                   <Typography variant="body2">
@@ -68,7 +73,10 @@ class AllAds extends Component {
                   <hr className={classes.divider} />
                 </div> */}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={5}>
+                  <AdsAccordion campaigns={campaigns} />
+                </Grid>
+                <Grid item xs={7}>
                   <AdsGridList ads={ads} />
                 </Grid>
               </Grid>
@@ -82,7 +90,7 @@ class AllAds extends Component {
 const mapState = state => {
   return {
     allAds: state.ads.allAds,
-    isLoading: state.isLoading
+    allCampaigns: state.campaigns.allCampaigns
   }
 }
 

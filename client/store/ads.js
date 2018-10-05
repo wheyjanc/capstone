@@ -175,7 +175,6 @@ export default function(state = initialState, action) {
         ...state,
         allAds: state.allAds.filter(ad => ad.id !== action.adId)
       }
-
     case SET_LOADING_STATUS:
       return {
         ...state,

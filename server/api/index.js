@@ -12,6 +12,7 @@ const creds = require('../../config')
 router.use('/dev', require('./webdev'))
 router.use('/scripts', require('./scripts'))
 router.use('/ads', require('./ads'))
+router.use('/users/', require('./users'))
 
 var transport = {
   host: 'smtp.gmail.com',

@@ -17,12 +17,16 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
+      firstName: 'Bill',
+      lastName: 'Gates',
       email: 'rolex@email.com',
       password: '123',
       budget: 44.0,
       isAdvertiser: true
     }),
     User.create({
+      firstName: 'Grace',
+      lastName: 'Hopper',
       email: 'dev1@email.com',
       password: '123',
       isAdvertiser: false
@@ -30,6 +34,8 @@ async function seed() {
   ])
 
   const user1 = await User.create({
+    firstName: 'Jan',
+    lastName: 'Chen',
     email: 'dev2@email.com',
     password: '1234',
     isAdvertiser: false,
@@ -37,6 +43,8 @@ async function seed() {
   })
 
   const user2 = await User.create({
+    firstName: 'Tricia',
+    lastName: 'Lobo',
     email: 'dev3@email.com',
     password: '1234',
     isAdvertiser: false,
@@ -44,6 +52,8 @@ async function seed() {
   })
 
   const user3 = await User.create({
+    firstName: 'Stacy',
+    lastName: 'Harfenist',
     email: 'gucci@email.com',
     password: '1234',
     isAdvertiser: true,
@@ -52,6 +62,8 @@ async function seed() {
   })
 
   const user4 = await User.create({
+    firstName: 'Jesus',
+    lastName: 'Christ',
     email: 'mcdonalds@email.com',
     password: '1234',
     isAdvertiser: true,
