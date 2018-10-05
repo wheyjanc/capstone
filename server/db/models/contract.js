@@ -10,6 +10,10 @@ const Contract = db.define('contract', {
     type: Sequelize.FLOAT,
     defaultValue: 0.0
   },
+  budget: {
+    type: Sequelize.FLOAT,
+    defaultValue: 0.0
+  },
   status: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
