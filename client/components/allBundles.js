@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getAllBundles, setBundle, me} from '../store'
+import {getAllBundles, setBundle, me, gotCampaignsInBundle} from '../store'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -22,16 +22,16 @@ class Bundles extends Component {
       };
     
       handleListItemClick = (event, index, bundle) => {
-        console.log('CLICK index', index)
         this.setState({ selectedIndex: index });
         this.props.setBundle(bundle)
+        this.props.gotCampaignsInBundle(bundle.campaigns)
       };
 
       async componentDidMount() {
-          console.log('PROPS', this.props)
           await this.props.me()
           await this.props.getAllBundles(this.props.user.id)
           await this.props.setBundle(this.props.bundles[0])
+          await this.props.gotCampaignsInBundle(this.props.bundles[0].campaigns)
       }
 
       render() {
@@ -63,7 +63,6 @@ class Bundles extends Component {
 }
 
 const mapState = state => {
-    console.log('STATE.user', state.user)
     return {
         user: state.user.currentUser,
         bundles: state.bundles.allBundles,
@@ -75,7 +74,8 @@ const mapDispatch = dispatch => {
     return {
         getAllBundles: userId => dispatch(getAllBundles(userId)),
         setBundle: bundle => dispatch(setBundle(bundle)),
-        me: () => dispatch(me())
+        me: () => dispatch(me()),
+        gotCampaignsInBundle: campaigns => dispatch(gotCampaignsInBundle(campaigns))
     }
 }
 
