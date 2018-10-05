@@ -31,10 +31,13 @@ function deposit() payable public {
 
 }
 
-function withdraw(address webdev) payable public {
+function withdraw(address webdev, address grace) payable public {
    uint toWebdev = address(this).balance*3/4;
+   uint toGrace = address(this).balance*1/4;
    webdev.transfer(toWebdev);
    balance[webdev]+=toWebdev;
+  grace.transfer(toGrace);
+   balance[grace] += toGrace;
    
    }
    
