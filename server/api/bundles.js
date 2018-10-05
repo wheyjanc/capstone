@@ -7,7 +7,7 @@ router.put('/:bundleId', async (req, res, next) => {
   try {
     const bundleId = req.params.bundleId
     const bundle = await Bundle.findById(bundleId)
-    const updateBundle = await bundle.addAdvertisement(req.body.campaignOrAd)
+    const updateBundle = await bundle.addCampaign(req.body.campaign)
     const updatedBundle = await Bundle.findAll({
       where: {
         id: bundleId
@@ -81,7 +81,7 @@ router.get('/user/:userId', async (req, res, next) => {
     const bundles = await Bundle.findAll({
       where: {
         developerId: userId
-      }
+      }, include: [{model: Campaign}]
     })
     res.json(bundles)
   } catch (err) {
