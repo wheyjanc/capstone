@@ -51,6 +51,7 @@ export const setBundle = bundle => ({
  * THUNK CREATORS
  */
 
+
 export function addToBundle(campaign, bundleid) {
   return async dispatch => {
     const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`, {campaign: campaign.id})

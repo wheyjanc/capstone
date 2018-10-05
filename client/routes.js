@@ -10,11 +10,14 @@ import {
   AdvertiserDashboard,
   AllAds,
   BundleCheckout,
+  ScriptTag,
+  Payment
   AllCampaigns,
   AllBundles,
   ScriptTag,
   AccountMenu,
   LoadingScreen
+
 } from './components'
 import { fetchAllAds } from './store/ads'
 import { getAllCampaigns } from './store/campaigns'
@@ -42,9 +45,11 @@ class Routes extends Component {
         <Route path="/signup" component={SignUp} />
         <Route path="/checkout" component={BundleCheckout} />
         <Route path="/scriptTag" component={ScriptTag} />
-
         <Route path="/allcampaigns" component={AllCampaigns} />
         <Route path="/allbundles" component={AllBundles} />
+        <Route path="/payment" component={Payment} />
+
+
 
         {isLoggedIn && (
           <Switch>
