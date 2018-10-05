@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import Typography from '@material-ui/core/Typography'
+import { Typography, Grid, GridList, GridListTile } from '@material-ui/core'
 import AdsGridList from './AdsGridList'
-import AdsAccordion from './AdsAccordion'
+import CampaignsAccordion from './CampaignsAccordion'
 import LoadingScreen from '../LoadingScreen'
 
 const styles = theme => ({
@@ -74,7 +71,7 @@ class AllAds extends Component {
                 </div> */}
                 </Grid>
                 <Grid item xs={5}>
-                  <AdsAccordion campaigns={campaigns} />
+                  <CampaignsAccordion campaigns={campaigns} />
                 </Grid>
                 <Grid item xs={7}>
                   <AdsGridList ads={ads} />

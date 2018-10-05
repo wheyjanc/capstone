@@ -259,9 +259,7 @@ async function seed() {
 
   const ad5 = await Advertisement.create({
     name: 'Gucci-Ad-2',
-    image:
-      'http://befreshcorp.net/wp-content/uploads/2017/06/product-packshot-Carrot-558x600.jpg',
-    url: 'http://google.com',
+    image: '/images/default-ad-img.png',
     adSpecs: 'format3'
   })
   await ad5.addCampaign(campaign2)

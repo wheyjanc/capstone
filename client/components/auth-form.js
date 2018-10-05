@@ -2,17 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logInUser } from '../store/user'
-import { withStyles, FormLabel } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormGroup from '@material-ui/core/FormGroup'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import Card from '@material-ui/core/Card'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  FormGroup,
+  Input,
+  InputLabel,
+  Card
+} from '@material-ui/core'
 
 const styles = theme => ({
   root: {

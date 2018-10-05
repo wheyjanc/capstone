@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Grid,
+  Typography,
+  Divider
+} from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Chip from '@material-ui/core/Chip'
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
 import LoadingScreen from '../LoadingScreen'
 import CampaignExpansionPanel from './CampaignExpansionPanel'
 
@@ -31,7 +30,7 @@ const styles = theme => ({
   }
 })
 
-class AdsAccordion extends Component {
+class CampaignsAccordion extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -91,4 +90,4 @@ class AdsAccordion extends Component {
   }
 }
 
-export default withStyles(styles)(AdsAccordion)
+export default withStyles(styles)(CampaignsAccordion)

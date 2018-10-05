@@ -4,14 +4,16 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
 import { updateUserOnServer } from '../../store/user'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import {
+  Select,
+  FormControl,
+  Grid,
+  Button,
+  Typography,
+  TextField,
+  MenuItem
+} from '@material-ui/core'
 
 const styles = theme => ({
   container: {
