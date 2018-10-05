@@ -45,13 +45,10 @@ router.put('/:campaignId', async (req, res, next) => {
 // create a new contract
 router.post('/', async (req, res, next) => {
   try {
-    const {
-      devId: devId,
-      advertiserId: advertiserId,
-      contractHash,
-      balance
-    } = req.body
+    const { campaignId, bundleId, contractHash, balance } = req.body
     const newContract = await Contract.create({
+      campaignId: campaignId,
+      bundleId: bundleId,
       contractHash: contractHash,
       balance: balance
     })

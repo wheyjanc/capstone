@@ -10,9 +10,10 @@ import {
   AdvertiserDashboard,
   AllAds,
   BundleCheckout,
+  ScriptTag,
+  Payment
   AllCampaigns,
   AllBundles,
-  ScriptTag
 } from './components'
 import { fetchAllAds } from './store/ads'
 import Ethereum from './components/ethereum'
@@ -40,8 +41,12 @@ class Routes extends Component {
 
         <Route path="/scriptTag" component={ScriptTag} />
 
+        <Route path="/payment" component={Payment} />
+
+
         <Route path = "/allcampaigns" component = {AllCampaigns} />
         <Route path = "/allbundles" component = {AllBundles}  />
+
 
         {isLoggedIn && (
           <Switch>
