@@ -11,11 +11,12 @@ import {
   DialogContent,
   DialogTitle,
   Button,
+  Grid,
   Radio,
   RadioGroup,
   FormControlLabel
 } from '@material-ui/core'
-import AccountDetails from '../account/AccountDetails'
+import CreateCampaignForm from './CreateCampaignForm'
 
 const options = [
   'None',
@@ -43,6 +44,9 @@ const styles = theme => ({
   paper: {
     width: '600px',
     maxHeight: 435
+  },
+  dialogButtons: {
+    justifyContent: 'center'
   }
 })
 
@@ -74,29 +78,34 @@ class CreateCampaignDialog extends React.Component {
   }
 
   render() {
-    const { value, ...other } = this.props
+    const { value, classes, ...other } = this.props
 
     return (
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
-        maxWidth="600px"
         onEntering={this.handleEntering}
         aria-labelledby="confirmation-dialog-title"
         {...other}
       >
-        <DialogTitle id="confirmation-dialog-title">Phone Ringtone</DialogTitle>
-        <DialogContent>
-          <AccountDetails />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={this.handleOk} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
+        <DialogTitle id="confirmation-dialog-title">New Campaign</DialogTitle>
+        <Grid container direction="column">
+          <Grid item xs={12}>
+            <DialogContent>
+              <CreateCampaignForm />
+            </DialogContent>
+          </Grid>
+          <Grid>
+            <DialogActions className={classes.dialogButtons}>
+              <Button onClick={this.handleCancel} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={this.handleOk} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </Grid>
+        </Grid>
       </Dialog>
     )
   }
@@ -107,4 +116,4 @@ CreateCampaignDialog.propTypes = {
   value: PropTypes.string
 }
 
-export default CreateCampaignDialog
+export default withStyles(styles)(CreateCampaignDialog)

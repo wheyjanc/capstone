@@ -17,10 +17,8 @@ import {
   AccountMenu,
   LoadingScreen
 } from './components'
-import { fetchAllAds } from './store/ads'
-import { getAllCampaigns } from './store/campaigns'
 import Ethereum from './components/ethereum'
-import { me } from './store'
+import { me, getAllCampaigns, fetchAllDemographics, fetchAllAds } from './store'
 
 /**
  * COMPONENT
@@ -30,6 +28,7 @@ class Routes extends Component {
     await this.props.loadInitialData()
     await this.props.loadAllAds()
     await this.props.loadAllCampaigns()
+    await this.props.loadAllDemographics()
   }
 
   render() {
@@ -83,7 +82,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     loadAllAds: () => dispatch(fetchAllAds()),
-    loadAllCampaigns: () => dispatch(getAllCampaigns())
+    loadAllCampaigns: () => dispatch(getAllCampaigns()),
+    loadAllDemographics: () => dispatch(fetchAllDemographics())
   }
 }
 

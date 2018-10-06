@@ -14,11 +14,13 @@ import {
   TextField,
   MenuItem
 } from '@material-ui/core'
+import DemographicChips from './DemographicChips'
 
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '800px'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -30,6 +32,10 @@ const styles = theme => ({
   },
   menu: {
     width: 200
+  },
+  formTitle: {
+    fontSize: '18px',
+    fontWeight: 600
   }
 })
 
@@ -53,13 +59,14 @@ class CreateCampaignForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.updateUser(this.state.id, this.state)
   }
 
   render() {
     const { classes } = this.props
     const user = this.state
-
+    const demographics = this.props.allDemographics
+    console.log(demographics)
+    x
     return (
       <form
         className={classes.container}
@@ -67,10 +74,10 @@ class CreateCampaignForm extends Component {
         autoComplete="off"
         onSubmit={this.handleSubmit}
       >
-        <Grid container direction="row" spacing={40}>
-          <Grid item xs={3} className={classes.accountDetails}>
+        <Grid container direction="row" justify="center" spacing={32}>
+          <Grid item xs={4} className={classes.accountDetails}>
             <Typography className={classes.formTitle} variant="title">
-              New Campaign
+              Details
             </Typography>
             <TextField
               id="standard-name"
@@ -91,15 +98,20 @@ class CreateCampaignForm extends Component {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <Typography className={classes.formTitle} variant="title">
               Demographics
             </Typography>
+            <DemographicChips demographics={demographics} />
           </Grid>
         </Grid>
-        <Button type="submit">Save</Button>
       </form>
     )
+  }
+}
+const mapState = state => {
+  return {
+    allDemographics: state.demographics.allDemographics
   }
 }
 
@@ -115,5 +127,5 @@ CreateCampaignForm.propTypes = {
 }
 
 export default withStyles(styles)(
-  connect(null, mapDispatch)(CreateCampaignForm)
+  connect(mapState, mapDispatch)(CreateCampaignForm)
 )
