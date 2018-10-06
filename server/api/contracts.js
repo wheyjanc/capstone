@@ -65,6 +65,7 @@ router.post('/:contractHash', async (req, res, next) => {
 // create a new contract
 router.post('/', async (req, res, next) => {
   try {
+    console.log('IN POST REQUEST')
     const { campaignId, bundleId, contractHash, balance } = req.body
     const newContract = await Contract.create({
       campaignId: campaignId,

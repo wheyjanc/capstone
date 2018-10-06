@@ -20,16 +20,15 @@ const Contract = require('./contract')
  //  */
 
 // Advertisement.belongsTo(User)
-// User.hasMany(Advertisement)
+// // User.hasMany(Advertisement)
 
+Advertisement.belongsToMany(Contract, { through: 'adsInContract' })
+Contract.belongsToMany(Advertisement, { through: 'adsInContract' })
 Advertisement.belongsToMany(Campaign, { through: 'adsInCampaign' })
 Campaign.belongsToMany(Advertisement, { through: 'adsInCampaign' })
 
 Campaign.belongsToMany(Bundle, { through: 'campaignsInBundle' })
 Bundle.belongsToMany(Campaign, { through: 'campaignsInBundle' })
-
-// Campaign.belongsTo(Bundle, { as: 'campaigns' })
-// Bundle.hasMany(Campaign)
 
 Bundle.belongsTo(User, { as: 'developer' })
 User.hasMany(Bundle)
@@ -39,6 +38,7 @@ Bundle.hasOne(Contract)
 
 Campaign.hasMany(Contract)
 Contract.belongsTo(Campaign)
+
 Campaign.belongsTo(User, { as: 'advertiser' })
 User.hasMany(Campaign)
 

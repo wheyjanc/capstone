@@ -5,19 +5,20 @@ class ScriptTag extends Component {
     super(props)
   }
   render() {
-    let contractsArray = this.props.location.state.contractsArray
-    console.log('contr', contractsArray)
-    const script = contractsArray.map(contract => {
-      return `<div>
+    let bundleId = this.props.location.bundleId
+    // let contractsArray = this.props.location.state.contractsArray
+    // console.log('contr', contractsArray)
+    // const script = contractsArray.map(contract => {
+    return `<div>
         <h3>Paste the code below into your app:</h3>
 
         <pre>
-          &lt;script&gt; src="http://localhost:8080/api/scripts/${contract}.js"
+          &lt;script&gt; src="http://localhost:8080/api/scripts/${bundleId}.js"
           &lt;/script&gt;
         </pre>
         `
-    })
-    return script
+    // })
+    // return script
   }
   // return (
   //   <div>

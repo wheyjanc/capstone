@@ -9,7 +9,6 @@ import {
   getAdvertisements,
   getAdScript
 } from '../store/bundles'
-import { withRouter } from 'react-router-dom'
 class BundleCheckout extends Component {
   constructor(props) {
     super(props)
@@ -24,13 +23,14 @@ class BundleCheckout extends Component {
   async handleSubmit() {
     let contractsarr = []
     let accounts = await web3.eth.getAccounts(console.log)
-
+    console.log('accounts', accounts)
     this.props.campaigns.forEach(async campaign => {
       const newBlock = await factory.methods.createBlock(campaign.price).send({
         gas: 3000000,
         from: accounts[0]
       })
       const newContract = fundsTransfer(newBlock)
+      console.log('new contract', newContract)
       console.log('newContract', newContract.options.blockHash)
       console.log('campaign', campaign)
       //this is where database call for contract goes
@@ -44,6 +44,7 @@ class BundleCheckout extends Component {
       // })
 
       const createContract = () => {
+        console.log('in create contract')
         axios({
           method: 'POST',
           url: 'http://localhost:8080/api/contracts',
@@ -62,9 +63,6 @@ class BundleCheckout extends Component {
           //   contracts: [response.data.contractHash]
           // })
         })
-
-        // console.log('response', response)
-        // console.log('state', this.state)
       }
       const sendEmail = (name, email, message) => {
         axios({
