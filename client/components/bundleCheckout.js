@@ -4,23 +4,25 @@ import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
 import axios from 'axios'
-import { getCampaignsInBundle, getAdvertisements, getAdScript } from '../store/bundles'
-
-
+import {
+  getCampaignsInBundle,
+  getAdvertisements,
+  getAdScript
+} from '../store/bundles'
+import { withRouter } from 'react-router-dom'
 class BundleCheckout extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {}
   }
   async componentDidMount() {
-    console.log('hello we are here')
-
     // await this.props.getCampaigns(1)
     await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
-
   }
   async handleSubmit() {
+    let contractsarr = []
     let accounts = await web3.eth.getAccounts(console.log)
 
     this.props.campaigns.forEach(async campaign => {
@@ -30,14 +32,40 @@ class BundleCheckout extends Component {
       })
       const newContract = fundsTransfer(newBlock)
       console.log('newContract', newContract.options.blockHash)
+      console.log('campaign', campaign)
       //this is where database call for contract goes
-      await axios.post('http://localhost:8080/api/contracts', {
-        campaignId: campaign.id,
-        bundleId: 1,
-        contractHash: newContract.options.blockHash,
-        balance: 1000
-      })
-      const createContracts = (campaignId, bundleId, contracthash) => {}
+      // await axios.post('http://localhost:8080/api/contracts', {
+      //   campaignId: campaign.id,
+      //   bundleId: 1,
+      //   contractHash: newContract.options.blockHash,
+      //   balance: campaign.price,
+      //   advertiserId: campaign.advertiser.id,
+      //   devId: this.props.devId
+      // })
+
+      const createContract = () => {
+        axios({
+          method: 'POST',
+          url: 'http://localhost:8080/api/contracts',
+          data: {
+            campaignId: campaign.id,
+            bundleId: 1,
+            contractHash: newContract.options.blockHash,
+            balance: campaign.price,
+            advertiserId: campaign.advertiser.id,
+            devId: this.props.devId
+          }
+        }).then(response => {
+          console.log('response', response)
+          contractsarr.push(response.data.contractHash)
+          // this.setState({
+          //   contracts: [response.data.contractHash]
+          // })
+        })
+
+        // console.log('response', response)
+        // console.log('state', this.state)
+      }
       const sendEmail = (name, email, message) => {
         axios({
           method: 'POST',
@@ -49,11 +77,6 @@ class BundleCheckout extends Component {
           }
         }).then(response => {
           if (response.data.msg === 'success') {
-            this.props.history.push({
-              pathname: '/scriptTag',
-              bundleId: 1
-            })
-
             //this.props.getAdScript(1)
             alert('Message Sent')
           } else if (response.data.msg === 'fail') {
@@ -61,7 +84,22 @@ class BundleCheckout extends Component {
           }
         })
       }
-      sendEmail('Tricia', 'tricia.lobo@gmail.com', 'test')
+      axios
+        .all([createContract(), sendEmail()])
+        .then(
+          axios.spread(function(contract, email) {
+            //
+          })
+        )
+        .then(() =>
+          this.props.history.push({
+            pathname: '/scriptTag',
+            bundleId: 1,
+            state: { contractsArray: contractsarr }
+          })
+        )
+
+      //sendEmail('Tricia', 'tricia.lobo@gmail.com', 'test')
     })
   }
 
@@ -79,7 +117,7 @@ class BundleCheckout extends Component {
           <div>
             <ul>
               {campaigns.map(campaign => {
-                return <li key = {campaign.id}>{campaign.name}</li>
+                return <li key={campaign.id}>{campaign.name}</li>
               })}
             </ul>
             <button onClick={() => this.handleSubmit()}>Deploy Bundle</button>
@@ -95,18 +133,17 @@ class BundleCheckout extends Component {
 const mapState = state => {
   console.log('state', state)
   return {
-    campaigns: state.bundles.campaignsInBundle
+    campaigns: state.bundles.campaignsInBundle,
+    devId: state.user.currentUser.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-
     // getCampaigns: bundleId => dispatch(getCampaigns(bundleId)),
     getAdvertisements: id => dispatch(getAdvertisements(id)),
     getAdScript: id => dispatch(getAdScript(id)),
     getCampaignsInBundle: bundleId => dispatch(getCampaignsInBundle(bundleId))
-
   }
 }
 export default connect(mapState, mapDispatch)(BundleCheckout)

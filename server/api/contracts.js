@@ -18,6 +18,7 @@ router.get('/', async (req, res, next) => {
 // get contract by id
 router.get('/:contractId', async (req, res, next) => {
   try {
+    console.log('in get request')
     const contract = await Contract.findById(req.params.contractId)
     if (!contract) res.sendStatus(404)
     else res.send(contract)
@@ -26,21 +27,40 @@ router.get('/:contractId', async (req, res, next) => {
   }
 })
 
-router.put('/:campaignId', async (req, res, next) => {
+router.post('/:contractHash', async (req, res, next) => {
   try {
-    const contract = await Contract.findAll({
-      include: [
-        {
-          model: Campaign,
-          where: { campaignId: req.params.campaignId }
-        }
-      ]
+    let contract = await Contract.findOne({
+      where: {
+        contractHash: req.params.contractHash
+      }
     })
-    contract.clickCount++
+    contract.increment('clickCount', { by: 1 })
   } catch (error) {
     console.error(error)
   }
 })
+// })
+// const contract = await Contract.findAll({
+//   where: {
+//     contractHash: req.params.contractHash
+//   }
+// })
+// console.log('contract', contract.id)
+// contract.update({
+
+// })
+
+// Project.update(
+
+//   // Set Attribute values
+//   {
+//       title: 'a very different title now'
+//   },
+
+//   // Where clause / criteria
+//   {
+//       _id: 1
+//   }
 
 // create a new contract
 router.post('/', async (req, res, next) => {
@@ -53,9 +73,10 @@ router.post('/', async (req, res, next) => {
       balance: balance
     })
 
-    newContract.addUsers([devId, advertiserId])
+    newContract.addUsers([req.body.devId, req.body.advertiserId])
 
-    const advertiser = await getUser(advertiserId)
+    const advertiser = await User.findById(req.body.advertiserId)
+
     if (newContract.balance > advertiser.budget) {
       advertiser.update({ isActive: false })
     } else {
@@ -63,6 +84,7 @@ router.post('/', async (req, res, next) => {
       const updatedBudget = advertiser.budget - newContract.balance
       advertiser.update({ budget: updatedBudget })
     }
+    res.json(newContract)
   } catch (err) {
     next(err)
   }

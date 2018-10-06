@@ -2,7 +2,6 @@ const router = require('express').Router()
 var nodemailer = require('nodemailer')
 const { Bundle, User, Campaign } = require('../db/models')
 
-
 router.put('/:bundleId', async (req, res, next) => {
   try {
     const bundleId = req.params.bundleId
@@ -45,7 +44,6 @@ router.post('/email', function create(req, res, next) {
   res.send(201, req.params)
 })
 
-
 // to send an email
 // router.post('/email', function create(req, res, next) {
 //   var transporter = nodemailer.createTransport({
@@ -72,8 +70,6 @@ router.post('/email', function create(req, res, next) {
 //   res.send(201, req.params)
 // })
 
-
-
 // get all bundles belonging to a dev user
 router.get('/user/:userId', async (req, res, next) => {
   const userId = req.params.userId
@@ -81,7 +77,8 @@ router.get('/user/:userId', async (req, res, next) => {
     const bundles = await Bundle.findAll({
       where: {
         developerId: userId
-      }, include: [{model: Campaign}]
+      },
+      include: [{ model: Campaign }]
     })
     res.json(bundles)
   } catch (err) {

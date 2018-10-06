@@ -4,7 +4,7 @@ const getUser = async id => {
   try {
     return await User.findOne({
       where: {
-        userId: id,
+        id: id,
         isActive: true
       },
       include: [{ model: Contract }]
@@ -23,5 +23,4 @@ const createScript = bundleId => {
     </div>`
 }
 
-module.exports = createScript
-
+module.exports = { createScript, getUser }
