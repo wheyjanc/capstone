@@ -49,7 +49,7 @@ class Payment extends Component {
         <div>
           <div>
             <h3> Payment </h3>
-            <p> Contract Balance: ${this.props.contract.contract.balance} </p>
+            <p> Contract Balance: {this.props.contract.contract.balance} ETH</p>
             <p>Enter your Ethereum Address:</p>
             <input
               name="address"
