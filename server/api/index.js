@@ -13,7 +13,7 @@ router.use('/dev', require('./webdev'))
 router.use('/scripts', require('./scripts'))
 router.use('/ads', require('./ads'))
 router.use('/users/', require('./users'))
-
+router.use('/auth', require('../auth'))
 var transport = {
   host: 'smtp.gmail.com',
   auth: {
@@ -41,9 +41,9 @@ router.post('/send', (req, res, next) => {
 
   var mail = {
     from: name,
-    to: 'e-mail@e-mail.com', //Change to email address that you want to receive messages on
-    subject: 'New Message from Contact Form',
-    text: content
+    to: email,
+    subject: 'Please deposit payment for new contract',
+    text: `Please sign in at http://localhost:8080/payment to complete payment`
   }
 
   transporter.sendMail(mail, (err, data) => {

@@ -21,7 +21,8 @@ router.get('/:bundleId.js', async (req, res, next) => {
     console.log('ads', ads)
     const currentAd = ads[Math.floor(Math.random() * ads.length)]
     console.log('currentAd', currentAd)
-    const contractHash = currentAd.contracts[0].dataValues.contractHash
+    console.log('current ad contract', currentAd.contracts[0].contractHash)
+    const contractHash = currentAd.contracts[0].contractHash
 
     res.send(
       `let targetEl = document.querySelector('#adtarget')
@@ -30,7 +31,7 @@ router.get('/:bundleId.js', async (req, res, next) => {
     adImg.addEventListener('click', (evt) => {
       var request = new XMLHttpRequest();
       request.open('POST', 'http://localhost:8080/api/contracts/${contractHash}', true )
-
+      
       request.send()
     window.location.href= "${currentAd.url}"
     });

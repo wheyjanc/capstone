@@ -13,6 +13,7 @@ class BundleCheckout extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.sendEmail = this.sendEmail.bind(this)
     this.state = {}
   }
   async componentDidMount() {
@@ -20,11 +21,30 @@ class BundleCheckout extends Component {
     await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
   }
+  sendEmail = (name, email, message) => {
+    axios({
+      method: 'POST',
+      url: 'http://localhost:8080/api/send',
+      data: {
+        name: name,
+        email: email,
+        message: message
+      }
+    }).then(response => {
+      if (response.data.msg === 'success') {
+        //this.props.getAdScript(1)
+        alert('Message Sent')
+      } else if (response.data.msg === 'fail') {
+        alert('Message failed to send.')
+      }
+    })
+  }
   async handleSubmit() {
     let contractsarr = []
     let accounts = await web3.eth.getAccounts(console.log)
+    let campaigns = this.props.campaigns
     console.log('accounts', accounts)
-    this.props.campaigns.forEach(async campaign => {
+    campaigns.forEach(async campaign => {
       const newBlock = await factory.methods.createBlock(campaign.price).send({
         gas: 3000000,
         from: accounts[0]
@@ -64,26 +84,26 @@ class BundleCheckout extends Component {
           // })
         })
       }
-      const sendEmail = (name, email, message) => {
-        axios({
-          method: 'POST',
-          url: 'http://localhost:8080/api/send',
-          data: {
-            name: name,
-            email: email,
-            message: message
-          }
-        }).then(response => {
-          if (response.data.msg === 'success') {
-            //this.props.getAdScript(1)
-            alert('Message Sent')
-          } else if (response.data.msg === 'fail') {
-            alert('Message failed to send.')
-          }
-        })
-      }
+      // const sendEmail = (name, email, message) => {
+      //   axios({
+      //     method: 'POST',
+      //     url: 'http://localhost:8080/api/send',
+      //     data: {
+      //       name: name,
+      //       email: email,
+      //       message: message
+      //     }
+      //   }).then(response => {
+      //     if (response.data.msg === 'success') {
+      //       //this.props.getAdScript(1)
+      //       alert('Message Sent')
+      //     } else if (response.data.msg === 'fail') {
+      //       alert('Message failed to send.')
+      //     }
+      //   })
+      // }
       axios
-        .all([createContract(), sendEmail()])
+        .all([createContract(), this.sendEmail()])
         .then(
           axios.spread(function(contract, email) {
             //
@@ -96,8 +116,14 @@ class BundleCheckout extends Component {
             state: { contractsArray: contractsarr }
           })
         )
-
-      //sendEmail('Tricia', 'tricia.lobo@gmail.com', 'test')
+      console.log('campaign', campaign)
+      console.log('advertiser', campaign.advertiser)
+      this.sendEmail(
+        campaign.advertiser.firstName,
+        'tricia.lobo@gmail.com',
+        //campaign.advertiser.email,
+        newContract.options.blockHash
+      )
     })
   }
 
@@ -107,7 +133,6 @@ class BundleCheckout extends Component {
     const props = this.props
     console.log('props', props)
     const campaigns = this.props.campaigns
-    console.log('props', campaigns)
     return (
       <div>
         <h1>Campaigns in Your Bundle</h1>

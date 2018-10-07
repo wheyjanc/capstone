@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Contract, User, Campaign } = require('../db/models')
+const { Contract, User, Campaign, PartiesToContract } = require('../db/models')
 const { getUser } = require('./helpers')
 module.exports = router
 
@@ -10,6 +10,22 @@ router.get('/', async (req, res, next) => {
       include: [{ model: User, through: 'partiesToContract' }]
     })
     res.json(contracts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//get contract by user id
+router.get('/:userid/user', async (req, res, next) => {
+  try {
+    const contract = await PartiesToContract.findOne({
+      where: {
+        userId: req.params.userid
+      },
+      include: [{ model: Contract, where: { status: 'TRUE' } }]
+    })
+
+    res.json(contract)
   } catch (err) {
     next(err)
   }
@@ -34,7 +50,11 @@ router.post('/:contractHash', async (req, res, next) => {
         contractHash: req.params.contractHash
       }
     })
+    console.log('click count', contract.clickCount)
     contract.increment('clickCount', { by: 1 })
+    if (contract.clickCount === 10 || contract.clickCount > 10) {
+      //create new contract here?
+    }
   } catch (error) {
     console.error(error)
   }
@@ -65,7 +85,6 @@ router.post('/:contractHash', async (req, res, next) => {
 // create a new contract
 router.post('/', async (req, res, next) => {
   try {
-    console.log('IN POST REQUEST')
     const { campaignId, bundleId, contractHash, balance } = req.body
     const newContract = await Contract.create({
       campaignId: campaignId,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-
+import fetchContract from '../store/contracts'
 class Payment extends Component {
   constructor() {
     super()
@@ -31,14 +31,21 @@ class Payment extends Component {
       from: address
     })
   }
-
+  async componentDidMount() {
+    let user = this.props.user.currentUser.id
+    if (user) {
+      await this.props.fetchContract(user)
+    }
+    // let userId = this.props.user.currentUser.id
+    // this.props.fetchContract(userId)
+  }
   render() {
+    console.log('props', this.props)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
           <div>
             <h3> Payment </h3>
-
             <p>Enter your Ethereum Address:</p>
             <input
               name="address"
@@ -55,4 +62,17 @@ class Payment extends Component {
   }
 }
 
-export default Payment
+const mapState = state => {
+  console.log('state', state)
+  return {
+    user: state.user,
+    contract: state.contract
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    fetchContract: userId => dispatch(fetchContract(userId))
+  }
+}
+export default connect(mapState, mapDispatch)(Payment)
