@@ -15,12 +15,14 @@ import {
   MenuItem
 } from '@material-ui/core'
 import DemographicChips from './DemographicChips'
+import DemographicsList from './DemographicsList'
+import postCampaign from '../../store'
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    width: '800px'
+    width: '100%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -29,9 +31,6 @@ const styles = theme => ({
   },
   dense: {
     marginTop: 19
-  },
-  menu: {
-    width: 200
   },
   formTitle: {
     fontSize: '18px',
@@ -43,10 +42,11 @@ class CreateCampaignForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      price: 0,
-      demographics: []
+      name: props.name,
+      price: props.price,
+      demographics: props.demographics
     }
+    console.log(this.state)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -59,22 +59,25 @@ class CreateCampaignForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    this.props.createCampaign(this.state)
+
+    console.log(this.state)
   }
 
   render() {
     const { classes } = this.props
-    const user = this.state
-    const demographics = this.props.allDemographics
+    const campaign = this.state
+    const demographics = this.state.demographics
     console.log(demographics)
-    x
+
     return (
       <form
         className={classes.container}
         noValidate
         autoComplete="off"
-        onSubmit={this.handleSubmit}
+        onSubmit={this.props.handleSubmit}
       >
-        <Grid container direction="row" justify="center" spacing={32}>
+        <Grid container direction="row" justify="center" spacing={40}>
           <Grid item xs={4} className={classes.accountDetails}>
             <Typography className={classes.formTitle} variant="title">
               Details
@@ -84,7 +87,7 @@ class CreateCampaignForm extends Component {
               label="Campaign Name"
               name="name"
               className={classes.textField}
-              value={user.firstName}
+              value={campaign.name}
               onChange={this.handleChange}
               margin="normal"
             />
@@ -93,7 +96,7 @@ class CreateCampaignForm extends Component {
               label="Price"
               name="price"
               className={classes.textField}
-              value={user.lastName}
+              value={campaign.price}
               onChange={this.handleChange}
               margin="normal"
             />
@@ -102,7 +105,7 @@ class CreateCampaignForm extends Component {
             <Typography className={classes.formTitle} variant="title">
               Demographics
             </Typography>
-            <DemographicChips demographics={demographics} />
+            <DemographicsList demographics={demographics} />
           </Grid>
         </Grid>
       </form>
@@ -111,14 +114,13 @@ class CreateCampaignForm extends Component {
 }
 const mapState = state => {
   return {
-    allDemographics: state.demographics.allDemographics
+    demographics: state.demographics.allDemographics
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    updateUser: (userId, updatedData) =>
-      dispatch(updateUserOnServer(userId, updatedData))
+    createCampaign: campaign => dispatch(postCampaign(campaign))
   }
 }
 

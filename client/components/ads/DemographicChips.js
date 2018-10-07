@@ -23,7 +23,9 @@ class DemographicChips extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      allDemographics: props.demographics
+      allDemographics: props.demographics,
+      selectedDemographics: [],
+      selectedDemographic: ''
     }
   }
 
@@ -34,6 +36,17 @@ class DemographicChips extends Component {
       chipData.splice(chipToDelete, 1)
       return { chipData }
     })
+  }
+
+  handleClick = event => {
+    console.log(event.target.value)
+    // this.setState(state => {
+    //   const chipData = [...state.selectedDemographics]
+    //   //   chipData.push(event.target.value)
+    //   return { chipData }
+    // })
+    this.setState({ selectedDemographic: event.target.value })
+    console.log(this.state.selectedDemographics)
   }
 
   render() {
@@ -47,7 +60,8 @@ class DemographicChips extends Component {
               key={data.id}
               icon={icon}
               label={data.name}
-              onDelete={this.handleDelete(data)}
+              value={data.name}
+              onClick={this.handleClick}
               className={classes.chip}
             />
           )

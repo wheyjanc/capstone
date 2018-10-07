@@ -19,7 +19,23 @@ const theme = createMuiTheme({
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"'
-    ].join(',')
+    ].join(','),
+    title: {
+      fontWeight: 700,
+      fontSize: 28
+    },
+    subheading: {
+      fontWeight: 600,
+      fontSize: 18
+    },
+    body1: {
+      fontWeight: 500,
+      fontSize: 16
+    },
+    button: {
+      fontWeight: 700,
+      textTransform: 'unset'
+    }
   },
   palette: {
     primary: {
@@ -29,7 +45,39 @@ const theme = createMuiTheme({
       main: '#000'
     }
   },
-  shadows: Array(25).fill('none')
+  shadows: Array(25).fill('none'),
+  overrides: {
+    MuiButton: {
+      // Name of the component ⚛️ / style sheet
+      root: {
+        // Name of the rule
+        borderRadius: 0
+      }
+    },
+    MuiIconButton: {
+      root: {
+        color: '#000'
+      }
+    },
+    MuiDivider: {
+      root: {
+        height: 2,
+        backgroundColor: '#000'
+      }
+    },
+    MuiListSubheader: {
+      root: {
+        fontSize: 20,
+        fontWeight: 700,
+        color: '#000'
+      }
+    },
+    MuiCardHeader: {
+      title: {
+        fontWeight: 700
+      }
+    }
+  }
 })
 
 class App extends Component {

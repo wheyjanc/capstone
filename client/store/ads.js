@@ -69,6 +69,7 @@ export const fetchAllAds = () => {
       dispatch(setAdLoadingStatus(false))
     } catch (error) {
       dispatch(setAdLoadingStatus(false))
+      console.error(error)
       dispatch(setAdErrorStatus(true))
     }
   }
@@ -83,6 +84,7 @@ export const fetchSelectedAd = adId => {
       dispatch(setAdLoadingStatus(false))
     } catch (error) {
       dispatch(setAdLoadingStatus(false))
+      console.error(error)
       dispatch(setAdErrorStatus(true))
     }
   }
@@ -91,13 +93,10 @@ export const fetchSelectedAd = adId => {
 export const postAd = ad => {
   return async dispatch => {
     try {
-      dispatch(setAdLoadingStatus(true))
       const { data: newAd } = await axios.post('/api/ads', ad)
       dispatch(createNewAd(ad))
-      dispatch(setAdLoadingStatus(false))
     } catch (error) {
-      dispatch(setAdLoadingStatus(false))
-      dispatch(setAdErrorStatus(true))
+      console.error(error)
     }
   }
 }
@@ -105,13 +104,10 @@ export const postAd = ad => {
 export const removeAd = adId => {
   return async dispatch => {
     try {
-      dispatch(setAdLoadingStatus(true))
       const { data: ad } = await axios.delete(`/api/ads/${adId}`)
       dispatch(deleteAd(ad))
-      dispatch(setAdLoadingStatus(false))
     } catch (error) {
-      dispatch(setAdLoadingStatus(false))
-      dispatch(setAdErrorStatus(true))
+      console.error(error)
     }
   }
 }
@@ -119,12 +115,11 @@ export const removeAd = adId => {
 export const editAd = (adId, newAdData) => {
   return async dispatch => {
     try {
-      dispatch(setAdLoadingStatus(true))
       const { data: ad } = await axios.put(`/api/ads/${adId}`, newAdData)
       dispatch(updateAd(ad))
-      dispatch(setAdLoadingStatus(false))
     } catch (error) {
       dispatch(setAdLoadingStatus(false))
+      console.error(error)
       dispatch(setAdErrorStatus(true))
     }
   }

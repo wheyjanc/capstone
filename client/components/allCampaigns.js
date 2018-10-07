@@ -50,10 +50,10 @@ class AllCampaigns extends Component {
     const campaigns = this.props.campaigns
     return (
       <Grid container direction="row">
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <AllBundles />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           <Typography className={classes.titleText} variant="title">
             Available Campaigns
           </Typography>

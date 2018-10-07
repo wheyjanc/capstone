@@ -15,10 +15,19 @@ import {
   AllCampaigns,
   AllBundles,
   AccountMenu,
-  LoadingScreen
+  LoadingScreen,
+  AdvertiserCampaigns,
+  SingleCampaign,
+  EditCampaign
 } from './components'
 import Ethereum from './components/ethereum'
-import { me, getAllCampaigns, fetchAllDemographics, fetchAllAds } from './store'
+import {
+  me,
+  getAllCampaigns,
+  fetchAllDemographics,
+  fetchAllAds,
+  fetchSingleCampaign
+} from './store'
 
 /**
  * COMPONENT
@@ -56,6 +65,17 @@ class Routes extends Component {
             />
             <Route path="/account" component={AccountMenu} />
             <Route exact path="/ads" component={AllAds} />
+            <Route exact path="/campaigns" component={AdvertiserCampaigns} />
+            <Route
+              exact
+              path="/campaigns/:campaignId"
+              component={SingleCampaign}
+            />
+            <Route
+              exact
+              path="/campaign/:campaignId/edit"
+              component={EditCampaign}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -17,33 +17,16 @@ import {
   FormControlLabel
 } from '@material-ui/core'
 import CreateCampaignForm from './CreateCampaignForm'
-
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel'
-]
+import postCampaign from '../../store/campaigns'
 
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 500,
+    maxWidth: 700,
     backgroundColor: theme.palette.background.paper
   },
   paper: {
-    width: '600px',
-    maxHeight: 435
+    width: '700px'
   },
   dialogButtons: {
     justifyContent: 'center'
@@ -52,16 +35,26 @@ const styles = theme => ({
 
 class CreateCampaignDialog extends React.Component {
   constructor(props) {
-    super()
+    super(props)
+    let demographicsArray = []
+    for (let i = 0; i < props.demographics.length; i++) {
+      demographicsArray.push({
+        id: props.demographics[i].id,
+        name: props.demographics[i].name,
+        checked: false
+      })
+    }
     this.state = {
+      demographics: demographicsArray,
+      name: '',
+      price: 0,
       value: props.value
     }
   }
 
-  // TODO
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.setState({ value: nextProps.value })
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value })
     }
   }
 
@@ -70,19 +63,23 @@ class CreateCampaignDialog extends React.Component {
   }
 
   handleOk = () => {
+    this.props.createNewCampaign({
+      name: this.state.name,
+      price: this.state.price
+    })
     this.props.onClose(this.state.value)
   }
 
   handleChange = (event, value) => {
     this.setState({ value })
+    console.log(this.state)
   }
 
   render() {
     const { value, classes, ...other } = this.props
-
+    const { demographics, price, name } = this.state
     return (
       <Dialog
-        disableBackdropClick
         disableEscapeKeyDown
         onEntering={this.handleEntering}
         aria-labelledby="confirmation-dialog-title"
@@ -92,10 +89,15 @@ class CreateCampaignDialog extends React.Component {
         <Grid container direction="column">
           <Grid item xs={12}>
             <DialogContent>
-              <CreateCampaignForm />
+              <CreateCampaignForm
+                demographics={demographics}
+                price={price}
+                name={name}
+                onSubmit={this.handleOk}
+              />
             </DialogContent>
           </Grid>
-          <Grid>
+          <Grid item xs={12}>
             <DialogActions className={classes.dialogButtons}>
               <Button onClick={this.handleCancel} color="primary">
                 Cancel
@@ -111,9 +113,23 @@ class CreateCampaignDialog extends React.Component {
   }
 }
 
+const mapState = state => {
+  return {
+    demographics: state.demographics.allDemographics
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    createNewCampaign: campaign => dispatch(postCampaign(campaign))
+  }
+}
+
 CreateCampaignDialog.propTypes = {
   onClose: PropTypes.func,
   value: PropTypes.string
 }
 
-export default withStyles(styles)(CreateCampaignDialog)
+export default withStyles(styles)(
+  connect(mapState, mapDispatch)(CreateCampaignDialog)
+)
