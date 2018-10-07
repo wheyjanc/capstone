@@ -8,16 +8,25 @@ router.get('/:userid/user', async (req, res, next) => {
   try {
     const userId = req.params.userid
     console.log('userid', userId)
-    const contract = await PartiesToContract.findOne({
+    const contracts = await PartiesToContract.findAll({
       where: {
         userId: userId
       },
-      include: [{ model: Contract, where: { status: 'TRUE' } }]
+      include: [{ model: Contract }]
     })
-
-    res.send(contract)
+    // , where: { status: 'TRUE' }
+    res.send(contracts)
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/parties', async (req, res, next) => {
+  try {
+    const contracts = await PartiesToContract.findAll()
+    res.send(contracts)
+  } catch (error) {
+    next(error)
   }
 })
 // get all contracts

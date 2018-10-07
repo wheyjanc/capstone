@@ -33,7 +33,7 @@ transporter.verify((error, success) => {
 })
 
 router.post('/send', (req, res, next) => {
-  console.log('in send route')
+  console.log('hello! in send route. how many times ami called?')
   var name = req.body.name
   var email = req.body.email
   var message = req.body.message
@@ -48,9 +48,7 @@ router.post('/send', (req, res, next) => {
 
   transporter.sendMail(mail, (err, data) => {
     if (err) {
-      res.json({
-        msg: 'fail'
-      })
+      console.error(err)
     } else {
       res.json({
         msg: 'success'

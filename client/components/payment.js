@@ -21,35 +21,67 @@ class Payment extends Component {
   }
   async handleSubmit(evt) {
     evt.preventDefault()
+    let accounts = await web3.eth.getAccounts(console.log)
     const blocks = await factory.methods.getDeployedBlocks().call()
     console.log('blocks', blocks)
-    const thecurr = blocks.filter(
-      block => block === this.props.contract.contract.contractHash
-    )
-    //come back to this
-    console.log('thecurr', thecurr)
-    const currentBlock = fundsTransfer(blocks[0])
-    let accounts = await web3.eth.getAccounts(console.log)
+    await this.props.fetchContract(this.props.user.currentUser.id)
+    const contractHash = this.props.contract[this.props.contract.length - 1]
+      .contract.contractHash
+
+    const thecurr = blocks.indexOf(contractHash)
+    console.log('index', thecurr)
+    const contractthecurr = fundsTransfer(blocks[thecurr])
+    console.log('contractthecurr', contractthecurr)
+    contractthecurr.options.address = `${contractHash}`
     let address = document.getElementById('address').value
-    const depositFunds = await currentBlock.methods.deposit().send({
-      gas: 5999999,
+    console.log('address', address)
+    const depositFunds = await contractthecurr.methods.deposit().send({
+      gas: 6000000,
       value: 1000000000000000000,
       from: address
     })
+
+    //come back to this
+    // const currentBlock = fundsTransfer(blocks[0])
+    // let accounts = await web3.eth.getAccounts(console.log)
+    // let address = document.getElementById('address').value
+    // const depositFunds = await currentBlock.methods.deposit().send({
+    //   gas: 5999999,
+    //   value: 1000000000000000000,
+    //   from: address
+    // })
   }
-  async componentDidMount() {
-    await this.props.fetchContract(this.props.user.currentUser.id)
-  }
+  // async componentDidMount() {
+  //   let accounts = await web3.eth.getAccounts(console.log)
+
+  //   await this.props.fetchContract(this.props.user.currentUser.id)
+  //   const contractHash = this.props.contract[2].contract.contractHash
+  //   const blocks = await factory.methods.getDeployedBlocks().call()
+  //   console.log('blocks', blocks)
+  //   const thecurr = blocks.indexOf(contractHash)
+  //   console.log('index', thecurr)
+  //   const contractthecurr = fundsTransfer(blocks[44])
+  //   console.log('thecurr', contractthecurr)
+  //   contractthecurr.options.address = contractHash
+  //   const depositFunds = await contractthecurr.methods.deposit().send({
+  //     gas: 5999999,
+  //     value: 1000000000000000000,
+  //     from: accounts[0]
+  //   })
+  // }
   render() {
-    // const contract = await this.props.fetchContract(this.props.user.currentUser.id)
-    //console.log('contract', contract)
-    console.log('contract', this.props.contract)
+    //in case of multiple contracts--come back to this
+    // let contractMap = this.props.contract.contract.map(contract => (
+    //   <p> Contract Balance: ${contract.balance} ETH </p>
+    // ))
+    console.log('contract', this.props.contract[2].contract.contractHash)
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
           <div>
             <h3> Payment </h3>
-            <p> Contract Balance: {this.props.contract.contract.balance} ETH</p>
+            {/* <p> Contract Balance: {this.props.contract.contract.balance} ETH</p> */}
             <p>Enter your Ethereum Address:</p>
             <input
               name="address"
