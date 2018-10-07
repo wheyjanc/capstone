@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-import fetchContract from '../store/contracts'
+import { fetchContract } from '../store/contracts'
 class Payment extends Component {
   constructor() {
     super()
@@ -22,6 +22,7 @@ class Payment extends Component {
   async handleSubmit(evt) {
     evt.preventDefault()
     const blocks = await factory.methods.getDeployedBlocks().call()
+    console.log('blocks', blocks)
     const currentBlock = fundsTransfer(blocks[0])
     let accounts = await web3.eth.getAccounts(console.log)
     let address = document.getElementById('address').value
@@ -32,20 +33,18 @@ class Payment extends Component {
     })
   }
   async componentDidMount() {
-    let user = this.props.user.currentUser.id
-    if (user) {
-      await this.props.fetchContract(user)
-    }
-    // let userId = this.props.user.currentUser.id
-    // this.props.fetchContract(userId)
+    await this.props.fetchContract(this.props.user.currentUser.id)
   }
   render() {
-    console.log('props', this.props)
+    // const contract = await this.props.fetchContract(this.props.user.currentUser.id)
+    //console.log('contract', contract)
+    console.log('contract', this.props.contract)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
           <div>
             <h3> Payment </h3>
+            <p> Contract Balance: ${this.props.contract.contract.balance} </p>
             <p>Enter your Ethereum Address:</p>
             <input
               name="address"
@@ -63,10 +62,9 @@ class Payment extends Component {
 }
 
 const mapState = state => {
-  console.log('state', state)
   return {
     user: state.user,
-    contract: state.contract
+    contract: state.contracts.currentUserContract
   }
 }
 

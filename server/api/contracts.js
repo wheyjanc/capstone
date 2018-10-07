@@ -3,6 +3,23 @@ const { Contract, User, Campaign, PartiesToContract } = require('../db/models')
 const { getUser } = require('./helpers')
 module.exports = router
 
+//get open contracts by user id; for payment portal
+router.get('/:userid/user', async (req, res, next) => {
+  try {
+    const userId = req.params.userid
+    console.log('userid', userId)
+    const contract = await PartiesToContract.findOne({
+      where: {
+        userId: userId
+      },
+      include: [{ model: Contract, where: { status: 'TRUE' } }]
+    })
+
+    res.send(contract)
+  } catch (err) {
+    next(err)
+  }
+})
 // get all contracts
 router.get('/', async (req, res, next) => {
   try {
@@ -15,26 +32,9 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//get contract by user id
-router.get('/:userid/user', async (req, res, next) => {
-  try {
-    const contract = await PartiesToContract.findOne({
-      where: {
-        userId: req.params.userid
-      },
-      include: [{ model: Contract, where: { status: 'TRUE' } }]
-    })
-
-    res.json(contract)
-  } catch (err) {
-    next(err)
-  }
-})
-
 // get contract by id
 router.get('/:contractId', async (req, res, next) => {
   try {
-    console.log('in get request')
     const contract = await Contract.findById(req.params.contractId)
     if (!contract) res.sendStatus(404)
     else res.send(contract)
@@ -50,7 +50,6 @@ router.post('/:contractHash', async (req, res, next) => {
         contractHash: req.params.contractHash
       }
     })
-    console.log('click count', contract.clickCount)
     contract.increment('clickCount', { by: 1 })
     if (contract.clickCount === 10 || contract.clickCount > 10) {
       //create new contract here?

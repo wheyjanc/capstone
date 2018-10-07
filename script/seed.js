@@ -74,7 +74,7 @@ async function seed() {
   const contract1 = await Contract.create({
     contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
     balance: 15.0,
-    status: false,
+    status: true,
     clickCount: 500
   })
   await contract1.addUser(user1)
@@ -82,7 +82,7 @@ async function seed() {
   const contract2 = await Contract.create({
     contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
     balance: 10.0,
-    status: false,
+    status: true,
     clickCount: 500
   })
   await contract2.addUser(user1)
@@ -90,7 +90,7 @@ async function seed() {
   const contract3 = await Contract.create({
     contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
     balance: 18.0,
-    status: false,
+    status: true,
     clickCount: 500
   })
   await contract3.addUser(user2)
@@ -98,7 +98,7 @@ async function seed() {
   const contract4 = await Contract.create({
     contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
     balance: 20.0,
-    status: false,
+    status: true,
     clickCount: 500
   })
   await contract4.addUser(user3)
