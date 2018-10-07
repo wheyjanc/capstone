@@ -23,6 +23,11 @@ class Payment extends Component {
     evt.preventDefault()
     const blocks = await factory.methods.getDeployedBlocks().call()
     console.log('blocks', blocks)
+    const thecurr = blocks.filter(
+      block => block === this.props.contract.contract.contractHash
+    )
+    //come back to this
+    console.log('thecurr', thecurr)
     const currentBlock = fundsTransfer(blocks[0])
     let accounts = await web3.eth.getAccounts(console.log)
     let address = document.getElementById('address').value

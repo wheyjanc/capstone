@@ -22,7 +22,10 @@ contract fundsTransfer {
         manager = creator;
         minimum = bill;
     }
-
+function getContractAddress() constant returns (address) 
+	{
+		return this;
+	}
 
 mapping(address => uint256) public balance;
 
@@ -46,3 +49,4 @@ function withdraw(address webdev, address grace) payable public {
        return address(this).balance;
    }
 }
+

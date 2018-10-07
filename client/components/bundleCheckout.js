@@ -51,8 +51,11 @@ class BundleCheckout extends Component {
       })
       const newContract = fundsTransfer(newBlock)
       console.log('new contract', newContract)
-      console.log('newContract', newContract.options.blockHash)
-      console.log('campaign', campaign)
+      const blocks = await factory.methods.getDeployedBlocks().call()
+      console.log('blocks', blocks)
+      const block = blocks[blocks.length - 1]
+      console.log('block', block)
+      //console.log('campaign', campaign)
       //this is where database call for contract goes
       // await axios.post('http://localhost:8080/api/contracts', {
       //   campaignId: campaign.id,
@@ -71,14 +74,14 @@ class BundleCheckout extends Component {
           data: {
             campaignId: campaign.id,
             bundleId: 1,
-            contractHash: newContract.options.blockHash,
+            contractHash: blocks[blocks.length - 1],
             balance: campaign.price,
             advertiserId: campaign.advertiser.id,
             devId: this.props.devId
           }
         }).then(response => {
           console.log('response', response)
-          contractsarr.push(response.data.contractHash)
+          //  contractsarr.push(response.data.contractHash)
           // this.setState({
           //   contracts: [response.data.contractHash]
           // })
@@ -112,8 +115,7 @@ class BundleCheckout extends Component {
         .then(() =>
           this.props.history.push({
             pathname: '/scriptTag',
-            bundleId: 1,
-            state: { contractsArray: contractsarr }
+            bundleId: 1
           })
         )
       console.log('campaign', campaign)
