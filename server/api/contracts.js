@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const { Contract, User, Campaign, PartiesToContract } = require('../db/models')
-const { getUser } = require('./helpers')
+const { getUser, sendEmail } = require('./helpers')
 const factory = require('../../ethereum/factory')
 const { getDeployedBlocks } = require('../../client/components/controller')
 const fundsTransfer = require('../../ethereum/fundsTransfer')
 const web3 = require('../../ethereum/web3')
 const axios = require('axios')
+
 module.exports = router
 
 //get open contracts by user id; for payment portal
@@ -64,11 +65,9 @@ router.post('/:contractHash', async (req, res, next) => {
         {
           model: User,
           through: 'partiesToContract'
-          // where: { isAdvertiser: false } put this back in
         }
       ]
     })
-    console.log('contract', contract)
     const contractUsers = contract.users
     const advertiserId = contract.users.filter(user => user.isAdvertiser)
     const developerId = contract.users.filter(user => !user.isAdvertiser)
@@ -107,7 +106,7 @@ router.post('/:contractHash', async (req, res, next) => {
             devId: developerId[0].id
           }
         }).then(response => {
-          console.log('response', response)
+          // console.log('response', response)
         })
       }
       createContract()
@@ -173,12 +172,22 @@ router.post('/', async (req, res, next) => {
     newContract.addUsers([req.body.devId, req.body.advertiserId])
 
     const advertiser = await User.findById(req.body.advertiserId)
+    console.log('advertiser', advertiser.budget)
 
     if (newContract.balance > advertiser.budget) {
       advertiser.update({ isActive: false })
     } else {
       // update budget
       const updatedBudget = advertiser.budget - newContract.balance
+      if (updatedBudget < newContract.balance) {
+        sendEmail(advertiser.firstName, advertiser.email, {
+          from: advertiser.firstName,
+          to: advertiser.email,
+          subject: 'Congratulations!',
+          text: `Invitation to renew your campaign...`
+        })
+        //send email to advertiser
+      }
       advertiser.update({ budget: updatedBudget })
     }
     res.json(newContract)

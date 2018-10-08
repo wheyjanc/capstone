@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
+import { sendEmail } from '../../server/api/helpers'
 import axios from 'axios'
 import {
   getCampaignsInBundle,
@@ -13,7 +14,7 @@ class BundleCheckout extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
-    // this.sendEmail = this.sendEmail.bind(this)
+    //this.sendEmail = this.sendEmail.bind(this)
     this.state = {}
   }
   async componentDidMount() {
@@ -21,18 +22,17 @@ class BundleCheckout extends Component {
     await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
   }
-  sendEmail = (name, email, message) => {
+  sendEmail = (name, email, mail) => {
     axios({
       method: 'POST',
       url: 'http://localhost:8080/api/send',
       data: {
         name: name,
         email: email,
-        message: message
+        mail: mail
       }
     }).then(response => {
       if (response.data.msg === 'success') {
-        //this.props.getAdScript(1)
         alert('Message Sent')
       } else if (response.data.msg === 'fail') {
         console.log('email response', response)
@@ -71,10 +71,6 @@ class BundleCheckout extends Component {
           }
         }).then(response => {
           console.log('response', response)
-          //  contractsarr.push(response.data.contractHash)
-          // this.setState({
-          //   contracts: [response.data.contractHash]
-          // })
         })
       }
 
@@ -84,7 +80,14 @@ class BundleCheckout extends Component {
           this.sendEmail(
             campaign.advertiser.firstName,
             campaign.advertiser.email,
-            blocks[blocks.length - 1]
+            {
+              from: campaign.advertiser.firstName,
+              to: campaign.advertiser.email,
+              subject: 'Please deposit payment for new contract',
+              text: `Please sign in at http://localhost:8080/payment to complete payment`
+            }
+
+            // blocks[blocks.length - 1]
           )
         ])
         .then(
