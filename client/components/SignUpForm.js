@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { signUpUser } from '../store/user'
+import history from '../history'
 import {
   withStyles,
   FormLabel,
@@ -43,7 +44,7 @@ const styles = theme => ({
     boxShadow: '0px'
   },
   formControl: {
-    margin: '0px'
+    marginTop: 16
   },
   group: {
     margin: '0px',
@@ -52,8 +53,7 @@ const styles = theme => ({
   title: {
     fontWeight: '600px',
     paddingBottom: '10px'
-  },
-  formHeader: {}
+  }
 })
 
 class SignUpForm extends Component {
@@ -83,7 +83,7 @@ class SignUpForm extends Component {
           </Typography>
         </div>
         <form onSubmit={handleSubmit}>
-          <FormGroup style={{ marginTop: '20px' }}>
+          <FormGroup style={{ marginTop: '30px' }}>
             <Grid container direction="row">
               <Grid item xs={6}>
                 <FormControl
@@ -186,16 +186,17 @@ const mapSignup = state => {
 const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
-      event.preventDefault()
+      evt.preventDefault()
       const firstName = evt.target.firstName.value
       const lastName = evt.target.lastName.value
       const email = evt.target.email.value
       const password = evt.target.password.value
       const userType = evt.target.userType.value
-      const budget = evt.target.budget || 0
+      const budget = evt.target.budget ? evt.target.budget.value : 0
       dispatch(
         signUpUser(firstName, lastName, email, password, userType, budget)
       )
+      history.push('/home')
     }
   }
 }

@@ -54,7 +54,8 @@ const theme = createMuiTheme({
         borderRadius: 0,
         border: 'solid #000 2px',
         minHeight: 45,
-        marginBottom: 18
+        marginBottom: 18,
+        marginTop: 18
       }
     },
     MuiIconButton: {
@@ -86,6 +87,11 @@ const theme = createMuiTheme({
     MuiCardHeader: {
       title: {
         fontWeight: 700
+      }
+    },
+    MuiFormControl: {
+      root: {
+        marginTop: 16
       }
     }
   }

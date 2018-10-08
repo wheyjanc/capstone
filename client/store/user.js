@@ -106,7 +106,7 @@ export const signUpUser = (
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    // history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
