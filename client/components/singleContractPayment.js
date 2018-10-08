@@ -45,6 +45,9 @@ class SingleContractPayment extends Component {
         contractHash: contractHash
       }
     })
+    this.setState({
+      address: ''
+    })
   }
   render() {
     const contractHash = this.props.match.params.contractId

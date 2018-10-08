@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
-import { sendEmail } from '../../server/api/helpers'
 import axios from 'axios'
 import {
   getCampaignsInBundle,
