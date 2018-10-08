@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getAllBundles, setBundle, me, gotCampaignsInBundle } from '../store'
+import { getAllBundles, setBundle, me, gotCampaignsInBundle, removeCampaign } from '../store'
 import { withStyles } from '@material-ui/core/styles'
 import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core'
 import PropTypes from 'prop-types'
@@ -33,6 +33,10 @@ class Bundles extends Component {
     this.props.gotCampaignsInBundle(bundle.campaigns)
   }
 
+  removeClick = async (info) => {
+    await this.props.removeCampaign(info)
+  }
+
   async componentDidMount() {
     await this.props.me()
     await this.props.getAllBundles(this.props.user.id)
@@ -55,7 +59,7 @@ class Bundles extends Component {
             const indexValue = index
             index++
             return (
-              <div>
+              <div key = {bundle.id}>
                 <ListItem
                   key={bundle.id}
                   button
@@ -69,7 +73,7 @@ class Bundles extends Component {
                 </ListItem>
                 <Collapse in={this.state.open} timeout="auto">
                   <List component="div" key={bundle.id}>
-                    {bundle.campaigns.map(campaign => {
+                    {this.props.campaignsInBundle && this.props.campaignsInBundle.length && this.props.campaignsInBundle.map(campaign => {
                       return (
                         <ListItem
                           button
@@ -77,14 +81,25 @@ class Bundles extends Component {
                           key={campaign.id}
                         >
                           <ListItemText inset primary={campaign.name} />
+                          <ListItemText inset secondary = 'remove' onClick = {() => this.removeClick({campaignId: campaign.id, bundleId: bundle.id})} />
                         </ListItem>
                       )
                     })}
+                    <NavLink to={{pathname: "/checkout", state: {bundleId: bundle.id}}}>
+                    <ListItem className = {classes.nested} button>
+                      <ListItemText inset primary = 'See Full Details' />
+                    </ListItem>
+                    </NavLink>
                   </List>
                 </Collapse>
               </div>
             )
           })}
+          <NavLink to='/notsureyet'>
+                    <ListItem className = {classes.nested} button>
+                      <ListItemText inset primary = 'Create New Project' />
+                    </ListItem>
+                    </NavLink>
         </List>
       </div>
     ) : null
@@ -95,7 +110,8 @@ const mapState = state => {
   return {
     user: state.user.currentUser,
     bundles: state.bundles.allBundles,
-    selectedBundle: state.bundles.bundle
+    selectedBundle: state.bundles.bundle,
+    campaignsInBundle: state.bundles.campaignsInBundle
   }
 }
 
@@ -104,7 +120,8 @@ const mapDispatch = dispatch => {
     getAllBundles: userId => dispatch(getAllBundles(userId)),
     setBundle: bundle => dispatch(setBundle(bundle)),
     me: () => dispatch(me()),
-    gotCampaignsInBundle: campaigns => dispatch(gotCampaignsInBundle(campaigns))
+    gotCampaignsInBundle: campaigns => dispatch(gotCampaignsInBundle(campaigns)),
+    removeCampaign: info => dispatch(removeCampaign(info))
   }
 }
 

@@ -9,6 +9,7 @@ const ADDED_TO_BUNDLE = 'ADD_TO_BUNDLE'
 const GOT_CAMPAIGNS_IN_BUNDLE = 'GOT_CAMPAIGNS_IN_BUNDLE'
 const GOT_ALL_BUNDLES = 'GOT_ALL_BUNDLES'
 const SET_BUNDLE = 'SET_BUNDLE'
+const REMOVED_CAMPAIGN = 'REMOVED_CAMPAIGN'
 
 
 /**
@@ -81,6 +82,15 @@ export function getAllBundles(userId) {
   return async dispatch => {
     const bundles = await axios.get(`/api/bundles/user/${userId}`)
     dispatch(gotAllBundles(bundles.data))
+  }
+}
+
+export function removeCampaign (info) {
+  console.log('INFO', info
+  )
+  return async dispatch => {
+    const {data} = await axios.put('/api/bundles/remove', info)
+    dispatch(gotCampaignsInBundle(data))
   }
 }
 

@@ -8,9 +8,9 @@ const Advertisement = db.define('advertisement', {
   },
   image: {
     type: Sequelize.STRING,
-    validate: {
-      isUrl: true
-    },
+    // validate: {
+    //   isUrl: true
+    // },
     defaultValue: '/images/default-ad-img.png'
   },
   url: {

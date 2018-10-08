@@ -13,11 +13,8 @@ class BundleCheckout extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   async componentDidMount() {
-    console.log('hello we are here')
-
-    // await this.props.getCampaigns(1)
-    await this.props.getAdvertisements(1)
-    await this.props.getCampaignsInBundle(1)
+    await this.props.getAdvertisements(this.props.bundleId)
+    await this.props.getCampaignsInBundle(this.props.bundleId)
 
   }
   async handleSubmit() {
@@ -95,7 +92,8 @@ class BundleCheckout extends Component {
 const mapState = state => {
   console.log('state', state)
   return {
-    campaigns: state.bundles.campaignsInBundle
+    campaigns: state.bundles.campaignsInBundle,
+    bundleId: state.bundles.bundle.id
   }
 }
 
