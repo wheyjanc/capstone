@@ -17,6 +17,7 @@ class BundleCheckout extends Component {
     this.state = {}
   }
   async componentDidMount() {
+<<<<<<< HEAD
     // await this.props.getCampaigns(1)
     await this.props.getAdvertisements(1)
     await this.props.getCampaignsInBundle(1)
@@ -38,6 +39,11 @@ class BundleCheckout extends Component {
         alert('Message failed to send.')
       }
     })
+=======
+    await this.props.getAdvertisements(this.props.bundleId)
+    await this.props.getCampaignsInBundle(this.props.bundleId)
+
+>>>>>>> 4a06101975613a9290563b7eaba7d28aa50765fa
   }
   async handleSubmit() {
     let accounts = await web3.eth.getAccounts(console.log)
@@ -133,7 +139,11 @@ const mapState = state => {
   console.log('state', state)
   return {
     campaigns: state.bundles.campaignsInBundle,
+<<<<<<< HEAD
     devId: state.user.currentUser.id
+=======
+    bundleId: state.bundles.bundle.id
+>>>>>>> 4a06101975613a9290563b7eaba7d28aa50765fa
   }
 }
 

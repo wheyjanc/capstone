@@ -2,6 +2,26 @@ const router = require('express').Router()
 var nodemailer = require('nodemailer')
 const { Bundle, User, Campaign } = require('../db/models')
 
+<<<<<<< HEAD
+=======
+router.put('/remove', async (req, res, next) => {
+  console.log('bundleId & campaignId', req.body.bundleId, req.body.campaignId)
+  const bundleId = req.body.bundleId
+  try {
+  const bundle = await Bundle.findById(bundleId)
+  const updateBundle = await bundle.removeCampaign(req.body.campaignId)
+  const updatedBun = await Bundle.findAll({
+    where: {
+      id: bundleId
+    }, include: [{model: Campaign}]
+  })
+  res.json(updatedBun[0].campaigns)
+  }catch (err) {
+    next(err)
+  }
+})
+
+>>>>>>> 4a06101975613a9290563b7eaba7d28aa50765fa
 router.put('/:bundleId', async (req, res, next) => {
   try {
     const bundleId = req.params.bundleId
@@ -44,31 +64,6 @@ router.post('/email', function create(req, res, next) {
   res.send(201, req.params)
 })
 
-// to send an email
-// router.post('/email', function create(req, res, next) {
-//   var transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//       user: 'jstadplacement@gmail.com',
-//       pass: 'Hopperjst12345'
-//     }
-//   })
-//   var mailOptions = {
-//     from: 'jstadplacement@gmail.com',
-//     //this is a variable
-//     to: `${advertiserEmail}`,
-//     subject: 'Payment required to place your campaign',
-//     text: `Please send ${amountDue} to ${contractAddress}`
-//   }
-//   transporter.sendMail(mailOptions, function(error, info) {
-//     if (error) {
-//       console.log(error)
-//     } else {
-//       console.log('Email sent: ' + info.response)
-//     }
-//   })
-//   res.send(201, req.params)
-// })
 
 // get all bundles belonging to a dev user
 router.get('/user/:userId', async (req, res, next) => {

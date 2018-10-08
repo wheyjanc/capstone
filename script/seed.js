@@ -264,6 +264,7 @@ async function seed() {
   const ad5 = await Advertisement.create({
     name: 'Gucci-Ad-2',
     image: '/images/default-ad-img.png',
+    url:'http://google.com',
     adSpecs: 'format3'
   })
   await ad5.addCampaign(campaign2)
