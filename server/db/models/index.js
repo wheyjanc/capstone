@@ -5,6 +5,7 @@ const Demographic = require('./demographic')
 const Bundle = require('./bundle')
 const Category = require('./category')
 const Contract = require('./contract')
+const PartiesToContract = require('./partiesToContract')
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
@@ -20,16 +21,16 @@ const Contract = require('./contract')
  //  */
 
 // Advertisement.belongsTo(User)
-// User.hasMany(Advertisement)
+// // User.hasMany(Advertisement)
 
+PartiesToContract.belongsTo(Contract)
+Advertisement.belongsToMany(Contract, { through: 'adsInContract' })
+Contract.belongsToMany(Advertisement, { through: 'adsInContract' })
 Advertisement.belongsToMany(Campaign, { through: 'adsInCampaign' })
 Campaign.belongsToMany(Advertisement, { through: 'adsInCampaign' })
 
 Campaign.belongsToMany(Bundle, { through: 'campaignsInBundle' })
 Bundle.belongsToMany(Campaign, { through: 'campaignsInBundle' })
-
-// Campaign.belongsTo(Bundle, { as: 'campaigns' })
-// Bundle.hasMany(Campaign)
 
 Bundle.belongsTo(User, { as: 'developer' })
 User.hasMany(Bundle)
@@ -39,6 +40,7 @@ Bundle.hasOne(Contract)
 
 Campaign.hasMany(Contract)
 Contract.belongsTo(Campaign)
+
 Campaign.belongsTo(User, { as: 'advertiser' })
 User.hasMany(Campaign)
 
@@ -61,5 +63,6 @@ module.exports = {
   Bundle,
   Demographic,
   Category,
-  Contract
+  Contract,
+  PartiesToContract
 }

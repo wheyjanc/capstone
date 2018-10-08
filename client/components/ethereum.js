@@ -27,10 +27,9 @@ class Ethereum extends Component {
     console.log('create block', createBlock)
     const lastBlockIndex = blocks.length - 1
     const firstContract = fundsTransfer(blocks[lastBlockIndex])
-    const actualFirstContract = fundsTransfer(blocks[0])
-    console.log('actual first contract', actualFirstContract)
-    console.log('first contract', firstContract)
-    console.log('first contract hash', firstContract._address)
+    console.log('lastBlock', firstContract)
+
+    console.log('first contract hash', await firstContract._address)
     const balanceInAccountOne = await web3.eth.getBalance(
       '0x0d1d4e623d10f9fba5db95830f7d3839406c6af2'
     )

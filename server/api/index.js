@@ -12,6 +12,7 @@ var nodemailer = require('nodemailer')
 
 const creds = require('../../config')
 module.exports = router
+router.use('/auth', require('../auth'))
 
 var transport = {
   host: 'smtp.gmail.com',
@@ -35,20 +36,11 @@ router.post('/send', (req, res, next) => {
   var name = req.body.name
   var email = req.body.email
   var message = req.body.message
-  var content = `name: ${name} \n email: ${email} \n message: ${message} `
-
-  var mail = {
-    from: name,
-    to: 'e-mail@e-mail.com', //Change to email address that you want to receive messages on
-    subject: 'New Message from Contact Form',
-    text: content
-  }
+  var mail = req.body.mail
 
   transporter.sendMail(mail, (err, data) => {
     if (err) {
-      res.json({
-        msg: 'fail'
-      })
+      console.error(err)
     } else {
       res.json({
         msg: 'success'

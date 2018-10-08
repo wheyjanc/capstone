@@ -18,6 +18,10 @@ const Contract = db.define('contract', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
+  paid: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   clickCount: {
     type: Sequelize.INTEGER,
     defaultValue: 0

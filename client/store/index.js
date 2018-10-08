@@ -7,12 +7,29 @@ import ads from './ads'
 import bundles from './bundles'
 import campaigns from './campaigns'
 import demographics from './demographics'
+import contracts from './contracts'
 
-const reducer = combineReducers({ user, bundles, campaigns, ads, demographics })
+const reducer = combineReducers({
+  user,
+  bundles,
+  campaigns,
+  ads,
+  demographics,
+  contracts
+})
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 )
-const store = createStore(reducer, middleware)
+
+const initialState = localStorage.state
+  ? JSON.parse(localStorage.state)
+  : undefined
+const store = createStore(reducer, initialState, middleware)
+
+store.subscribe(() => {
+  localStorage.state = JSON.stringify(store.getState())
+})
 
 export default store
 export * from './user'
@@ -20,3 +37,4 @@ export * from './bundles'
 export * from './campaigns'
 export * from './ads'
 export * from './demographics'
+export * from './contracts'
