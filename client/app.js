@@ -25,7 +25,7 @@ const theme = createMuiTheme({
       fontSize: 28
     },
     subheading: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: 18
     },
     body1: {
@@ -51,13 +51,24 @@ const theme = createMuiTheme({
       // Name of the component ⚛️ / style sheet
       root: {
         // Name of the rule
-        borderRadius: 0
+        borderRadius: 0,
+        border: 'solid #000 2px',
+        minHeight: 45,
+        marginBottom: 18
       }
     },
     MuiIconButton: {
       root: {
         color: '#000'
       }
+    },
+    MuiFormLabel: {
+      root: {
+        color: '#000'
+      }
+    },
+    MuiInput: {
+      underline: '#000'
     },
     MuiDivider: {
       root: {

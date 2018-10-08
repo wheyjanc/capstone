@@ -87,7 +87,7 @@ export const fetchUserAds = userId => {
   return async dispatch => {
     try {
       dispatch(setAdLoadingStatus(true))
-      const { data: ads } = await axios.get('/api/ads/user/:userId')
+      const { data: ads } = await axios.get(`/api/ads/user/${userId}`)
       dispatch(setUserAds(ads))
       dispatch(setAdLoadingStatus(false))
     } catch (error) {

@@ -37,7 +37,7 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
     await this.props.loadAllAds()
-    await this.props.loadAllUserCampaigns(this.props.currentUser.id)
+    // await this.props.loadAllUserCampaigns(this.props.currentUser.id)
     await this.props.loadAllDemographics()
   }
 

@@ -14,7 +14,6 @@ import {
   TextField,
   MenuItem
 } from '@material-ui/core'
-import DemographicChips from './DemographicChips'
 import DemographicsList from './DemographicsList'
 import postCampaign from '../../store'
 

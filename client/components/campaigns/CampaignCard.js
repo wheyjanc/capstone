@@ -59,7 +59,7 @@ const CampaignCard = props => {
               <Grid>
                 <Typography variant="subheading">Price</Typography>
                 <Typography variant="body1">
-                  {selectedCampaign.price}
+                  {selectedCampaign.price} ETH
                 </Typography>
               </Grid>
               <Grid>

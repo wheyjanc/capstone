@@ -25,8 +25,8 @@ const styles = theme => ({
   grow: {
     flexGrow: 1
   },
-  buttonPadding: {
-    bottomPadding: 3
+  buttonBorder: {
+    border: 'none'
   },
   navLinks: {
     fontWeight: 'bold',
@@ -69,6 +69,7 @@ class Navbar extends Component {
             >
               {/* The navbar will show these links after you log in */}
               <Button
+                className={classes.buttonBorder}
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
                 onClick={this.handleMenuClick}

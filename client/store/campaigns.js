@@ -143,6 +143,20 @@ export const editCampaign = campaignId => {
       const { data: campaign } = await axios.put(
         `/api/campaigns/campaign/${campaignId}`
       )
+      dispatch(updateCampaign(campaign))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const removeCampaign = campaignId => {
+  return async dispatch => {
+    try {
+      const { data: campaign } = await axios.delete(
+        `/api/campaigns/${campaignId}`
+      )
+      dispatch(deleteCampaign(campaign))
     } catch (error) {
       console.error(error)
     }
@@ -165,6 +179,25 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allCampaigns: [...state.allCampaigns, action.campaign]
+      }
+    case UPDATE_CAMPAIGN:
+      return {
+        state,
+        singleCampaign: action.campaign,
+        allUserCampaigns: state.allUserCampaigns.map(campaign => {
+          if (campaign.id === action.id) {
+            console.log('UPDATED!')
+            campaign = action.campaign
+            return campaign
+          } else return campaign
+        })
+      }
+    case DELETE_CAMPAIGN:
+      return {
+        ...state,
+        allUserCampaigns: state.allUserCampaigns.filter(
+          campaign => campaign.id !== action.campaignId
+        )
       }
     case SET_CAMPAIGN_LOADING_STATUS:
       return {
