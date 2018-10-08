@@ -25,8 +25,8 @@ const styles = theme => ({
   grow: {
     flexGrow: 1
   },
-  buttonPadding: {
-    bottomPadding: 3
+  buttonBorder: {
+    border: 'none'
   },
   navLinks: {
     fontWeight: 'bold',
@@ -68,7 +68,34 @@ class Navbar extends Component {
               alignItems="center"
             >
               {/* The navbar will show these links after you log in */}
+              {this.props.isAdvertiser ? (
+                <div>
+                  <Button className="hvr-underline-from-center" color="inherit">
+                    <Link
+                      className={classes.navLinks}
+                      to={`/campaigns/user/${this.props.currentUser.id}`}
+                    >
+                      Campaigns
+                    </Link>
+                  </Button>
+                  <Button className="hvr-underline-from-center" color="inherit">
+                    <Link
+                      className={classes.navLinks}
+                      to={`/ads/user/${this.props.currentUser}`}
+                    >
+                      Advertisements
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <Button className="hvr-underline-from-center" color="inherit">
+                  <Link className={classes.navLinks} to="#">
+                    Projects
+                  </Link>
+                </Button>
+              )}
               <Button
+                className={classes.buttonBorder}
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
                 onClick={this.handleMenuClick}
@@ -80,6 +107,7 @@ class Navbar extends Component {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={this.handleClose}
+                className={classes.navLinks}
               >
                 <MenuItem onClick={this.handleClose}>
                   <Link to="/account">Account</Link>
@@ -122,7 +150,9 @@ class Navbar extends Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.currentUser.id
+    isLoggedIn: !!state.user.currentUser.id,
+    currentUser: state.user.currentUser,
+    isAdvertiser: state.user.currentUser.isAdvertiser
   }
 }
 

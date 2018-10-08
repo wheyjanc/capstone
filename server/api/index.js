@@ -1,18 +1,17 @@
 const router = require('express').Router()
-
 router.use('/bundles', require('./bundles'))
 router.use('/contracts', require('./contracts'))
 router.use('/campaigns', require('./campaigns'))
-
-module.exports = router
-var nodemailer = require('nodemailer')
-
-const creds = require('../../config')
-// router.use('/users', require('./users'))
 router.use('/dev', require('./webdev'))
 router.use('/scripts', require('./scripts'))
 router.use('/ads', require('./ads'))
 router.use('/users/', require('./users'))
+router.use('/demographics', require('./demographics'))
+
+var nodemailer = require('nodemailer')
+
+const creds = require('../../config')
+module.exports = router
 router.use('/auth', require('../auth'))
 
 var transport = {

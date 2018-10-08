@@ -6,9 +6,18 @@ import user from './user'
 import ads from './ads'
 import bundles from './bundles'
 import campaigns from './campaigns'
+import demographics from './demographics'
 import contracts from './contracts'
 
-const reducer = combineReducers({ user, bundles, campaigns, ads, contracts })
+const reducer = combineReducers({
+  user,
+  bundles,
+  campaigns,
+  ads,
+  demographics,
+  contracts
+})
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 )
@@ -26,4 +35,6 @@ export default store
 export * from './user'
 export * from './bundles'
 export * from './campaigns'
+export * from './ads'
+export * from './demographics'
 export * from './contracts'

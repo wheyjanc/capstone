@@ -16,12 +16,20 @@ import {
   AllCampaigns,
   AllBundles,
   AccountMenu,
-  LoadingScreen
+  LoadingScreen,
+  AdvertiserCampaigns,
+  SingleCampaign,
+  EditCampaign
 } from './components'
-import { fetchAllAds } from './store/ads'
-import { getAllCampaigns } from './store/campaigns'
 import Ethereum from './components/ethereum'
-import { me } from './store'
+import {
+  me,
+  getAllCampaigns,
+  fetchAllDemographics,
+  fetchAllAds,
+  fetchSingleCampaign,
+  fetchAllUserCampaigns
+} from './store'
 
 /**
  * COMPONENT
@@ -30,7 +38,8 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
     await this.props.loadAllAds()
-    await this.props.loadAllCampaigns()
+    // await this.props.loadAllUserCampaigns(this.props.currentUser.id)
+    await this.props.loadAllDemographics()
   }
 
   render() {
@@ -59,6 +68,21 @@ class Routes extends Component {
             />
             <Route path="/account" component={AccountMenu} />
             <Route exact path="/ads" component={AllAds} />
+            <Route
+              exact
+              path="/campaigns/user/:userId"
+              component={AdvertiserCampaigns}
+            />
+            <Route
+              exact
+              path="/campaigns/campaign/:campaignId"
+              component={SingleCampaign}
+            />
+            <Route
+              exact
+              path="/campaign/campaign/:campaignId/edit"
+              component={EditCampaign}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -75,7 +99,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.currentUser.id
+    isLoggedIn: !!state.user.currentUser.id,
+    currentUser: state.user.currentUser
   }
 }
 
@@ -85,7 +110,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     loadAllAds: () => dispatch(fetchAllAds()),
-    loadAllCampaigns: () => dispatch(getAllCampaigns())
+    loadAllUserCampaigns: userId => dispatch(fetchAllUserCampaigns(userId)),
+    loadAllDemographics: () => dispatch(fetchAllDemographics())
   }
 }
 

@@ -34,10 +34,6 @@ const styles = theme => ({
 })
 
 class AccountDetails extends Component {
-  //   state = {
-  //     firstName: this.props.currentUser.firstName,
-  //     lastName: this.props.currentUser.lastName
-  //   }
   constructor(props) {
     super(props)
     this.state = props.currentUser

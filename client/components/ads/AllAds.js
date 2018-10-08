@@ -34,6 +34,7 @@ const styles = theme => ({
   },
   titleText: {
     color: '#000',
+    fontSize: '28px',
     fontWeight: 'bolder'
   }
 })
@@ -43,11 +44,6 @@ class AllAds extends Component {
     const { classes } = this.props
     const ads = this.props.allAds
     const campaigns = this.props.allCampaigns
-    console.log(campaigns)
-
-    const loading = this.props.isLoading
-    console.log(ads)
-
     return (
       <div className="container">
         {ads &&
@@ -58,22 +54,11 @@ class AllAds extends Component {
                   <Typography className={classes.titleText} variant="display2">
                     Advertisements
                   </Typography>
-                  {/* <div className={classes.caption}>
-                  <Typography variant="body2">
-                    Get inspired and find products for your home. We have a huge
-                    range of products in different styles, from vintage dressing
-                    tables to modern kitchens. We also take care of those little
-                    details that make all the difference - that’s why our home
-                    accessories range includes rugs, candles and photo frames to
-                    give the final touch to your décor.
-                  </Typography>
-                  <hr className={classes.divider} />
-                </div> */}
                 </Grid>
-                <Grid item xs={5}>
-                  <CampaignsAccordion campaigns={campaigns} />
+                <Grid item xs={3}>
+                  {/* <CampaignsAccordion campaigns={campaigns} /> */}
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={9}>
                   <AdsGridList ads={ads} />
                 </Grid>
               </Grid>

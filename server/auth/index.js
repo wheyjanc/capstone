@@ -4,7 +4,6 @@ module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('password', req.body.password)
     const user = await User.findOne({ where: { email: req.body.email } })
     if (!user) {
       console.log('No such user found:', req.body.email)
@@ -22,7 +21,9 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    console.log('POST!!!!')
     const user = await User.create(req.body)
+    console.log('user just created', user)
     req.login(user, err => (err ? next(err) : res.json(user)))
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
