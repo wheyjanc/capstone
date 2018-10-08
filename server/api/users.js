@@ -1,6 +1,17 @@
 const router = require('express').Router()
 const { User } = require('../db/models')
+
 module.exports = router
+
+router.get('/payment/:blockHash', async (req, res, next) => {
+  try {
+    console.log('hello! we are in payment')
+    const allContracts = await factory.methods.getDeployedBlocks().call()
+    console.log('allContracts', allContracts)
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 router.get('/', async (req, res, next) => {
   try {

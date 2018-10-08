@@ -29,7 +29,8 @@ async function seed() {
       lastName: 'Hopper',
       email: 'dev1@email.com',
       password: '123',
-      isAdvertiser: false
+      isAdvertiser: false,
+      webdevBlockAddress: '0xf17f52151EbEF6C7334FAD080c5704D77216b732'
     })
   ])
 
@@ -39,6 +40,7 @@ async function seed() {
     email: 'dev2@email.com',
     password: '1234',
     isAdvertiser: false,
+    webdevBlockAddress: '0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef',
     salt: 'salt'
   })
 
@@ -48,6 +50,8 @@ async function seed() {
     email: 'dev3@email.com',
     password: '1234',
     isAdvertiser: false,
+    webdevBlockAddress: '0x821aEa9a577a9b44299B9c15c88cf3087F3b5544',
+
     salt: 'salt'
   })
 
@@ -71,37 +75,37 @@ async function seed() {
     salt: 'salt'
   })
 
-  const contract1 = await Contract.create({
-    contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
-    balance: 15.0,
-    status: false,
-    clickCount: 500
-  })
-  await contract1.addUser(user1)
+  // const contract1 = await Contract.create({
+  //   contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
+  //   balance: 15.0,
+  //   status: true,
+  //   clickCount: 500
+  // })
+  // await contract1.addUser(user1)
 
-  const contract2 = await Contract.create({
-    contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
-    balance: 10.0,
-    status: false,
-    clickCount: 500
-  })
-  await contract2.addUser(user1)
+  // const contract2 = await Contract.create({
+  //   contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
+  //   balance: 10.0,
+  //   status: true,
+  //   clickCount: 500
+  // })
+  // await contract2.addUser(user1)
 
-  const contract3 = await Contract.create({
-    contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
-    balance: 18.0,
-    status: false,
-    clickCount: 500
-  })
-  await contract3.addUser(user2)
+  // const contract3 = await Contract.create({
+  //   contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
+  //   balance: 18.0,
+  //   status: true,
+  //   clickCount: 500
+  // })
+  // await contract3.addUser(user2)
 
-  const contract4 = await Contract.create({
-    contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
-    balance: 20.0,
-    status: false,
-    clickCount: 500
-  })
-  await contract4.addUser(user3)
+  // const contract4 = await Contract.create({
+  //   contractHash: '0x94d52535fe072e44c0745c114d816ff066fcee9e',
+  //   balance: 20.0,
+  //   status: true,
+  //   clickCount: 500
+  // })
+  // await contract4.addUser(user3)
 
   const bundle1 = await Bundle.create({
     projectName: 'Project1A',
@@ -187,7 +191,7 @@ async function seed() {
   await campaign1.addCategory(category3)
   await campaign1.addDemographic(demographic3)
   await campaign1.addDemographic(demographic2)
-  await campaign1.addContract(contract1)
+  // await campaign1.addContract(contract1)
 
   const campaign2 = await Campaign.create({
     blockChainKey: '',
@@ -203,7 +207,7 @@ async function seed() {
   await campaign2.addCategory(category2)
   await campaign2.addDemographic(demographic1)
   await campaign2.addDemographic(demographic3)
-  await campaign2.addContract(contract1)
+  // await campaign2.addContract(contract1)
 
   const campaign3 = await Campaign.create({
     blockChainKey: '',
@@ -219,7 +223,7 @@ async function seed() {
   await campaign3.addCategory(category2)
   await campaign3.addDemographic(demographic1)
   await campaign3.addDemographic(demographic3)
-  await campaign3.addContract(contract2)
+  // await campaign3.addContract(contract2)
 
   const ad1 = await Advertisement.create({
     name: 'Rolex-Ad-1',

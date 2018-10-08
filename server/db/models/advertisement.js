@@ -17,8 +17,8 @@ const Advertisement = db.define('advertisement', {
     type: Sequelize.STRING,
     validate: {
       isUrl: true
-    },
-    allowNull: false
+    }
+    // allowNull: false
   },
   adSpecs: {
     type: Sequelize.ENUM('format1', 'format2', 'format3')
