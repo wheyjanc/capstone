@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { Contract, User, Campaign, PartiesToContract } = require('../db/models')
 const { getUser } = require('./helpers')
+const { getDeployedBlocks } = require('../../client/components/controller')
 module.exports = router
 
 //get open contracts by user id; for payment portal
@@ -32,10 +33,14 @@ router.get('/parties', async (req, res, next) => {
 // get all contracts
 router.get('/', async (req, res, next) => {
   try {
+    console.log('hello, we are in get all contracts route!')
     const contracts = await Contract.findAll({
       include: [{ model: User, through: 'partiesToContract' }]
     })
-    res.json(contracts)
+    // comment this back in eventually res.json(contracts)
+    const blocks = await getDeployedBlocks()
+    console.log('blocks', blocks)
+    res.json(blocks)
   } catch (err) {
     next(err)
   }

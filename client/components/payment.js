@@ -44,47 +44,30 @@ class Payment extends Component {
 
     //come back to this
     // const currentBlock = fundsTransfer(blocks[0])
-    // let accounts = await web3.eth.getAccounts(console.log)
-    // let address = document.getElementById('address').value
-    // const depositFunds = await currentBlock.methods.deposit().send({
+    // let accounts = await web3.eth.getAcco('address').value
+    // const depositFunds = await currentBlocunts(console.log)
+    // let address = document.getElementByIdk.methods.deposit().send({
     //   gas: 5999999,
     //   value: 1000000000000000000,
     //   from: address
     // })
   }
   async componentDidMount() {
-    // let accounts = await web3.eth.getAccounts(console.log)
     await this.props.fetchContract(this.props.user.currentUser.id)
-    // const contractHash = this.props.contract[2].contract.contractHash
-    // const blocks = await factory.methods.getDeployedBlocks().call()
-    // console.log('blocks', blocks)
-    // const thecurr = blocks.indexOf(contractHash)
-    // console.log('index', thecurr)
-    // const contractthecurr = fundsTransfer(blocks[44])
-    // console.log('thecurr', contractthecurr)
-    // contractthecurr.options.address = contractHash
-    // const depositFunds = await contractthecurr.methods.deposit().send({
-    //   gas: 5999999,
-    //   value: 1000000000000000000,
-    //   from: accounts[0]
-    // })
   }
+
   render() {
-    // let contractMap = this.props.contract.contract.map(contract => (
-    //   <p> Contract Balance: ${contract.balance} ETH </p>
-    // ))
     console.log('contract', this.props.contract)
     let contractMap = this.props.contract.map(elem => (
-      <p key={elem.contractId}>
-        //come back to this, put contracts into separate pages
-        <Link to={`/payment/${elem.contractId}`}>
-          Contract ID: ${elem.contract.contractHash} Balance Owed: ${
-            elem.contract.balance
-          }
-        </Link>
-      </p>
+      // <p key={elem.contractId}>
+      //come back to this, put contracts into separate pages
+      <Link to={`/payment/${elem.contractId}`} key={elem.contractId}>
+        Contract ID: ${elem.contract.contractHash} Balance Owed: ${
+          elem.contract.balance
+        }
+      </Link>
+      //</p>
     ))
-    console.log('contractMap', contractMap)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>

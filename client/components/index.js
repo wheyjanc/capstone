@@ -21,10 +21,6 @@ export { default as AllCampaigns } from './allCampaigns'
 export { default as AllBundles } from './allBundles'
 export { default as AccountMenu } from './account/AccountMenu'
 export { default as AccountDetails } from './account/AccountDetails'
-
+export { default as SingleContractPayment } from './singleContractPayment'
 
 export { default as Payment } from './payment'
-
-
-
-

@@ -1,4 +1,5 @@
-import Web3 from 'web3'
+//import Web3 from 'web3'
+const Web3 = require('web3')
 const HDWalletProvider = require('truffle-hdwallet-provider')
 const provider = new HDWalletProvider(
   'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat',
@@ -7,8 +8,8 @@ const provider = new HDWalletProvider(
   10
 )
 const web3 = new Web3(provider)
-export default web3
-
+//export default web3
+module.exports = web3
 // import Web3 from 'web3'
 
 // let web3
