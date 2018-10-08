@@ -22,6 +22,10 @@ const Advertisement = db.define('advertisement', {
   },
   adSpecs: {
     type: Sequelize.ENUM('format1', 'format2', 'format3')
+  },
+  advertiserId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 })
 

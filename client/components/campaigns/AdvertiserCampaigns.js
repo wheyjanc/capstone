@@ -8,7 +8,11 @@ import CampaignsAccordion from '../ads/CampaignsAccordion'
 import LoadingScreen from '../LoadingScreen'
 import CampaignsList from './CampaignsList'
 import SingleCampaign from './SingleCampaign'
-import { fetchSingleCampaign, setCampaign, getAllCampaigns } from '../../store'
+import {
+  fetchSingleCampaign,
+  setCampaign,
+  fetchAllUserCampaigns
+} from '../../store'
 import history from '../../history'
 
 const styles = theme => ({
@@ -57,7 +61,7 @@ class AdvertiserCampaigns extends Component {
   handleListItemClick = (event, index, campaign) => {
     this.setState({ selectedIndex: index })
     this.props.loadSingleCampaign(campaign.id)
-    history.push(`/campaigns/${campaign.id}`)
+    history.push(`/campaigns/campaign/${campaign.id}`)
   }
 
   render() {
@@ -92,15 +96,15 @@ class AdvertiserCampaigns extends Component {
 const mapState = state => {
   return {
     allAds: state.ads.allAds,
-    allCampaigns: state.campaigns.allCampaigns,
-    selectedCampaign: state.campaigns.allCampaigns[0]
+    allCampaigns: state.campaigns.allUserCampaigns,
+    selectedCampaign: state.campaigns.allUserCampaigns[0]
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadAllCampaigns: () => {
-      dispatch(getAllCampaigns())
+    loadAllUserCampaigns: userId => {
+      dispatch(fetchAllUserCampaigns(userId))
     },
     loadSingleCampaign: campaignId => {
       dispatch(fetchSingleCampaign(campaignId))

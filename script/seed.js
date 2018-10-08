@@ -274,7 +274,8 @@ async function seed() {
     image:
       'https://i.pinimg.com/originals/3d/1c/71/3d1c7119f809873fe15d75da8151c770.jpg',
     url: 'http://google.com',
-    adSpecs: 'format1'
+    adSpecs: 'format1',
+    advertiserId: 1
   })
   await ad1.addCampaign(campaign1)
 
@@ -283,7 +284,8 @@ async function seed() {
     image:
       'https://happinessequalsoutlook.files.wordpress.com/2013/03/david-beckham.png',
     url: 'http://google.com',
-    adSpecs: 'format2'
+    adSpecs: 'format2',
+    advertiserId: 1
   })
   await ad2.addCampaign(campaign1)
 
@@ -292,7 +294,8 @@ async function seed() {
     image:
       'https://static1.squarespace.com/static/55e0902de4b0903e2fc9145d/5893b87417bffcb23ca6ecb3/5893b8aacd0f68ddeaf31004/1486117597714/Rolex+Ads.jpg',
     url: 'http://google.com',
-    adSpecs: 'format3'
+    adSpecs: 'format3',
+    advertiserId: 1
   })
   await ad3.addCampaign(campaign1)
 
@@ -300,7 +303,8 @@ async function seed() {
     name: 'Gucci-Ad-1',
     image: 'http://www.leblogluxe.com/files/2014/11/1200.jpg',
     url: 'http://google.com',
-    adSpecs: 'format3'
+    adSpecs: 'format3',
+    advertiserId: 5
   })
   await ad4.addCampaign(campaign2)
 
@@ -309,7 +313,8 @@ async function seed() {
     image:
       'http://cdn2-www.thefashionspot.com/assets/uploads/2014/07/ad-campaign-gucci-fall-2014-mert-and-marcus-article-two.jpg',
     url: 'http://google.com',
-    adSpecs: 'format3'
+    adSpecs: 'format3',
+    advertiserId: 5
   })
   await ad5.addCampaign(campaign2)
 
@@ -317,7 +322,8 @@ async function seed() {
     name: 'Mcdonalds-Ad-1',
     image: 'http://www.adruby.com/files/image-ads/McDonald-3543-1.jpg',
     url: 'http://google.com',
-    adSpecs: 'format3'
+    adSpecs: 'format3',
+    advertiserId: 6
   })
   await ad6.addCampaign(campaign3)
 
@@ -326,7 +332,8 @@ async function seed() {
     image:
       'https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/42533407_10155863687227014_8105177112362614784_o.jpg?_nc_cat=100&oh=3fef04c3b2bbd169c4a05c9544becdf8&oe=5C6250B0',
     url: 'http://google.com',
-    adSpecs: 'format3'
+    adSpecs: 'format3',
+    advertiserId: 6
   })
   await ad7.addCampaign(campaign3)
 

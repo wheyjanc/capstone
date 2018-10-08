@@ -4,7 +4,7 @@ const db = require('../db')
 const Campaign = db.define('campaign', {
   blockChainKey: {
     type: Sequelize.STRING,
-    allowNull: false
+    defaultValue: ''
   },
   name: {
     type: Sequelize.STRING,

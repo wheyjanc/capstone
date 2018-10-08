@@ -3,16 +3,20 @@ import axios from 'axios'
 //action types
 
 const GOT_ALL_CAMPAIGNS = 'GOT_ALL_CAMPAIGNS'
+const SET_ALL_USER_CAMPAIGNS = 'SET_ALL_USER_CAMPAIGNS'
 const SET_SINGLE_CAMPAIGN = 'SET_SINGLE_CAMPAIGN'
 const SET_CAMPAIGN = 'SET_CAMPAIGN'
+const CREATE_CAMPAIGN = 'CREATE_CAMPAIGN'
+const UPDATE_CAMPAIGN = 'UPDATE_CAMPAIGN'
+const DELETE_CAMPAIGN = 'DELETE_CAMPAIGN'
 const SET_CAMPAIGN_LOADING_STATUS = 'SET_CAMPAIGN_LOADING_STATUS'
 const SET_CAMPAIGN_ERROR_STATUS = 'SET_CAMPAIGN_ERROR_STATUS'
-const CREATE_CAMPAIGN = 'CREATE_CAMPAIGN'
 
 //initial state
 
 const initialState = {
   allCampaigns: [],
+  allUserCampaigns: [],
   singleCampaign: {},
   isLoading: {},
   isError: {}
@@ -22,6 +26,11 @@ const initialState = {
 
 export const gotAllCampaigns = campaigns => ({
   type: GOT_ALL_CAMPAIGNS,
+  campaigns
+})
+
+export const setAllUserCampaigns = campaigns => ({
+  type: SET_ALL_USER_CAMPAIGNS,
   campaigns
 })
 
@@ -39,6 +48,18 @@ export const createCampaign = campaign => ({
   type: CREATE_CAMPAIGN,
   campaign
 })
+
+export const updateCampaign = campaign => ({
+  type: UPDATE_CAMPAIGN,
+  campaign
+})
+
+export const deleteCampaign = campaign => {
+  return {
+    type: DELETE_CAMPAIGN,
+    campaign
+  }
+}
 
 export const setCampaignLoadingStatus = status => {
   return {
@@ -71,11 +92,30 @@ export function getAllCampaigns() {
   }
 }
 
+export const fetchAllUserCampaigns = userId => {
+  return async dispatch => {
+    try {
+      dispatch(setCampaignLoadingStatus(true))
+      const { data: campaigns } = await axios.get(
+        `/api/campaigns/user/${userId}`
+      )
+      dispatch(setAllUserCampaigns(campaigns))
+      dispatch(setCampaignLoadingStatus(false))
+    } catch (error) {
+      dispatch(setCampaignLoadingStatus(false))
+      console.error(error)
+      dispatch(setCampaignErrorStatus(true))
+    }
+  }
+}
+
 export const fetchSingleCampaign = campaignId => {
   return async dispatch => {
     try {
       dispatch(setCampaignLoadingStatus(true))
-      const { data: campaign } = await axios.get(`/api/campaigns/${campaignId}`)
+      const { data: campaign } = await axios.get(
+        `/api/campaigns/campaign/${campaignId}`
+      )
       dispatch(setSingleCampaign(campaign))
       dispatch(setCampaignLoadingStatus(false))
     } catch (error) {
@@ -97,10 +137,25 @@ export const postCampaign = campaign => {
   }
 }
 
+export const editCampaign = campaignId => {
+  return async dispatch => {
+    try {
+      const { data: campaign } = await axios.put(
+        `/api/campaigns/campaign/${campaignId}`
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_ALL_CAMPAIGNS:
       return { ...state, allCampaigns: action.campaigns }
+    case SET_ALL_USER_CAMPAIGNS: {
+      return { ...state, allUserCampaigns: action.campaigns }
+    }
     case SET_SINGLE_CAMPAIGN:
       return { ...state, singleCampaign: action.campaign }
     case SET_CAMPAIGN: {

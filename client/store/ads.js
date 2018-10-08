@@ -2,6 +2,7 @@ import axios from 'axios'
 
 // ACTION TYPES
 const SET_ALL_ADS = 'SET_ALL_ADS'
+const SET_USER_ADS = 'SET_USER_ADS'
 const SET_SELECTED_AD = 'SET_SELECTED_AD'
 const CREATE_NEW_AD = 'CREATE_NEW_AD'
 const UPDATE_AD = 'UPDATE_AD'
@@ -13,6 +14,13 @@ const SET_AD_ERROR_STATUS = 'SET_AD_ERROR_STATUS'
 export const setAllAds = ads => {
   return {
     type: SET_ALL_ADS,
+    ads
+  }
+}
+
+export const setUserAds = ads => {
+  return {
+    type: SET_USER_ADS,
     ads
   }
 }
@@ -66,6 +74,21 @@ export const fetchAllAds = () => {
       dispatch(setAdLoadingStatus(true))
       const { data: ads } = await axios.get('/api/ads')
       dispatch(setAllAds(ads))
+      dispatch(setAdLoadingStatus(false))
+    } catch (error) {
+      dispatch(setAdLoadingStatus(false))
+      console.error(error)
+      dispatch(setAdErrorStatus(true))
+    }
+  }
+}
+
+export const fetchUserAds = userId => {
+  return async dispatch => {
+    try {
+      dispatch(setAdLoadingStatus(true))
+      const { data: ads } = await axios.get('/api/ads/user/:userId')
+      dispatch(setUserAds(ads))
       dispatch(setAdLoadingStatus(false))
     } catch (error) {
       dispatch(setAdLoadingStatus(false))
