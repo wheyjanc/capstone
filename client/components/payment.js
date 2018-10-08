@@ -53,6 +53,7 @@ class Payment extends Component {
     // })
   }
   async componentDidMount() {
+    //gets all of user's open contracts
     await this.props.fetchContract(this.props.user.currentUser.id)
   }
 
@@ -61,10 +62,9 @@ class Payment extends Component {
     let contractMap = this.props.contract.map(elem => (
       // <p key={elem.contractId}>
       //come back to this, put contracts into separate pages
-      <Link to={`/payment/${elem.contractId}`} key={elem.contractId}>
-        Contract ID: ${elem.contract.contractHash} Balance Owed: ${
-          elem.contract.balance
-        }
+      <Link to={`/payment/${elem.contract.contractHash}`} key={elem.contractId}>
+        Contract ID: {elem.contract.contractHash} Balance Owed:{' '}
+        {elem.contract.balance} ETH
       </Link>
       //</p>
     ))
