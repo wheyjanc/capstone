@@ -4,6 +4,7 @@ import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
 import { fetchContract } from '../store/contracts'
+import { Link } from 'react-router-dom'
 class Payment extends Component {
   constructor() {
     super()
@@ -51,36 +52,45 @@ class Payment extends Component {
     //   from: address
     // })
   }
-  // async componentDidMount() {
-  //   let accounts = await web3.eth.getAccounts(console.log)
-
-  //   await this.props.fetchContract(this.props.user.currentUser.id)
-  //   const contractHash = this.props.contract[2].contract.contractHash
-  //   const blocks = await factory.methods.getDeployedBlocks().call()
-  //   console.log('blocks', blocks)
-  //   const thecurr = blocks.indexOf(contractHash)
-  //   console.log('index', thecurr)
-  //   const contractthecurr = fundsTransfer(blocks[44])
-  //   console.log('thecurr', contractthecurr)
-  //   contractthecurr.options.address = contractHash
-  //   const depositFunds = await contractthecurr.methods.deposit().send({
-  //     gas: 5999999,
-  //     value: 1000000000000000000,
-  //     from: accounts[0]
-  //   })
-  // }
+  async componentDidMount() {
+    // let accounts = await web3.eth.getAccounts(console.log)
+    await this.props.fetchContract(this.props.user.currentUser.id)
+    // const contractHash = this.props.contract[2].contract.contractHash
+    // const blocks = await factory.methods.getDeployedBlocks().call()
+    // console.log('blocks', blocks)
+    // const thecurr = blocks.indexOf(contractHash)
+    // console.log('index', thecurr)
+    // const contractthecurr = fundsTransfer(blocks[44])
+    // console.log('thecurr', contractthecurr)
+    // contractthecurr.options.address = contractHash
+    // const depositFunds = await contractthecurr.methods.deposit().send({
+    //   gas: 5999999,
+    //   value: 1000000000000000000,
+    //   from: accounts[0]
+    // })
+  }
   render() {
-    //in case of multiple contracts--come back to this
     // let contractMap = this.props.contract.contract.map(contract => (
     //   <p> Contract Balance: ${contract.balance} ETH </p>
     // ))
-    console.log('contract', this.props.contract[2].contract.contractHash)
-
+    console.log('contract', this.props.contract)
+    let contractMap = this.props.contract.map(elem => (
+      <p key={elem.contractId}>
+        //come back to this, put contracts into separate pages
+        <Link to={`/payment/${elem.contractId}`}>
+          Contract ID: ${elem.contract.contractHash} Balance Owed: ${
+            elem.contract.balance
+          }
+        </Link>
+      </p>
+    ))
+    console.log('contractMap', contractMap)
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
           <div>
             <h3> Payment </h3>
+            {contractMap}
             {/* <p> Contract Balance: {this.props.contract.contract.balance} ETH</p> */}
             <p>Enter your Ethereum Address:</p>
             <input
