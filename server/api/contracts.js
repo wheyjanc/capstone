@@ -74,7 +74,6 @@ router.post('/:contractHash', async (req, res, next) => {
     const developerId = contract.users.filter(user => !user.isAdvertiser)
     console.log('advertiser id', advertiserId[0].id)
     console.log('contract users', contractUsers)
-
     if (contract.clickCount === 10 || contract.clickCount > 10) {
       //withdraw funds from contract
       let accounts = await web3.eth.getAccounts(console.log)
@@ -94,15 +93,26 @@ router.post('/:contractHash', async (req, res, next) => {
         gas: 500000,
         from: accounts[4]
       })
-      //  console.log('newcontract', createBlock)
-      const newContract = await Contract.create({
-        campaignId: contract.campaignId,
-        bundleId: 1, //un-hard code this
-        contractHash: blocks[blocks.length - 1],
-        balance: contract.balance
-      })
-      console.log('new', newContract)
 
+      const createContract = () => {
+        axios({
+          method: 'POST',
+          url: 'http://localhost:8080/api/contracts',
+          data: {
+            campaignId: contract.campaignId,
+            bundleId: contract.bundleId,
+            contractHash: blocks[blocks.length - 1],
+            balance: contract.balance,
+            advertiserId: advertiserId[0].id,
+            devId: developerId[0].id
+          }
+        }).then(response => {
+          console.log('response', response)
+        })
+      }
+      createContract()
+
+      //hook up to other contract route?
       //make new contract here
     } else {
       contract.increment('clickCount', { by: 1 })
