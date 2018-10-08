@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const { Contract, User, Campaign, PartiesToContract } = require('../db/models')
 const { getUser } = require('./helpers')
+const factory = require('../../ethereum/factory')
 const { getDeployedBlocks } = require('../../client/components/controller')
 const fundsTransfer = require('../../ethereum/fundsTransfer')
 const web3 = require('../../ethereum/web3')
+const axios = require('axios')
 module.exports = router
 
 //get open contracts by user id; for payment portal
@@ -24,7 +26,6 @@ router.get('/:userid/user', async (req, res, next) => {
 })
 
 // get all contracts
-//played around w/ to test controller
 router.get('/', async (req, res, next) => {
   try {
     const contracts = await Contract.findAll({
@@ -62,40 +63,47 @@ router.post('/:contractHash', async (req, res, next) => {
       include: [
         {
           model: User,
-          through: 'partiesToContract',
-          where: { isAdvertiser: false }
+          through: 'partiesToContract'
+          // where: { isAdvertiser: false } put this back in
         }
       ]
     })
+    console.log('contract', contract)
     const contractUsers = contract.users
+    const advertiserId = contract.users.filter(user => user.isAdvertiser)
+    const developerId = contract.users.filter(user => !user.isAdvertiser)
+    console.log('advertiser id', advertiserId[0].id)
+    console.log('contract users', contractUsers)
 
     if (contract.clickCount === 10 || contract.clickCount > 10) {
       //withdraw funds from contract
-
       let accounts = await web3.eth.getAccounts(console.log)
-      const blocks = await getDeployedBlocks()
+      const blocks = await factory.methods.getDeployedBlocks().call()
+      console.log('blocks', blocks)
       const indexOf = blocks.indexOf(contractHash)
       const currentContract = fundsTransfer(blocks[indexOf]) //for methods
       currentContract.options.address = `${contractHash}`
-      const webdevAddress = contractUsers[0].webdevBlockAddress
-      console.log('webdev', webdevAddress) //to withdraw to
-      //write withdraw method for current contract
-      const getBalance = await currentContract.methods.getBalance().call()
-      console.log('balance in contract before withdraw', getBalance)
+      const webdevAddress = developerId[0].webdevBlockAddress
       const withdraw = await currentContract.methods
         .withdraw(webdevAddress, accounts[4])
         .send({
           gas: 3000000,
           from: accounts[0]
         })
-      const getBalanceTwo = await currentContract.methods.getBalance().call()
+      const createBlock = await factory.methods.createBlock().send({
+        gas: 500000,
+        from: accounts[4]
+      })
+      //  console.log('newcontract', createBlock)
+      const newContract = await Contract.create({
+        campaignId: contract.campaignId,
+        bundleId: 1, //un-hard code this
+        contractHash: blocks[blocks.length - 1],
+        balance: contract.balance
+      })
+      console.log('new', newContract)
 
-      console.log('balance in contract after withdraw', getBalanceTwo)
-      //await withdraw(currentContract, accounts[1], accounts[2], accounts[3])
-
-      //console.log('currentContract', currentContract)
-      //come back to this-script tag
-      //create new contract here?
+      //make new contract here
     } else {
       contract.increment('clickCount', { by: 1 })
     }
