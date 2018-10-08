@@ -70,17 +70,19 @@ class Bundles extends Component {
                   key={bundle.id}
                   button
                   selected={this.state.selectedIndex === indexValue}
+                  open = {this.state.open === indexValue}
                   onClick={event =>
                     this.handleListItemClick(event, indexValue, bundle)
                   }
+                  
                 >
                   <ListItemText primary={bundle.projectName} />
-                  {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                  {this.state.open ?  <ExpandLess /> : <ExpandMore /> }
                 </ListItem>
-                <Collapse in={this.state.open} timeout="auto">
+                <Collapse in={indexValue === this.state.selectedIndex && this.state.open} timeout="auto">
                   <List component="div" key={bundle.id}>
                     {this.props.campaignsInBundle &&
-                      this.props.campaignsInBundle.length &&
+                      this.props.campaignsInBundle.length > 0 ?
                       this.props.campaignsInBundle.map(campaign => {
                         return (
                           <ListItem
@@ -101,7 +103,7 @@ class Bundles extends Component {
                             />
                           </ListItem>
                         )
-                      })}
+                      }) : <ListItem> <ListItemText inset primary = 'No Campaigns In Project' /> </ListItem>}
                     <NavLink
                       to={{
                         pathname: '/checkout',
