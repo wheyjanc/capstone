@@ -28,6 +28,10 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
+
+  webdevBlockAddress: {
+    type: Sequelize.TEXT
+  },
   budget: {
     type: Sequelize.FLOAT,
     defaultValue: 0.0

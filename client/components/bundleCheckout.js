@@ -58,7 +58,6 @@ class BundleCheckout extends Component {
       console.log('block', block)
 
       const createContract = () => {
-        console.log('in create contract')
         axios({
           method: 'POST',
           url: 'http://localhost:8080/api/contracts',

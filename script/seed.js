@@ -29,7 +29,8 @@ async function seed() {
       lastName: 'Hopper',
       email: 'dev1@email.com',
       password: '123',
-      isAdvertiser: false
+      isAdvertiser: false,
+      webdevBlockAddress: '0xf17f52151EbEF6C7334FAD080c5704D77216b732'
     })
   ])
 
@@ -39,6 +40,7 @@ async function seed() {
     email: 'dev2@email.com',
     password: '1234',
     isAdvertiser: false,
+    webdevBlockAddress: '0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef',
     salt: 'salt'
   })
 
@@ -48,6 +50,8 @@ async function seed() {
     email: 'dev3@email.com',
     password: '1234',
     isAdvertiser: false,
+    webdevBlockAddress: '0x821aEa9a577a9b44299B9c15c88cf3087F3b5544',
+
     salt: 'salt'
   })
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import factory from '../../ethereum/factory'
 import fundsTransfer from '../../ethereum/fundsTransfer'
 import web3 from '../../ethereum/web3'
+import axios from 'axios'
 
 class SingleContractPayment extends Component {
   constructor() {
@@ -33,8 +34,16 @@ class SingleContractPayment extends Component {
     console.log('address', address)
     const depositFunds = await currentContract.methods.deposit().send({
       gas: 6000000,
+      //this needs to change to actual value... we need to talk about this value being lower!
       value: 1000000000000000000,
       from: address
+    })
+    axios({
+      method: 'PUT',
+      url: 'http://localhost:8080/api/contracts/paid',
+      data: {
+        contractHash: contractHash
+      }
     })
   }
   render() {

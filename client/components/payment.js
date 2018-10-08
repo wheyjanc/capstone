@@ -6,52 +6,43 @@ import web3 from '../../ethereum/web3'
 import { fetchContract } from '../store/contracts'
 import { Link } from 'react-router-dom'
 class Payment extends Component {
-  constructor() {
-    super()
-    this.state = {
-      address: ''
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
+  // constructor() {
+  //   super()
+  //   this.state = {
+  //     address: ''
+  //   }
+  //   this.handleSubmit = this.handleSubmit.bind(this)
+  //   this.handleChange = this.handleChange.bind(this)
+  // }
 
-  handleChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value
-    })
-  }
-  async handleSubmit(evt) {
-    evt.preventDefault()
-    let accounts = await web3.eth.getAccounts(console.log)
-    const blocks = await factory.methods.getDeployedBlocks().call()
-    console.log('blocks', blocks)
-    await this.props.fetchContract(this.props.user.currentUser.id)
-    const contractHash = this.props.contract[this.props.contract.length - 1]
-      .contract.contractHash
+  // handleChange(evt) {
+  //   this.setState({
+  //     [evt.target.name]: evt.target.value
+  //   })
+  // }
+  // async handleSubmit(evt) {
+  //   evt.preventDefault()
+  //   let accounts = await web3.eth.getAccounts(console.log)
+  //   const blocks = await factory.methods.getDeployedBlocks().call()
+  //   console.log('blocks', blocks)
+  //   await this.props.fetchContract(this.props.user.currentUser.id)
+  //   const contractHash = this.props.contract[this.props.contract.length - 1]
+  //     .contract.contractHash
 
-    const thecurr = blocks.indexOf(contractHash)
-    console.log('index', thecurr)
-    const contractthecurr = fundsTransfer(blocks[thecurr])
-    console.log('contractthecurr', contractthecurr)
-    contractthecurr.options.address = `${contractHash}`
-    let address = document.getElementById('address').value
-    console.log('address', address)
-    const depositFunds = await contractthecurr.methods.deposit().send({
-      gas: 6000000,
-      value: 1000000000000000000,
-      from: address
-    })
+  //   const thecurr = blocks.indexOf(contractHash)
+  //   console.log('index', thecurr)
+  //   const contractthecurr = fundsTransfer(blocks[thecurr])
+  //   console.log('contractthecurr', contractthecurr)
+  //   contractthecurr.options.address = `${contractHash}`
+  //   let address = document.getElementById('address').value
+  //   console.log('address', address)
+  //   const depositFunds = await contractthecurr.methods.deposit().send({
+  //     gas: 6000000,
+  //     value: 1000000000000000000,
+  //     from: address
+  //   })
 
-    //come back to this
-    // const currentBlock = fundsTransfer(blocks[0])
-    // let accounts = await web3.eth.getAcco('address').value
-    // const depositFunds = await currentBlocunts(console.log)
-    // let address = document.getElementByIdk.methods.deposit().send({
-    //   gas: 5999999,
-    //   value: 1000000000000000000,
-    //   from: address
-    // })
-  }
+  // }
   async componentDidMount() {
     //gets all of user's open contracts
     await this.props.fetchContract(this.props.user.currentUser.id)
@@ -60,33 +51,16 @@ class Payment extends Component {
   render() {
     console.log('contract', this.props.contract)
     let contractMap = this.props.contract.map(elem => (
-      // <p key={elem.contractId}>
-      //come back to this, put contracts into separate pages
       <Link to={`/payment/${elem.contract.contractHash}`} key={elem.contractId}>
         Contract ID: {elem.contract.contractHash} Balance Owed:{' '}
         {elem.contract.balance} ETH
       </Link>
-      //</p>
     ))
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <div>
-            <h3> Payment </h3>
-            {contractMap}
-            {/* <p> Contract Balance: {this.props.contract.contract.balance} ETH</p> */}
-            <p>Enter your Ethereum Address:</p>
-            <input
-              name="address"
-              type="string"
-              id="address"
-              onChange={this.handleChange}
-              value={this.state.address}
-            />
-          </div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      <div>
+        <h3> Open Contracts </h3>
+        {contractMap}
+      </div>
     )
   }
 }
