@@ -5,7 +5,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const campaigns = await Campaign.findAll({
-      include: [{ model: Advertisement }]
+      include: [{all: true}],
     })
     res.json(campaigns)
   } catch (err) {
