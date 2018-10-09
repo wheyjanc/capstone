@@ -188,11 +188,13 @@ router.put('/paid', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { campaignId, bundleId, contractHash, balance } = req.body
+    console.log('req.body', req.body)
     const newContract = await Contract.create({
-      campaignId: campaignId,
-      bundleId: bundleId,
       contractHash: contractHash,
-      balance: balance
+      balance: balance,
+
+      bundleId: bundleId,
+      campaignId: campaignId
     })
 
     newContract.addUsers([req.body.devId, req.body.advertiserId])

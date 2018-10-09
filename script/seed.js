@@ -107,51 +107,51 @@ async function seed() {
   // })
   // await contract4.addUser(user3)
 
-  // const bundle1 = await Bundle.create({
-  //   projectName: 'Project1A',
-  //   developerId: 4
-  // })
+  const bundle1 = await Bundle.create({
+    projectName: 'Project1A',
+    developerId: 4
+  })
 
-  // const bundle2 = await Bundle.create({
-  //   projectName: 'Project2A',
-  //   developerId: 2
-  // })
+  const bundle2 = await Bundle.create({
+    projectName: 'Project2A',
+    developerId: 2
+  })
 
-  // const bundle3 = await Bundle.create({
-  //   projectName: 'Project3A',
-  //   developerId: 3
-  // })
+  const bundle3 = await Bundle.create({
+    projectName: 'Project3A',
+    developerId: 3
+  })
 
-  // const bundles = await Promise.all([
-  //   Bundle.create({
-  //     projectName: 'Project1B',
-  //     developerId: 4
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project2B',
-  //     developerId: 2
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project3B',
-  //     developerId: 3
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project3C',
-  //     developerId: 3
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project2C',
-  //     developerId: 2
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project1C',
-  //     developerId: 4
-  //   }),
-  //   Bundle.create({
-  //     projectName: 'Project2D',
-  //     developerId: 2
-  //   })
-  // ])
+  const bundles = await Promise.all([
+    Bundle.create({
+      projectName: 'Project1B',
+      developerId: 4
+    }),
+    Bundle.create({
+      projectName: 'Project2B',
+      developerId: 2
+    }),
+    Bundle.create({
+      projectName: 'Project3B',
+      developerId: 3
+    }),
+    Bundle.create({
+      projectName: 'Project3C',
+      developerId: 3
+    }),
+    Bundle.create({
+      projectName: 'Project2C',
+      developerId: 2
+    }),
+    Bundle.create({
+      projectName: 'Project1C',
+      developerId: 4
+    }),
+    Bundle.create({
+      projectName: 'Project2D',
+      developerId: 2
+    })
+  ])
 
   const category1 = await Category.create({
     name: 'Luxury'
