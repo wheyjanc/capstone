@@ -69,6 +69,7 @@ export function addToBundle(campaign, bundleid) {
 export function getCampaignsInBundle(id) {
   return async dispatch => {
     const bundle = await axios.get(`/api/bundles/${id}`)
+    console.log('campaigns', bundle.data.campaigns)
     dispatch(gotCampaignsInBundle(bundle.data.campaigns))
   }
 }
@@ -99,6 +100,7 @@ export function addBundle (obj) {
   return async dispatch => {
     console.log('in async dispatch in addbundle func')
     const {data} = await axios.post(`/api/bundles/newbundle/${obj.userId}`, obj)
+    console.log('newBun', data)
     dispatch(addedBundle(data))
   }
 } 
@@ -119,6 +121,8 @@ export default function(state = initialState, action) {
       return { ...state, allBundles: action.bundles }
     case SET_BUNDLE:
       return { ...state, bundle: action.bundle }
+    case ADDED_BUNDLE:
+      return {...state, allBundles: [...state.allBundles, action.bundle]}
     default:
       return state
   }

@@ -5,7 +5,7 @@ import {
   getAllBundles,
   setBundle,
   me,
-  gotCampaignsInBundle,
+  getCampaignsInBundle,
   removeCampaignFromBundle
 } from '../store'
 import NewBundle from './newBundle'
@@ -37,7 +37,7 @@ class Bundles extends Component {
     this.setState({ selectedIndex: index })
     this.setState(state => ({ open: !state.open }))
     this.props.setBundle(bundle)
-    this.props.gotCampaignsInBundle(bundle.campaigns)
+    this.props.getCampaignsInBundle(bundle.id)
   }
 
   removeClick = async info => {
@@ -48,7 +48,7 @@ class Bundles extends Component {
     await this.props.me()
     await this.props.getAllBundles(this.props.user.id)
     await this.props.setBundle(this.props.bundles[0])
-    await this.props.gotCampaignsInBundle(this.props.bundles[0].campaigns)
+    await this.props.getCampaignsInBundle(this.props.bundles[0].id)
   }
 
   render() {
@@ -147,8 +147,8 @@ const mapDispatch = dispatch => {
     getAllBundles: userId => dispatch(getAllBundles(userId)),
     setBundle: bundle => dispatch(setBundle(bundle)),
     me: () => dispatch(me()),
-    gotCampaignsInBundle: campaigns =>
-      dispatch(gotCampaignsInBundle(campaigns)),
+    getCampaignsInBundle: bundleId =>
+      dispatch(getCampaignsInBundle(bundleId)),
     removeCampaignFromBundle: info => dispatch(removeCampaignFromBundle(info))
   }
 }

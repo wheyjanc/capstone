@@ -43,6 +43,7 @@ router.post('/newbundle/:userId', async (req, res, next) => {
       developerId: userId,
       projectName: req.body.projectName
     })
+    newBun.campaigns = []
     res.json(newBun)
   } catch (err) {
     next(err)
