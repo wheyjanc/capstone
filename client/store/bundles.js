@@ -10,6 +10,7 @@ const GOT_CAMPAIGNS_IN_BUNDLE = 'GOT_CAMPAIGNS_IN_BUNDLE'
 const GOT_ALL_BUNDLES = 'GOT_ALL_BUNDLES'
 const SET_BUNDLE = 'SET_BUNDLE'
 const REMOVED_CAMPAIGN_FROM_BUNDLE = 'REMOVED_CAMPAIGN_FROM_BUNDLE'
+const ADDED_BUNDLE = 'ADDED_BUNDLE'
 
 /**
  * INITIAL STATE
@@ -46,6 +47,11 @@ export const setBundle = bundle => ({
   bundle
 })
 
+export const addedBundle = bundle => ({
+  type: ADDED_BUNDLE,
+  bundle
+})
+
 /**
  * THUNK CREATORS
  */
@@ -67,6 +73,7 @@ export function addToBundle(campaign, bundleid) {
 export function getCampaignsInBundle(id) {
   return async dispatch => {
     const bundle = await axios.get(`/api/bundles/${id}`)
+    console.log('campaigns', bundle.data.campaigns)
     dispatch(gotCampaignsInBundle(bundle.data.campaigns))
   }
 }
@@ -86,12 +93,21 @@ export function getAllBundles(userId) {
 }
 
 export function removeCampaignFromBundle(info) {
-  console.log('INFO', info)
   return async dispatch => {
     const { data } = await axios.put('/api/bundles/remove', info)
     dispatch(gotCampaignsInBundle(data))
   }
 }
+
+export function addBundle (obj) {
+  console.log('in addbundle func')
+  return async dispatch => {
+    console.log('in async dispatch in addbundle func')
+    const {data} = await axios.post(`/api/bundles/newbundle/${obj.userId}`, obj)
+    console.log('newBun', data)
+    dispatch(addedBundle(data))
+  }
+} 
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -109,6 +125,8 @@ export default function(state = initialState, action) {
       return { ...state, allBundles: action.bundles }
     case SET_BUNDLE:
       return { ...state, bundle: action.bundle }
+    case ADDED_BUNDLE:
+      return {...state, allBundles: [...state.allBundles, action.bundle]}
     default:
       return state
   }
