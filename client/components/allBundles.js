@@ -53,8 +53,9 @@ class Bundles extends Component {
 
   render() {
     const { classes, bundles } = this.props
+    const filtBuns = bundles.filter(bundle => (bundle.deployed ===false))
     let index = 0
-    return this.props.bundles && this.props.bundles.length ? (
+    return filtBuns && filtBuns.length ? (
       <div className={classes.root}>
         <List
           component="nav"
@@ -62,7 +63,7 @@ class Bundles extends Component {
             <ListSubheader component="div">Active Projects</ListSubheader>
           }
         >
-          {this.props.bundles.map(bundle => {
+          {filtBuns.map(bundle => {
             const indexValue = index
             index++
             return (
