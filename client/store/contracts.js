@@ -1,17 +1,17 @@
 import axios from 'axios'
 
 const GET_CONTRACT_FOR_USER = 'GET_CONTRACT_FOR_USER'
-const GET_PREVIOUS_CONTRACTS = 'GOT_PREVIOUS_CONTRACTS'
+// const GET_PREVIOUS_CONTRACTS = 'GOT_PREVIOUS_CONTRACTS'
 
 const initialState = {
-  currentUserContract: {},
-  previousContracts: []
+  currentUserContract: {}
+  // previousContracts: []
 }
 
-export const gotPreviousContracts = contracts => ({
-  type: GET_PREVIOUS_CONTRACTS,
-  contracts
-})
+// export const gotPreviousContracts = contracts => ({
+//   type: GET_PREVIOUS_CONTRACTS,
+//   contracts
+// })
 
 const getContract = contract => {
   return {
@@ -41,8 +41,8 @@ export const fetchContract = userId => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_PREVIOUS_CONTRACTS:
-      return { ...state, previousContracts: action.contracts }
+    //   case GET_PREVIOUS_CONTRACTS:
+    //     return { ...state, previousContracts: action.contracts }
     case GET_CONTRACT_FOR_USER:
       console.log('action', action)
       return { ...state, currentUserContract: action.contract }
