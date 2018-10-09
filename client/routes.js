@@ -38,7 +38,9 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
     await this.props.loadAllAds()
-    // await this.props.loadAllUserCampaigns(this.props.currentUser.id)
+    if (this.props.isLoggedIn && this.props.currentUser.isAdvertiser) {
+      await this.props.loadAllUserCampaigns(this.props.currentUser.id)
+    }
     await this.props.loadAllDemographics()
   }
 
@@ -70,7 +72,7 @@ class Routes extends Component {
             <Route exact path="/ads" component={AllAds} />
             <Route
               exact
-              path="/campaigns/user/:userId"
+              path="/campaigns/:userId"
               component={AdvertiserCampaigns}
             />
             <Route

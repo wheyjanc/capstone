@@ -16,7 +16,7 @@ const Contract = db.define('contract', {
   },
   status: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: true
   },
   paid: {
     type: Sequelize.BOOLEAN,

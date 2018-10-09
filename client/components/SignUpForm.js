@@ -191,11 +191,19 @@ const mapDispatch = dispatch => {
       const lastName = evt.target.lastName.value
       const email = evt.target.email.value
       const password = evt.target.password.value
-      const userType = evt.target.userType.value
+      const isAdvertiser = evt.target.userType.value === 'advertiser'
       const budget = evt.target.budget ? evt.target.budget.value : 0
-      dispatch(
-        signUpUser(firstName, lastName, email, password, userType, budget)
-      )
+      const balance = budget
+      const newUser = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        isAdvertiser: isAdvertiser,
+        budget: budget,
+        balance: balance
+      }
+      dispatch(signUpUser(newUser))
       history.push('/home')
     }
   }

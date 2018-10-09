@@ -78,26 +78,11 @@ export const logInUser = (email, password) => async dispatch => {
   }
 }
 
-export const signUpUser = (
-  firstName,
-  lastName,
-  email,
-  password,
-  userType,
-  budget
-) => async dispatch => {
+export const signUpUser = user => async dispatch => {
   let res
-  let isAdvertiser = userType === 'advertiser'
-  console.log('is advertiser???', isAdvertiser)
+  console.log('is advertiser???', user.isAdvertiser)
   try {
-    res = await axios.post('/auth/signup', {
-      firstName,
-      lastName,
-      email,
-      password,
-      isAdvertiser,
-      budget
-    })
+    res = await axios.post('/auth/signup', user)
     console.log('user created in reducer', res)
   } catch (authError) {
     console.error(authError)

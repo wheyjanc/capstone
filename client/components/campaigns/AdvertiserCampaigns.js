@@ -52,7 +52,7 @@ class AdvertiserCampaigns extends Component {
     super(props)
     this.state = {
       selectedIndex: 0,
-      selectedCampaign: props.allCampaigns[0]
+      selectedCampaign: props.allCampaigns[0] || {}
     }
 
     this.handleListItemClick = this.handleListItemClick.bind(this)

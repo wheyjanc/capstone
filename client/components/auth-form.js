@@ -51,7 +51,6 @@ const styles = theme => ({
  */
 const AuthForm = props => {
   const { handleSubmit, error, classes } = props
-  console.log('ERROR', error)
 
   return (
     <Card className={classes.card} style={{ width: '40%' }}>
