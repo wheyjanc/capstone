@@ -84,6 +84,7 @@ export const fetchAllAds = () => {
 }
 
 export const fetchUserAds = userId => {
+  console.log('FETCH ADS FROM USER', userId)
   return async dispatch => {
     try {
       dispatch(setAdLoadingStatus(true))
@@ -116,8 +117,9 @@ export const fetchSelectedAd = adId => {
 export const postAd = ad => {
   return async dispatch => {
     try {
+      console.log('POSTING')
       const { data: newAd } = await axios.post('/api/ads', ad)
-      dispatch(createNewAd(ad))
+      dispatch(createNewAd(newAd))
     } catch (error) {
       console.error(error)
     }
@@ -158,7 +160,7 @@ const initialState = {
 // REDUCER
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_ALL_ADS:
+    case SET_USER_ADS:
       return {
         ...state,
         allAds: action.ads

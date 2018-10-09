@@ -47,8 +47,22 @@ router.delete('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
+    const { budget } = req.body
+
+    console.log(req.body)
     let updateUser = await User.findById(req.params.id)
-    updateUser.update(req.body)
+    console.log('balance', updateUser.balance)
+    if (budget > updateUser.budget) {
+      console.log('budget', budget)
+      const diff = updateUser.budget - updateUser.balance
+      console.log('diff', diff)
+      const newBalance = budget - diff
+      console.log('newBalance', newBalance)
+      await updateUser.update({ balance: newBalance })
+    }
+
+    await updateUser.update(req.body)
+
     res.json(updateUser)
   } catch (err) {
     next(err)

@@ -39,7 +39,7 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: '#eb8666'
+      main: '#86c7bf'
     },
     secondary: {
       main: '#000'
@@ -56,6 +56,17 @@ const theme = createMuiTheme({
         minHeight: 45,
         marginBottom: 18,
         marginTop: 18
+      }
+    },
+    MuiMenuItem: {
+      root: {
+        fontSize: 14,
+        fontWeight: 500
+      }
+    },
+    MuiList: {
+      root: {
+        border: 'solid 2px #000'
       }
     },
     MuiIconButton: {
@@ -79,8 +90,8 @@ const theme = createMuiTheme({
     },
     MuiListSubheader: {
       root: {
-        fontSize: 20,
-        fontWeight: 700,
+        fontSize: 16,
+        fontWeight: 600,
         color: '#000'
       }
     },

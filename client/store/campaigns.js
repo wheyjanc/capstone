@@ -96,9 +96,7 @@ export const fetchAllUserCampaigns = userId => {
   return async dispatch => {
     try {
       dispatch(setCampaignLoadingStatus(true))
-      const { data: campaigns } = await axios.get(
-        `/api/campaigns/user/${userId}`
-      )
+      const { data: campaigns } = await axios.get(`/api/campaigns/${userId}`)
       dispatch(setAllUserCampaigns(campaigns))
       dispatch(setCampaignLoadingStatus(false))
     } catch (error) {
