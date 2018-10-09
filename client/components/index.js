@@ -27,4 +27,4 @@ export { default as SingleContractPayment } from './singleContractPayment'
 export { default as PreviousProjects } from './previousProjects'
 export { default as AdForm } from './ads/AdForm'
 
-export { default as Payment } from './payment'
+// export { default as Payment } from './payment'

@@ -11,7 +11,7 @@ import {
   AllAds,
   BundleCheckout,
   ScriptTag,
-  Payment,
+  //Payment,
   SingleContractPayment,
   AllCampaigns,
   AllBundles,
@@ -62,7 +62,7 @@ class Routes extends Component {
         <Route path="/allcampaigns" component={AllCampaigns} />
         <Route path="/allbundles" component={AllBundles} />
         <Route path="/payment/:contractId" component={SingleContractPayment} />
-        <Route exact path="/payment" component={Payment} />
+        {/* <Route exact path="/payment" component={Payment} /> */}
         <Route path="/previousprojects" component={PreviousProjects} />
         {isLoggedIn && (
           <Switch>
