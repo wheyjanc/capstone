@@ -1,6 +1,6 @@
 const router = require('express').Router()
 var nodemailer = require('nodemailer')
-const { Bundle, User, Campaign } = require('../db/models')
+const { Bundle, User, Campaign, Contract } = require('../db/models')
 
 router.put('/remove', async (req, res, next) => {
   console.log('bundleId & campaignId', req.body.bundleId, req.body.campaignId)
@@ -20,7 +20,7 @@ router.put('/remove', async (req, res, next) => {
   }
 })
 
-router.put('/:bundleId', async (req, res, next) => {
+router.put('/addcampaign/:bundleId', async (req, res, next) => {
   try {
     const bundleId = req.params.bundleId
     const bundle = await Bundle.findById(bundleId)
@@ -36,7 +36,6 @@ router.put('/:bundleId', async (req, res, next) => {
   }
 })
 
-// get all bundles belonging to a dev user
 router.post('/email', function create(req, res, next) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -98,30 +97,19 @@ router.get('/:bundleId', async (req, res, next) => {
   }
 })
 
-// router.post('/send', (req, res, next) => {
-//   var name = req.body.name
-//   var email = req.body.email
-//   var message = req.body.message
-//   var content = `name: ${name} \n email: ${email} \n message: ${content} `
-
-//   var mail = {
-//     from: name,
-//     to: 'RECEIVING_EMAIL_ADDRESS_GOES_HERE', //Change to email address that you want to receive messages on
-//     subject: 'New Message from Contact Form',
-//     text: content
-//   }
-
-//   transporter.sendMail(mail, (err, data) => {
-//     if (err) {
-//       res.json({
-//         msg: 'fail'
-//       })
-//     } else {
-//       res.json({
-//         msg: 'success'
-//       })
-//     }
-//   })
-// })
-
+router.get('/previous/:userid', async (req, res, next) => {
+  const userId = req.params.userid
+  try {
+    console.log('in api request for previous contracts')
+    const project = await Bundle.findAll({
+      where: {
+        developerId: userId
+      },
+      include: [{ model: Contract, where: { status: 'FALSE' } }]
+    })
+    res.send(project)
+  } catch (error) {
+    console.error(error)
+  }
+})
 module.exports = router

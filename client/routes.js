@@ -19,11 +19,13 @@ import {
   LoadingScreen,
   AdvertiserCampaigns,
   SingleCampaign,
-  EditCampaign
+  EditCampaign,
+  PreviousProjects
 } from './components'
 import Ethereum from './components/ethereum'
 import {
   me,
+  getPreviousProjects,
   getAllCampaigns,
   fetchAllDemographics,
   fetchAllAds,
@@ -57,7 +59,7 @@ class Routes extends Component {
         <Route path="/allbundles" component={AllBundles} />
         <Route path="/payment/:contractId" component={SingleContractPayment} />
         <Route exact path="/payment" component={Payment} />
-
+        <Route path="/previousprojects" component={PreviousProjects} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

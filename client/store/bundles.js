@@ -18,6 +18,7 @@ const initialState = {
   advertisements: [],
   campaignsInBundle: [],
   allBundles: [],
+
   bundle: {}
 }
 
@@ -51,9 +52,12 @@ export const setBundle = bundle => ({
 
 export function addToBundle(campaign, bundleid) {
   return async dispatch => {
-    const bundleUpdated = await axios.put(`/api/bundles/${bundleid}`, {
-      campaign: campaign.id
-    })
+    const bundleUpdated = await axios.put(
+      `/api/bundles/addcampaign/${bundleid}`,
+      {
+        campaign: campaign.id
+      }
+    )
     console.log('bundleupdated', bundleUpdated)
     const action = addedToBundle(campaign)
     dispatch(action)
