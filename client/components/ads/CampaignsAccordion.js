@@ -52,8 +52,7 @@ class CampaignsAccordionModal extends Component {
     super(props)
     this.state = {
       open: false,
-      expanded: null,
-      value: 'Dione'
+      expanded: null
     }
   }
 
@@ -112,7 +111,6 @@ class CampaignsAccordionModal extends Component {
             <CreateCampaignDialog
               open={this.state.open}
               onClose={this.handleClose}
-              value={this.state.value}
               campaigns={campaigns}
             />
           </Grid>

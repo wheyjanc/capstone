@@ -19,14 +19,15 @@ import {
   LoadingScreen,
   AdvertiserCampaigns,
   SingleCampaign,
-  EditCampaign
+  EditCampaign,
+  AdForm
 } from './components'
 import Ethereum from './components/ethereum'
 import {
   me,
   getAllCampaigns,
   fetchAllDemographics,
-  fetchAllAds,
+  fetchUserAds,
   fetchSingleCampaign,
   fetchAllUserCampaigns
 } from './store'
@@ -37,15 +38,16 @@ import {
 class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
-    await this.props.loadAllAds()
+    console.log('CURRENT USER', this.props.currentUser)
     if (this.props.isLoggedIn && this.props.currentUser.isAdvertiser) {
       await this.props.loadAllUserCampaigns(this.props.currentUser.id)
+      this.props.loadAllAds(this.props.currentUser.id)
     }
     await this.props.loadAllDemographics()
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const { isLoggedIn, currentUser } = this.props
 
     return (
       <Switch>
@@ -60,33 +62,32 @@ class Routes extends Component {
         <Route path="/payment/:contractId" component={SingleContractPayment} />
         <Route exact path="/payment" component={Payment} />
 
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={Home} />
-            <Route
-              path="/advertiser-dashboard"
-              component={AdvertiserDashboard}
-            />
-            <Route path="/account" component={AccountMenu} />
-            <Route exact path="/ads" component={AllAds} />
-            <Route
-              exact
-              path="/campaigns/:userId"
-              component={AdvertiserCampaigns}
-            />
-            <Route
-              exact
-              path="/campaigns/campaign/:campaignId"
-              component={SingleCampaign}
-            />
-            <Route
-              exact
-              path="/campaign/campaign/:campaignId/edit"
-              component={EditCampaign}
-            />
-          </Switch>
-        )}
+        {isLoggedIn &&
+          currentUser.isAdvertiser && (
+            <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route path="/home" component={Home} />
+              <Route
+                path="/advertiser-dashboard"
+                component={AdvertiserDashboard}
+              />
+              <Route path="/account" component={AccountMenu} />
+              <Route exact path="/ads" component={AllAds} />
+              {/* TEMP ROUTE */}
+              <Route exact path="/ads/new" component={AdForm} />
+              <Route exact path="/campaigns" component={AdvertiserCampaigns} />
+              <Route
+                exact
+                path="/campaigns/campaign/:campaignId"
+                component={SingleCampaign}
+              />
+              <Route
+                exact
+                path="/campaign/campaign/:campaignId/edit"
+                component={EditCampaign}
+              />
+            </Switch>
+          )}
         {/* Displays our Login component as a fallback */}
         <Route component={LoadingScreen} />
       </Switch>
@@ -111,7 +112,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    loadAllAds: () => dispatch(fetchAllAds()),
+    loadAllAds: userId => dispatch(fetchUserAds(userId)),
     loadAllUserCampaigns: userId => dispatch(fetchAllUserCampaigns(userId)),
     loadAllDemographics: () => dispatch(fetchAllDemographics())
   }

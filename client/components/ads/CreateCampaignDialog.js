@@ -16,8 +16,8 @@ import {
   RadioGroup,
   FormControlLabel
 } from '@material-ui/core'
-import CreateCampaignForm from './CreateCampaignForm'
-import postCampaign from '../../store/campaigns'
+import CampaignForm from './CampaignForm'
+import { postCampaign } from '../../store/campaigns'
 
 const styles = theme => ({
   root: {
@@ -63,9 +63,12 @@ class CreateCampaignDialog extends React.Component {
   }
 
   handleOk = () => {
+    console.log('NEW CAMPAIGN STATE', this.state)
     this.props.createNewCampaign({
+      advertiserId: this.props.currentUser.id,
       name: this.state.name,
-      price: this.state.price
+      price: this.state.price,
+      demographics: this.state.demographics
     })
     this.props.onClose(this.state.value)
   }
@@ -89,7 +92,7 @@ class CreateCampaignDialog extends React.Component {
         <Grid container direction="column">
           <Grid item xs={12}>
             <DialogContent>
-              <CreateCampaignForm
+              <CampaignForm
                 demographics={demographics}
                 price={price}
                 name={name}
@@ -115,7 +118,8 @@ class CreateCampaignDialog extends React.Component {
 
 const mapState = state => {
   return {
-    demographics: state.demographics.allDemographics
+    demographics: state.demographics.allDemographics,
+    currentUser: state.user.currentUser
   }
 }
 

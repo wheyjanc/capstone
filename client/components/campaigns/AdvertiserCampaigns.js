@@ -2,11 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import { Typography, Grid, GridList, GridListTile } from '@material-ui/core'
+import {
+  Typography,
+  Button,
+  Grid,
+  GridList,
+  GridListTile
+} from '@material-ui/core'
 import AdsGridList from '../ads/AdsGridList'
 import CampaignsAccordion from '../ads/CampaignsAccordion'
 import LoadingScreen from '../LoadingScreen'
 import CampaignsList from './CampaignsList'
+import CreateCampaignDialog from '../ads/CreateCampaignDialog'
 import SingleCampaign from './SingleCampaign'
 import {
   fetchSingleCampaign,
@@ -14,6 +21,21 @@ import {
   fetchAllUserCampaigns
 } from '../../store'
 import history from '../../history'
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10
+}
+
+function getModalStyle() {
+  const top = 50 + rand()
+  const left = 50 + rand()
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  }
+}
 
 const styles = theme => ({
   container: {
@@ -28,34 +50,28 @@ const styles = theme => ({
   heading: {
     padding: theme.spacing.unit * 2,
     textAlign: 'center'
-  },
-  caption: {
-    textAlign: 'left',
-    width: 475,
-    padding: 20,
-    margin: 'auto'
-  },
-  divider: {
-    marginTop: 30,
-    borderWidth: 1,
-    borderStyle: 'solid'
-  },
-  titleText: {
-    color: '#000',
-    fontSize: '28px',
-    fontWeight: 'bolder'
   }
 })
 
-class AdvertiserCampaigns extends Component {
+class AdvertiserCampaignsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      open: false,
       selectedIndex: 0,
       selectedCampaign: props.allCampaigns[0] || {}
     }
-
     this.handleListItemClick = this.handleListItemClick.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleOpen = () => {
+    this.setState({ open: true })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
   }
 
   handleListItemClick = (event, index, campaign) => {
@@ -86,6 +102,12 @@ class AdvertiserCampaigns extends Component {
                   <h1>selected campaign placeholder</h1>
                 </Grid>
               </Grid>
+              <Button onClick={this.handleOpen}>Create a campaign</Button>
+              <CreateCampaignDialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                campaigns={allCampaigns}
+              />
             </div>
           )}
       </div>
@@ -114,7 +136,7 @@ const mapDispatch = dispatch => {
     }
   }
 }
-
+const AdvertiserCampaigns = withStyles(styles)(AdvertiserCampaignsModal)
 export default withStyles(styles)(
   connect(mapState, mapDispatch)(AdvertiserCampaigns)
 )

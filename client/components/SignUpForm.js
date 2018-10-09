@@ -59,8 +59,6 @@ const styles = theme => ({
 class SignUpForm extends Component {
   state = {
     userType: 'advertiser',
-    firstName: '',
-    lastName: '',
     budget: 0
   }
 
