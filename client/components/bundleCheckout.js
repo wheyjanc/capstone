@@ -122,7 +122,9 @@ class BundleCheckout extends Component {
                 return <li key={campaign.id}>{campaign.name}</li>
               })}
             </ul>
-            <button onClick={() => this.handleSubmit()}>Deploy Bundle</button>
+            <button type="submit" onClick={() => this.handleSubmit()}>
+              Deploy Bundle
+            </button>
           </div>
         ) : (
           <h2>No Campaigns In Your Bundle</h2>

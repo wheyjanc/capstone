@@ -2,67 +2,82 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import { Typography, Grid, GridList, GridListTile } from '@material-ui/core'
+import {
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardHeader,
+  Button
+} from '@material-ui/core'
 import AdsGridList from './AdsGridList'
 import CampaignsAccordion from './CampaignsAccordion'
 import LoadingScreen from '../LoadingScreen'
+import { postAd } from '../../store'
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap'
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexGrow: 1
   },
-  heading: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center'
+  card: {
+    minWidth: 275
   },
-  caption: {
-    textAlign: 'left',
-    width: 475,
-    padding: 20,
-    margin: 'auto'
-  },
-  divider: {
-    marginTop: 30,
-    borderWidth: 1,
-    borderStyle: 'solid'
-  },
-  titleText: {
-    color: '#000',
-    fontSize: '28px',
-    fontWeight: 'bolder'
+  content: {
+    paddingTop: 45
   }
 })
 
 class AllAds extends Component {
+  handleSubmit(evt) {
+    evt.preventDefault()
+    const name = evt.target.name.value
+    const advertiserId = this.props.currentUser.id
+    const image = evt.target.image.value
+    const url = evt.target.url.value
+    const newAd = {
+      advertiserId: advertiserId,
+      name: name,
+      image: image,
+      url: url
+    }
+    this.props.createAd(newAd)
+  }
   render() {
-    const { classes } = this.props
-    const ads = this.props.allAds
-    const campaigns = this.props.allCampaigns
+    const { classes, ads, handleSubmit } = this.props
     return (
       <div className="container">
         {ads &&
           ads.length && (
-            <div>
-              <Grid container spacing={24}>
-                <Grid className={classes.heading} item xs={12}>
-                  <Typography className={classes.titleText} variant="display2">
-                    Advertisements
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  {/* <CampaignsAccordion campaigns={campaigns} /> */}
-                </Grid>
-                <Grid item xs={9}>
-                  <AdsGridList ads={ads} />
-                </Grid>
+            <Grid container justify="center">
+              <Grid item xs={10}>
+                <Card className={classes.card}>
+                  <CardHeader
+                    action={
+                      <Button>
+                        <Link
+                          to={{
+                            pathname: '/ads/new',
+                            handleSubmit: handleSubmit
+                          }}
+                        >
+                          New Advertisement
+                        </Link>
+                      </Button>
+                    }
+                    title="Advertisements"
+                  />
+                  <CardContent className={classes.content}>
+                    <AdsGridList ads={ads} />
+                  </CardContent>
+                </Card>
               </Grid>
-            </div>
+            </Grid>
           )}
       </div>
     )
@@ -71,9 +86,15 @@ class AllAds extends Component {
 
 const mapState = state => {
   return {
-    allAds: state.ads.allAds,
+    ads: state.ads.allAds,
     allCampaigns: state.campaigns.allCampaigns
   }
 }
 
-export default withStyles(styles)(connect(mapState)(AllAds))
+const mapDispatch = dispatch => {
+  return {
+    createAd: newAd => dispatch(postAd(newAd))
+  }
+}
+
+export default withStyles(styles)(connect(mapState, mapDispatch)(AllAds))

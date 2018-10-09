@@ -15,7 +15,7 @@ import {
   MenuItem
 } from '@material-ui/core'
 import DemographicsList from './DemographicsList'
-import postCampaign from '../../store'
+import { postCampaign } from '../../store'
 
 const styles = theme => ({
   container: {
@@ -41,6 +41,7 @@ class CreateCampaignForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      advertiserId: props.currentUser.id,
       name: props.name,
       price: props.price,
       demographics: props.demographics
@@ -113,7 +114,8 @@ class CreateCampaignForm extends Component {
 }
 const mapState = state => {
   return {
-    demographics: state.demographics.allDemographics
+    demographics: state.demographics.allDemographics,
+    currentUser: state.user.currentUser
   }
 }
 

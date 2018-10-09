@@ -24,5 +24,6 @@ export { default as AdvertiserCampaigns } from './campaigns/AdvertiserCampaigns'
 export { default as SingleCampaign } from './campaigns/SingleCampaign'
 export { default as EditCampaign } from './campaigns/EditCampaign'
 export { default as SingleContractPayment } from './singleContractPayment'
+export { default as AdForm } from './ads/AdForm'
 
 export { default as Payment } from './payment'

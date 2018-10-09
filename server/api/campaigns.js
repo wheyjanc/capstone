@@ -26,7 +26,7 @@ router.get('/campaign/:campaignId', async (req, res, next) => {
 })
 
 // get all campaigns belonging to a user
-router.get('/user/:userId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const campaigns = await Campaign.findAll({
       where: {

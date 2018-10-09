@@ -12,24 +12,29 @@ import {
   Button,
   Typography,
   TextField,
-  MenuItem
+  MenuItem,
+  InputLabel
 } from '@material-ui/core'
 
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200
   },
+  formControl: {
+    minWidth: 200
+  },
   dense: {
     marginTop: 19
   },
   menu: {
-    width: 200
+    width: 400
   }
 })
 
@@ -63,13 +68,10 @@ class AccountDetails extends Component {
         autoComplete="off"
         onSubmit={this.handleSubmit}
       >
-        <Grid container direction="row" spacing={40}>
-          <Grid item xs={3} className={classes.accountDetails}>
-            <Typography className={classes.formTitle} variant="title">
-              Details
-            </Typography>
+        <Grid container alignContent="center" direction="column" spacing={40}>
+          <Grid>
             <TextField
-              id="standard-name"
+              id="standard-firstName"
               label="First Name"
               name="firstName"
               className={classes.textField}
@@ -77,8 +79,10 @@ class AccountDetails extends Component {
               onChange={this.handleChange}
               margin="normal"
             />
+          </Grid>
+          <Grid>
             <TextField
-              id="standard-name"
+              id="standard-lastName"
               label="Last Name"
               name="lastName"
               className={classes.textField}
@@ -86,8 +90,10 @@ class AccountDetails extends Component {
               onChange={this.handleChange}
               margin="normal"
             />
+          </Grid>
+          <Grid>
             <TextField
-              id="standard-name"
+              id="standard-email"
               label="Email"
               name="email"
               className={classes.textField}
@@ -95,6 +101,34 @@ class AccountDetails extends Component {
               onChange={this.handleChange}
               margin="normal"
             />
+          </Grid>
+          <Grid>
+            {this.props.currentUser.isAdvertiser && (
+              <FormControl
+                aria-label="Advertising Budget"
+                className={classes.textField}
+              >
+                <InputLabel>Advertising Budget</InputLabel>
+                <Select
+                  value={this.state.budget}
+                  onChange={this.handleChange}
+                  displayEmpty
+                  name="budget"
+                  className={classes.selectEmpty}
+                >
+                  <MenuItem value="">
+                    <em>Budget</em>
+                  </MenuItem>
+                  <MenuItem value={100}>100 ETH</MenuItem>
+                  <MenuItem value={150}>150 ETH</MenuItem>
+                  <MenuItem value={200}>200 ETH</MenuItem>
+                  <MenuItem value={250}>250 ETH</MenuItem>
+                  <MenuItem value={300}>300+ ETH</MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          </Grid>
+          <Grid>
             <TextField
               id="standard-password-input"
               label="Password"
@@ -102,53 +136,16 @@ class AccountDetails extends Component {
               className={classes.textField}
               type="password"
               value={user.password}
-              autoComplete="current-password"
+              onChange={this.handleChange}
               margin="normal"
             />
           </Grid>
-          <Grid item xs={9}>
-            <Typography className={classes.formTitle} variant="title">
-              Details
-            </Typography>
-            <TextField
-              id="standard-firstName"
-              label="First Name"
-              name="firstName"
-              className={classes.textField}
-              value={this.state.firstName}
-              onChange={this.handleChange}
-              margin="normal"
-            />
-            <TextField
-              id="standard-lastName"
-              label="Last Name"
-              name="lastName"
-              className={classes.textField}
-              value={this.state.lastName}
-              onChange={this.handleChange}
-              margin="normal"
-            />
-            <TextField
-              id="standard-email"
-              label="Email"
-              name="email"
-              className={classes.textField}
-              value={this.state.email}
-              onChange={this.handleChange}
-              margin="normal"
-            />
-            <TextField
-              id="standard-password-input"
-              label="Password"
-              name="password"
-              className={classes.textField}
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-            />
+          <Grid>
+            <Button minWidth="100%" type="submit" className={classes.textField}>
+              Save
+            </Button>
           </Grid>
         </Grid>
-        <Button type="submit">Save</Button>
       </form>
     )
   }
