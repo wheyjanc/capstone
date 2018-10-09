@@ -4,11 +4,7 @@ const db = require('../db')
 const Campaign = db.define('campaign', {
   blockChainKey: {
     type: Sequelize.STRING,
-    allowNull: false
-  },
-  clicks: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: ''
   },
   name: {
     type: Sequelize.STRING,

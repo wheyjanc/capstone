@@ -3,6 +3,14 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -16,12 +24,22 @@ const User = db.define('user', {
       return () => this.getDataValue('password')
     }
   },
-
   isAdvertiser: {
     type: Sequelize.BOOLEAN,
-    allowNull: false
+    defaultValue: false
   },
 
+  webdevBlockAddress: {
+    type: Sequelize.TEXT
+  },
+  budget: {
+    type: Sequelize.FLOAT,
+    defaultValue: 0.0
+  },
+  balance: {
+    type: Sequelize.FLOAT,
+    defaultValue: 0.0
+  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
@@ -29,6 +47,10 @@ const User = db.define('user', {
     get() {
       return () => this.getDataValue('salt')
     }
+  },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   },
   googleId: {
     type: Sequelize.STRING

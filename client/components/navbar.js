@@ -1,39 +1,158 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { logout } from '../store'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Grid,
+  Menu,
+  MenuItem
+} from '@material-ui/core'
+import AccountCircle from '@material-ui/icons/AccountCircleOutlined'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    marginBottom: 60
+  },
+  grow: {
+    flexGrow: 1
+  },
+  buttonBorder: {
+    border: 'none'
+  },
+  navLinks: {
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    textTransform: 'none'
+  }
+})
+
+class Navbar extends Component {
+  state = {
+    anchorEl: null
+  }
+
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
+
+  render() {
+    const { classes } = this.props
+    const { anchorEl } = this.state
+
+    return (
+      <AppBar className={classes.root} position="static">
+        <Toolbar>
+          <Typography variant="display1" color="inherit">
+            <Link to="/home">
+              <img src="/images/logo-4.png" width={55} />
+            </Link>
+          </Typography>
+          {this.props.isLoggedIn ? (
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              {/* The navbar will show these links after you log in */}
+              {this.props.isAdvertiser ? (
+                <div>
+                  <Button className="hvr-underline-from-center" color="inherit">
+                    <Link
+                      className={classes.navLinks}
+                      to={`/campaigns/user/${this.props.currentUser.id}`}
+                    >
+                      Campaigns
+                    </Link>
+                  </Button>
+                  <Button className="hvr-underline-from-center" color="inherit">
+                    <Link
+                      className={classes.navLinks}
+                      to={`/ads/user/${this.props.currentUser}`}
+                    >
+                      Advertisements
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <Button className="hvr-underline-from-center" color="inherit">
+                  <Link className={classes.navLinks} to="#">
+                    Projects
+                  </Link>
+                </Button>
+              )}
+              <Button
+                className={classes.buttonBorder}
+                aria-owns={anchorEl ? 'simple-menu' : null}
+                aria-haspopup="true"
+                onClick={this.handleMenuClick}
+              >
+                <AccountCircle />
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+                className={classes.navLinks}
+              >
+                <MenuItem onClick={this.handleClose}>
+                  <Link to="/account">Account</Link>
+                </MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <a href="#" onClick={this.props.handleClick}>
+                    Logout
+                  </a>
+                </MenuItem>
+              </Menu>
+            </Grid>
+          ) : (
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              {/* The navbar will show these links before you log in */}
+              <Button className="hvr-underline-from-center" color="inherit">
+                <Link className={classes.navLinks} to="/signup">
+                  Sign Up
+                </Link>
+              </Button>
+              <Button className="hvr-underline-from-center" color="inherit">
+                <Link className={classes.navLinks} to="/login">
+                  Login
+                </Link>
+              </Button>
+            </Grid>
+          )}
+        </Toolbar>
+      </AppBar>
+    )
+  }
+}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.currentUser.id,
+    currentUser: state.user.currentUser,
+    isAdvertiser: state.user.currentUser.isAdvertiser
   }
 }
 
@@ -45,7 +164,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Navbar)
+export default withStyles(styles)(connect(mapState, mapDispatch)(Navbar))
 
 /**
  * PROP TYPES

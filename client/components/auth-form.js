@@ -1,36 +1,83 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { logInUser } from '../store/user'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  FormGroup,
+  Input,
+  InputLabel,
+  Card
+} from '@material-ui/core'
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: 'white',
+    boxShadow: 'none',
+    marginBottom: 60
+  },
+  grow: {
+    flexGrow: 1
+  },
+  card: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    /* bring your own prefixes */
+    transform: 'translate(-50%, -50%)',
+    border: '2px #000000 solid',
+    borderRadius: '0px',
+    padding: '30px',
+    boxShadow: '0px'
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+    flexDirection: 'row'
+  },
+  errorLabel: {
+    color: 'red'
+  }
+})
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const { handleSubmit, error, classes } = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
+    <Card className={classes.card} style={{ width: '40%' }}>
+      <form onSubmit={handleSubmit}>
+        <FormGroup style={{ margin: '1em' }}>
+          <FormControl>
+            <InputLabel>Email</InputLabel>
+            <Input name="email" type="text" />
+          </FormControl>
+          <FormControl>
+            <InputLabel>Password</InputLabel>
+            <Input name="password" type="password" />
+          </FormControl>
+          <br />
+          <Button type="submit">LOGIN</Button>
+          <Button component="a" href="/auth/google">
+            Login with Google
+          </Button>
+        </FormGroup>
+        {error &&
+          error.response && (
+            <FormHelperText className={classes.errorLabel}>
+              {error.response.data}
+            </FormHelperText>
+          )}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
+    </Card>
   )
 }
 
@@ -45,15 +92,7 @@ const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error
-  }
-}
-
-const mapSignup = state => {
-  return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.error
+    error: state.user.currentUser.error
   }
 }
 
@@ -61,23 +100,21 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(logInUser(email, password))
     }
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+const Login = withStyles(styles)(connect(mapLogin, mapDispatch)(AuthForm))
+
+export default Login
 
 /**
  * PROP TYPES
  */
 AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
 }
