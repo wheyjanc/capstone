@@ -8,6 +8,7 @@ import {
   gotCampaignsInBundle,
   removeCampaignFromBundle
 } from '../store'
+import NewBundle from './newBundle'
 import { withStyles } from '@material-ui/core/styles'
 import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core'
 import PropTypes from 'prop-types'
@@ -125,7 +126,9 @@ class Bundles extends Component {
             </ListItem>
           </NavLink>
         </List>
+        <NewBundle />
       </div>
+      
     ) : null
   }
 }
